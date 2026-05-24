@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArticleCard } from "@/components/ArticleCard";
-import { getAllArticles } from "@/lib/articles";
+import { getAllArticles, getAllCategories } from "@/lib/articles";
 
 export default function Home() {
   const articles = getAllArticles().slice(0, 3);
+  const categories = getAllCategories().slice(0, 8);
 
   return (
     <main className="min-h-screen bg-slate-950 text-white">
@@ -55,6 +56,27 @@ export default function Home() {
             <p className="text-sm text-slate-400">
               小さなAIプロダクトを収益化する流れを検証します。
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-6 pb-20">
+        <div className="mb-8">
+          <p className="mb-3 text-sm font-semibold tracking-[0.3em] text-cyan-400">
+            CATEGORIES
+          </p>
+          <h2 className="mb-6 text-3xl font-bold">カテゴリから探す</h2>
+
+          <div className="flex flex-wrap gap-3">
+            {categories.map((category) => (
+              <Link
+                key={category}
+                href={`/categories/${encodeURIComponent(category)}`}
+                className="rounded-full border border-slate-700 px-4 py-2 text-sm text-slate-300 hover:border-cyan-500 hover:text-cyan-300"
+              >
+                {category}
+              </Link>
+            ))}
           </div>
         </div>
       </section>

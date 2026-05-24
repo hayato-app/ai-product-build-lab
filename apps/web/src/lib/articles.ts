@@ -93,3 +93,13 @@ export function getAllTags(): string[] {
 export function getArticlesByTag(tag: string): ArticleMeta[] {
   return getAllArticles().filter((article) => article.tags.includes(tag));
 }
+
+export function getAllCategories(): string[] {
+  const articles = getAllArticles();
+  const categories = articles.map((article) => article.category);
+  return Array.from(new Set(categories)).sort();
+}
+
+export function getArticlesByCategory(category: string): ArticleMeta[] {
+  return getAllArticles().filter((article) => article.category === category);
+}

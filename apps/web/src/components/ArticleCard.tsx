@@ -9,7 +9,12 @@ export function ArticleCard({ article }: Props) {
   return (
     <article className="rounded-2xl border border-slate-800 bg-slate-900 p-6 transition hover:border-cyan-500/60">
       <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-slate-400">
-        <span>{article.category}</span>
+        <Link
+          href={`/categories/${encodeURIComponent(article.category)}`}
+          className="hover:text-cyan-300"
+        >
+          {article.category}
+        </Link>
         <span>•</span>
         <time dateTime={article.publishedAt}>{article.publishedAt}</time>
         <span>•</span>

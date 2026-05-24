@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
-import { getAllArticles, getAllTags } from "@/lib/articles";
+import { getAllArticles, getAllTags, getAllCategories } from "@/lib/articles";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const articles = getAllArticles();
   const tags = getAllTags();
+  const categories = getAllCategories();
 
-  const staticRoutes = ["", "/articles"].map((route) => ({
+  const staticRoutes = ["", "/articles", "/tools", "/categories"].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
   }));
@@ -21,5 +22,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
   }));
 
-  return [...staticRoutes, ...articleRoutes, ...tagRoutes];
+  const categoryRoutes = categories.map((category) => ({
+    url: `${baseUrl}/categories/${encodeURIComponent(category)}`,
+    lastModified: new Date(),
+  }));
+
+  return [...staticRoutes, ...articleRoutes, ...tagRoutes, ...categoryRoutes];
 }

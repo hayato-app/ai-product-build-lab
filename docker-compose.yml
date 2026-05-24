@@ -1,0 +1,50 @@
+services:
+  web:
+    image: node:22
+    container_name: ai-product-build-lab-web
+    working_dir: /app
+    volumes:
+      - ./apps/web:/app
+    ports:
+      - "80:3000"
+    command: sh -c "npm install && npm run dev -- -H 0.0.0.0"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:16
+    container_name: ai-product-build-lab-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: change_me_later
+      POSTGRES_DB: ai_product_build_lab
+    volumes:
+      - /opt/ai-business/data/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    container_name: ai-product-build-lab-redis
+    restart: unless-stopped
+    volumes:
+      - /opt/ai-business/data/redis:/data
+    ports:
+      - "6379:6379"
+
+  worker:
+    image: node:22
+    container_name: ai-product-build-lab-worker
+    working_dir: /app
+    volumes:
+      - ./workers/article-worker:/app
+    command: sh -c "npm install && npm run dev"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - postgres
+      - redis

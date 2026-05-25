@@ -1,0 +1,16 @@
+{
+  "name": "article-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "npm run generate -- --dry-run",
+    "generate": "node dist/index.js",
+    "pregenerate": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.25",
+    "typescript": "^5.9.3"
+  }
+}

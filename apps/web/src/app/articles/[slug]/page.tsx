@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { MarkdownBody } from "@/components/site/MarkdownBody";
 import { SiteShell } from "@/components/site/SiteShell";
 import { getAllArticleSlugs, getArticleBySlug } from "@/lib/articles";
 
@@ -87,10 +88,7 @@ export default async function ArticlePage({ params }: Props) {
         </header>
 
         <div className="mx-auto max-w-4xl px-5 py-12 lg:px-8">
-          <div
-            className="max-w-none rounded-3xl border border-slate-200 bg-white p-6 text-slate-700 shadow-sm md:p-10 [&_a]:font-semibold [&_a]:text-blue-700 [&_blockquote]:border-l-4 [&_blockquote]:border-blue-200 [&_blockquote]:bg-blue-50 [&_blockquote]:px-5 [&_blockquote]:py-3 [&_blockquote]:text-slate-600 [&_code]:rounded-md [&_code]:bg-slate-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-sm [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-black [&_h2]:text-slate-950 [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-black [&_h3]:text-slate-950 [&_li]:my-2 [&_ol]:my-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-5 [&_p]:leading-8 [&_pre]:overflow-x-auto [&_pre]:rounded-2xl [&_pre]:bg-slate-950 [&_pre]:p-5 [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-slate-100 [&_ul]:my-5 [&_ul]:list-disc [&_ul]:pl-6"
-            dangerouslySetInnerHTML={{ __html: article.contentHtml }}
-          />
+          <MarkdownBody contentHtml={article.contentHtml} />
         </div>
       </article>
     </SiteShell>

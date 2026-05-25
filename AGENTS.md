@@ -107,3 +107,19 @@ A task is done only when:
 - Existing routes still work
 - TypeScript/build errors are avoided
 - The change is summarized clearly
+
+## Pre-Implementation Approval Flow
+
+Before starting any implementation work, including code generation, file creation, or file editing, always present an implementation plan in Japanese.
+
+The implementation plan must include the following items:
+
+- Purpose of the work
+- Languages or technologies used for the target files
+- Milestones
+- Specific planned changes
+- Concerns or confirmation points
+
+Do not start file operations or code implementation until the user gives explicit approval, such as "承認", "OK", "進めてください", or a similar clear approval.
+
+If the user requests changes to the plan, revise the implementation plan, present the updated version, and wait for approval again before starting any implementation work.

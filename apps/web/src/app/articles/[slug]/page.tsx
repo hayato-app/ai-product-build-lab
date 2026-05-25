@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { SiteShell } from "@/components/site/SiteShell";
 import { getAllArticleSlugs, getArticleBySlug } from "@/lib/articles";
 
 type Props = {
@@ -39,47 +40,59 @@ export default async function ArticlePage({ params }: Props) {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 px-6 py-16 text-white">
-      <article className="mx-auto max-w-3xl">
-        <Link href="/articles" className="text-sm text-cyan-400 hover:text-cyan-300">
-          ← 記事一覧へ戻る
-        </Link>
+    <SiteShell>
+      <article>
+        <header className="border-b border-slate-200 bg-gradient-to-b from-blue-50 via-white to-slate-50">
+          <div className="mx-auto max-w-4xl px-5 py-12 lg:px-8 lg:py-16">
+            <Link
+              href="/articles"
+              className="inline-flex rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm hover:border-blue-200 hover:text-blue-700"
+            >
+              記事一覧へ
+            </Link>
 
-        <div className="mt-8">
-          <div className="mb-4 flex flex-wrap items-center gap-2 text-sm text-slate-400">
-            <span>{article.category}</span>
-            <span>•</span>
-            <time dateTime={article.publishedAt}>{article.publishedAt}</time>
-            <span>•</span>
-            <span>{article.readingTime}</span>
-          </div>
-
-          <h1 className="mb-6 text-4xl font-bold leading-tight">
-            {article.title}
-          </h1>
-
-          <p className="mb-6 text-lg leading-8 text-slate-300">
-            {article.description}
-          </p>
-
-          <div className="mb-10 flex flex-wrap gap-2">
-            {article.tags.map((tag) => (
+            <div className="mt-8 flex flex-wrap items-center gap-2 text-sm font-semibold text-slate-500">
               <Link
-                key={tag}
-                href={`/tags/${encodeURIComponent(tag)}`}
-                className="rounded-full border border-slate-700 px-3 py-1 text-xs text-slate-300 hover:border-cyan-500 hover:text-cyan-300"
+                href={`/categories/${encodeURIComponent(article.category)}`}
+                className="rounded-full bg-blue-50 px-3 py-1 text-blue-700 hover:text-blue-900"
               >
-                #{tag}
+                {article.category}
               </Link>
-            ))}
-          </div>
-        </div>
+              <span>・</span>
+              <time dateTime={article.publishedAt}>{article.publishedAt}</time>
+              <span>・</span>
+              <span>{article.readingTime}</span>
+            </div>
 
-        <div
-          className="prose prose-invert prose-slate max-w-none prose-a:text-cyan-400 prose-code:text-cyan-300"
-          dangerouslySetInnerHTML={{ __html: article.contentHtml }}
-        />
+            <h1 className="mt-5 text-4xl font-black leading-tight tracking-normal text-slate-950 md:text-5xl">
+              {article.title}
+            </h1>
+
+            <p className="mt-6 text-lg leading-8 text-slate-600">
+              {article.description}
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-2">
+              {article.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/tags/${encodeURIComponent(tag)}`}
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+                >
+                  #{tag}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </header>
+
+        <div className="mx-auto max-w-4xl px-5 py-12 lg:px-8">
+          <div
+            className="max-w-none rounded-3xl border border-slate-200 bg-white p-6 text-slate-700 shadow-sm md:p-10 [&_a]:font-semibold [&_a]:text-blue-700 [&_blockquote]:border-l-4 [&_blockquote]:border-blue-200 [&_blockquote]:bg-blue-50 [&_blockquote]:px-5 [&_blockquote]:py-3 [&_blockquote]:text-slate-600 [&_code]:rounded-md [&_code]:bg-slate-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-sm [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-black [&_h2]:text-slate-950 [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-black [&_h3]:text-slate-950 [&_li]:my-2 [&_ol]:my-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-5 [&_p]:leading-8 [&_pre]:overflow-x-auto [&_pre]:rounded-2xl [&_pre]:bg-slate-950 [&_pre]:p-5 [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-slate-100 [&_ul]:my-5 [&_ul]:list-disc [&_ul]:pl-6"
+            dangerouslySetInnerHTML={{ __html: article.contentHtml }}
+          />
+        </div>
       </article>
-    </main>
+    </SiteShell>
   );
 }

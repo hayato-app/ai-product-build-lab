@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { PageHero } from "@/components/site/PageHero";
+import { SiteShell } from "@/components/site/SiteShell";
 
 export const metadata = {
   title: "無料ツール | AIプロダクト構築ラボ",
   description:
-    "AIプロダクト開発に役立つ無料ツールを順次公開しています。",
+    "AIプロダクト開発に役立つ無料ツールを公開しています。APIコスト見積もりなど、実装前の検討に使えます。",
 };
 
 const tools = [
@@ -16,15 +18,13 @@ const tools = [
   },
   {
     title: "RAG Checklist",
-    description:
-      "RAG構築時の設計チェックリストを準備中です。",
+    description: "RAG構築時の設計・評価項目を確認するチェックリストを準備中です。",
     href: "#",
     status: "準備中",
   },
   {
     title: "AI SaaS Planner",
-    description:
-      "AI SaaSの最小構成を整理するツールを準備中です。",
+    description: "AI SaaSの最小構成と運用コストを整理するプランナーを準備中です。",
     href: "#",
     status: "準備中",
   },
@@ -32,42 +32,38 @@ const tools = [
 
 export default function ToolsPage() {
   return (
-    <main className="min-h-screen bg-slate-950 px-6 py-16 text-white">
-      <section className="mx-auto max-w-5xl">
-        <p className="mb-3 text-sm font-semibold tracking-[0.3em] text-cyan-400">
-          TOOLS
-        </p>
-        <h1 className="mb-6 text-4xl font-bold">無料ツール</h1>
-        <p className="mb-10 max-w-2xl text-slate-300">
-          AIアプリケーション開発やAI SaaS構築に役立つ小さなWebツールを順次公開します。
-        </p>
+    <SiteShell>
+      <PageHero
+        eyebrow="Tools"
+        title="無料ツール"
+        description="AIプロダクト開発の検討や運用に役立つ小さなツールを、記事とあわせて使える形で公開しています。"
+      />
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {tools.map((tool) => {
-            const isReady = tool.href !== "#";
+      <section className="mx-auto grid max-w-7xl gap-6 px-5 py-12 md:grid-cols-3 lg:px-8">
+        {tools.map((tool) => {
+          const isReady = tool.href !== "#";
 
-            const card = (
-              <div className="h-full rounded-2xl border border-slate-800 bg-slate-900 p-6 transition hover:border-cyan-500">
-                <div className="mb-4 inline-flex rounded-full border border-cyan-500/40 px-3 py-1 text-xs text-cyan-300">
-                  {tool.status}
-                </div>
-                <h2 className="mb-2 text-xl font-semibold">{tool.title}</h2>
-                <p className="text-sm leading-6 text-slate-400">{tool.description}</p>
+          const card = (
+            <div className="h-full rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100">
+              <div className="mb-5 inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700">
+                {tool.status}
               </div>
-            );
+              <h2 className="text-xl font-black text-slate-950">{tool.title}</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600">{tool.description}</p>
+            </div>
+          );
 
-            return isReady ? (
-              <Link key={tool.title} href={tool.href}>
-                {card}
-              </Link>
-            ) : (
-              <div key={tool.title} className="opacity-70">
-                {card}
-              </div>
-            );
-          })}
-        </div>
+          return isReady ? (
+            <Link key={tool.title} href={tool.href}>
+              {card}
+            </Link>
+          ) : (
+            <div key={tool.title} className="opacity-70">
+              {card}
+            </div>
+          );
+        })}
       </section>
-    </main>
+    </SiteShell>
   );
 }

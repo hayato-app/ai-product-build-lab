@@ -78,15 +78,18 @@ export function ApiCostEstimator() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-      <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-        <h2 className="mb-6 text-2xl font-bold">コストを計算する</h2>
+      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+        <h2 className="text-2xl font-black text-slate-950">コストを計算する</h2>
+        <p className="mt-2 text-sm leading-6 text-slate-600">
+          モデル料金と利用量を入力すると、概算のAPIコストをすぐに確認できます。
+        </p>
 
-        <div className="mb-6">
-          <label className="mb-2 block text-sm font-medium text-slate-300">
+        <div className="mt-6">
+          <label className="mb-2 block text-sm font-bold text-slate-700">
             プリセット
           </label>
           <select
-            className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-cyan-400"
+            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none focus:border-blue-300 focus:ring-4 focus:ring-blue-100"
             onChange={(event) => {
               const selected = presets.find((preset) => preset.name === event.target.value);
               if (!selected || selected.name === "Custom") return;
@@ -102,126 +105,104 @@ export function ApiCostEstimator() {
               </option>
             ))}
           </select>
-          <p className="mt-2 text-xs text-slate-500">
+          <p className="mt-2 text-xs leading-5 text-slate-500">
             実際の料金は利用するAI APIの公式料金ページで確認してください。
           </p>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
-          <label className="block">
-            <span className="mb-2 block text-sm font-medium text-slate-300">
-              入力トークン数 / 1回
-            </span>
-            <input
-              type="number"
-              min="0"
-              value={inputTokens}
-              onChange={(event) => setInputTokens(event.target.value)}
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-cyan-400"
-            />
-          </label>
-
-          <label className="block">
-            <span className="mb-2 block text-sm font-medium text-slate-300">
-              出力トークン数 / 1回
-            </span>
-            <input
-              type="number"
-              min="0"
-              value={outputTokens}
-              onChange={(event) => setOutputTokens(event.target.value)}
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-cyan-400"
-            />
-          </label>
-
-          <label className="block">
-            <span className="mb-2 block text-sm font-medium text-slate-300">
-              実行回数 / 日
-            </span>
-            <input
-              type="number"
-              min="0"
-              value={requestsPerDay}
-              onChange={(event) => setRequestsPerDay(event.target.value)}
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-cyan-400"
-            />
-          </label>
-
+        <div className="mt-6 grid gap-5 md:grid-cols-2">
+          <NumberField
+            label="入力トークン数 / 1回"
+            value={inputTokens}
+            onChange={setInputTokens}
+          />
+          <NumberField
+            label="出力トークン数 / 1回"
+            value={outputTokens}
+            onChange={setOutputTokens}
+          />
+          <NumberField
+            label="実行回数 / 日"
+            value={requestsPerDay}
+            onChange={setRequestsPerDay}
+          />
           <div />
-
-          <label className="block">
-            <span className="mb-2 block text-sm font-medium text-slate-300">
-              入力単価 / 100万トークン
-            </span>
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              value={inputPrice}
-              onChange={(event) => setInputPrice(event.target.value)}
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-cyan-400"
-            />
-          </label>
-
-          <label className="block">
-            <span className="mb-2 block text-sm font-medium text-slate-300">
-              出力単価 / 100万トークン
-            </span>
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              value={outputPrice}
-              onChange={(event) => setOutputPrice(event.target.value)}
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-cyan-400"
-            />
-          </label>
+          <NumberField
+            label="入力単価 / 100万トークン"
+            value={inputPrice}
+            onChange={setInputPrice}
+            step="0.01"
+          />
+          <NumberField
+            label="出力単価 / 100万トークン"
+            value={outputPrice}
+            onChange={setOutputPrice}
+            step="0.01"
+          />
         </div>
       </section>
 
-      <section className="rounded-2xl border border-cyan-500/30 bg-cyan-950/20 p-6">
-        <h2 className="mb-6 text-2xl font-bold">概算結果</h2>
+      <section className="rounded-3xl border border-blue-100 bg-blue-600 p-6 text-white shadow-lg shadow-blue-100 md:p-8">
+        <h2 className="text-2xl font-black">概算結果</h2>
 
-        <div className="space-y-4">
-          <div className="rounded-xl border border-slate-800 bg-slate-950 p-4">
-            <p className="text-sm text-slate-400">1回あたり</p>
-            <p className="mt-1 text-3xl font-bold text-cyan-300">
-              {formatUsd(result.costPerRequest)}
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-slate-800 bg-slate-950 p-4">
-            <p className="text-sm text-slate-400">1日あたり</p>
-            <p className="mt-1 text-3xl font-bold text-white">
-              {formatUsd(result.dailyCost)}
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-slate-800 bg-slate-950 p-4">
-            <p className="text-sm text-slate-400">1か月あたり</p>
-            <p className="mt-1 text-3xl font-bold text-white">
-              {formatUsd(result.monthlyCost)}
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-slate-800 bg-slate-950 p-4">
-            <p className="text-sm text-slate-400">1年あたり</p>
-            <p className="mt-1 text-3xl font-bold text-white">
-              {formatUsd(result.yearlyCost)}
-            </p>
-          </div>
+        <div className="mt-6 space-y-4">
+          <ResultCard label="1回あたり" value={formatUsd(result.costPerRequest)} strong />
+          <ResultCard label="1日あたり" value={formatUsd(result.dailyCost)} />
+          <ResultCard label="1か月あたり" value={formatUsd(result.monthlyCost)} />
+          <ResultCard label="1年あたり" value={formatUsd(result.yearlyCost)} />
         </div>
 
-        <div className="mt-6 rounded-xl border border-slate-800 bg-slate-950 p-4 text-sm text-slate-400">
-          <p>内訳</p>
-          <p className="mt-2">
-            入力: {formatUsd(result.inputCostPerRequest)} / 回
-          </p>
-          <p>
-            出力: {formatUsd(result.outputCostPerRequest)} / 回
-          </p>
+        <div className="mt-6 rounded-2xl border border-white/20 bg-white/10 p-4 text-sm text-blue-50">
+          <p className="font-bold text-white">内訳</p>
+          <p className="mt-2">入力: {formatUsd(result.inputCostPerRequest)} / 回</p>
+          <p>出力: {formatUsd(result.outputCostPerRequest)} / 回</p>
         </div>
       </section>
+    </div>
+  );
+}
+
+function NumberField({
+  label,
+  value,
+  onChange,
+  step = "1",
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  step?: string;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-bold text-slate-700">{label}</span>
+      <input
+        type="number"
+        min="0"
+        step={step}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none focus:border-blue-300 focus:ring-4 focus:ring-blue-100"
+      />
+    </label>
+  );
+}
+
+function ResultCard({
+  label,
+  value,
+  strong = false,
+}: {
+  label: string;
+  value: string;
+  strong?: boolean;
+}) {
+  return (
+    <div className="rounded-2xl border border-white/20 bg-white p-4 text-slate-950">
+      <p className="text-sm font-semibold text-slate-500">{label}</p>
+      <p className={`mt-1 font-black ${strong ? "text-3xl text-blue-700" : "text-2xl"}`}>
+        {value}
+      </p>
     </div>
   );
 }

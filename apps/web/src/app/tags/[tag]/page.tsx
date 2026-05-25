@@ -1,4 +1,7 @@
+import Link from "next/link";
 import { ArticleCard } from "@/components/ArticleCard";
+import { PageHero } from "@/components/site/PageHero";
+import { SiteShell } from "@/components/site/SiteShell";
 import { getAllTags, getArticlesByTag } from "@/lib/articles";
 
 type Props = {
@@ -29,19 +32,27 @@ export default async function TagPage({ params }: Props) {
   const articles = getArticlesByTag(decodedTag);
 
   return (
-    <main className="min-h-screen bg-slate-950 px-6 py-16 text-white">
-      <section className="mx-auto max-w-5xl">
-        <p className="mb-3 text-sm font-semibold tracking-[0.3em] text-cyan-400">
-          TAG
-        </p>
-        <h1 className="mb-10 text-4xl font-bold">#{decodedTag}</h1>
+    <SiteShell>
+      <PageHero
+        eyebrow="Tag"
+        title={`#${decodedTag}`}
+        description={`${decodedTag} に関連する記事をまとめています。`}
+      >
+        <Link
+          href="/articles"
+          className="inline-flex rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 shadow-sm hover:border-blue-200 hover:text-blue-700"
+        >
+          記事一覧へ
+        </Link>
+      </PageHero>
 
-        <div className="grid gap-6 md:grid-cols-2">
+      <section className="mx-auto max-w-7xl px-5 py-12 lg:px-8">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
             <ArticleCard key={article.slug} article={article} />
           ))}
         </div>
       </section>
-    </main>
+    </SiteShell>
   );
 }

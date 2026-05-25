@@ -1,43 +1,48 @@
 import Link from "next/link";
+import { PageHero } from "@/components/site/PageHero";
+import { SiteShell } from "@/components/site/SiteShell";
 import { getAllCategories, getArticlesByCategory } from "@/lib/articles";
 
 export const metadata = {
   title: "カテゴリ一覧 | AIプロダクト構築ラボ",
   description:
-    "AIプロダクト構築ラボの記事カテゴリ一覧です。生成AIアプリ、AI SaaS、RAG、AIエージェントなどのテーマ別に記事を探せます。",
+    "AIプロダクト構築ラボの記事カテゴリ一覧です。AIアプリ、RAG、AIエージェント、運用などのテーマ別に記事を探せます。",
 };
 
 export default function CategoriesPage() {
   const categories = getAllCategories();
 
   return (
-    <main className="min-h-screen bg-slate-950 px-6 py-16 text-white">
-      <section className="mx-auto max-w-5xl">
-        <p className="mb-3 text-sm font-semibold tracking-[0.3em] text-cyan-400">
-          CATEGORIES
-        </p>
-        <h1 className="mb-6 text-4xl font-bold">カテゴリ一覧</h1>
-        <p className="mb-10 max-w-2xl text-slate-300">
-          AIプロダクト開発に関する記事をカテゴリ別に探せます。
-        </p>
+    <SiteShell>
+      <PageHero
+        eyebrow="Categories"
+        title="カテゴリ一覧"
+        description="知りたいテーマから記事を探せます。実装、設計、運用、収益化まで、AI開発の流れに沿って整理しています。"
+      />
 
-        <div className="grid gap-4 md:grid-cols-2">
-          {categories.map((category) => {
-            const count = getArticlesByCategory(category).length;
+      <section className="mx-auto grid max-w-7xl gap-5 px-5 py-12 md:grid-cols-2 lg:grid-cols-3 lg:px-8">
+        {categories.map((category) => {
+          const count = getArticlesByCategory(category).length;
 
-            return (
-              <Link
-                key={category}
-                href={`/categories/${encodeURIComponent(category)}`}
-                className="rounded-2xl border border-slate-800 bg-slate-900 p-6 hover:border-cyan-500"
-              >
-                <h2 className="mb-2 text-xl font-bold">{category}</h2>
-                <p className="text-sm text-slate-400">{count}記事</p>
-              </Link>
-            );
-          })}
-        </div>
+          return (
+            <Link
+              key={category}
+              href={`/categories/${encodeURIComponent(category)}`}
+              className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100"
+            >
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-lg font-black text-blue-700">
+                {count}
+              </div>
+              <h2 className="text-xl font-black text-slate-950 group-hover:text-blue-700">
+                {category}
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                {count} 本の記事を掲載しています。
+              </p>
+            </Link>
+          );
+        })}
       </section>
-    </main>
+    </SiteShell>
   );
 }

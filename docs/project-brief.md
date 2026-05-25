@@ -37,6 +37,20 @@ The immediate focus is:
 4. Improve navigation and category discovery
 5. Build trust as an AI development media site
 
+## Content strategy
+
+The site will focus on the following three content pillars:
+
+1. AI開発初心者向け開発手法/ツール紹介
+2. AIアプリ開発 開発手法/エラー事例・解決法紹介
+3. AI関連ニュース解説
+
+Editorial direction:
+- Prioritize practical explanations that help readers start or continue AI development.
+- Cover both planned development methods and real troubleshooting/error-resolution cases.
+- Explain AI-related news from the perspective of builders and product developers.
+- Keep the site positioned as a media/content site, not a SaaS sales site.
+
 ## Infrastructure
 
 The site is running on ConoHa VPS.

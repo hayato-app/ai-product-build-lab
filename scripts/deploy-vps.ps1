@@ -50,13 +50,12 @@ echo "--- pull"
 git pull origin main
 echo "--- commit"
 git rev-parse --short HEAD
-echo "--- build"
-docker compose exec -T -e NODE_ENV=production web npm run build
-echo "--- restart web"
-docker compose up -d --force-recreate web
+echo "--- reload web"
+docker compose stop web
+docker compose up -d web
 echo "--- verify"
 sleep 8
-docker compose ps web
+docker ps --filter name=ai-product-build-lab-web
 curl -fsS -I http://127.0.0.1/ | head -5
 curl -fsS http://127.0.0.1/ | grep -oE 'AIプロダクト開発を|Featured Articles|AI API Cost Estimator' | sort -u
 '@

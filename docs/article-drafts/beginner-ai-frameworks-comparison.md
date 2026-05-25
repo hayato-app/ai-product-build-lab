@@ -2,6 +2,10 @@
 title: "Vercel AI SDK・LangChain・LlamaIndexの違い"
 pillar: "AI開発初心者向け開発手法/ツール紹介"
 status: "draft"
+review_status: "needs_review"
+priority: "medium"
+estimated_publish_ready: false
+needs_fact_check: true
 category: "AI開発初心者"
 tags:
   - "Vercel AI SDK"

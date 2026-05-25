@@ -2,6 +2,10 @@
 title: "MCPやAIエージェントSDKの標準化で何が変わるか"
 pillar: "AI関連ニュース解説"
 status: "draft"
+review_status: "needs_review"
+priority: "low"
+estimated_publish_ready: false
+needs_fact_check: true
 category: "AIニュース解説"
 tags:
   - "MCP"

@@ -2,6 +2,10 @@
 title: "AIエージェント開発で暴走・無限ループを防ぐ設計"
 pillar: "AIアプリ開発 開発手法/エラー事例・解決法紹介"
 status: "draft"
+review_status: "needs_review"
+priority: "medium"
+estimated_publish_ready: false
+needs_fact_check: false
 category: "AIアプリ開発"
 tags:
   - "AIエージェント"

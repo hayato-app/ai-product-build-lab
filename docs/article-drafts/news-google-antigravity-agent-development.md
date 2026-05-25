@@ -2,6 +2,10 @@
 title: "Google Antigravityとagent-first開発の意味"
 pillar: "AI関連ニュース解説"
 status: "draft"
+review_status: "needs_review"
+priority: "low"
+estimated_publish_ready: false
+needs_fact_check: true
 category: "AIニュース解説"
 tags:
   - "Google Antigravity"

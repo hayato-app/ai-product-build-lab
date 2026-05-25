@@ -2,6 +2,10 @@
 title: "企業向けAIサービス化の流れを開発者目線で読む"
 pillar: "AI関連ニュース解説"
 status: "draft"
+review_status: "needs_review"
+priority: "low"
+estimated_publish_ready: false
+needs_fact_check: true
 category: "AIニュース解説"
 tags:
   - "企業AI"

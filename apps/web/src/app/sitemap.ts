@@ -7,7 +7,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const tags = getAllTags();
   const categories = getAllCategories();
 
-  const staticRoutes = ["", "/articles", "/tools", "/categories"].map((route) => ({
+  const staticRoutes = [
+    "",
+    "/articles",
+    "/tools",
+    "/tools/ai-api-cost-estimator",
+    "/categories",
+  ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
   }));

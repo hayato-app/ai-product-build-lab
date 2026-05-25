@@ -1,8 +1,34 @@
+import Link from "next/link";
+
 export const metadata = {
   title: "無料ツール | AIプロダクト構築ラボ",
   description:
     "AIプロダクト開発に役立つ無料ツールを順次公開しています。",
 };
+
+const tools = [
+  {
+    title: "AI API Cost Estimator",
+    description:
+      "入力トークン数、出力トークン数、実行回数からAI APIの概算コストを計算できます。",
+    href: "/tools/ai-api-cost-estimator",
+    status: "公開中",
+  },
+  {
+    title: "RAG Checklist",
+    description:
+      "RAG構築時の設計チェックリストを準備中です。",
+    href: "#",
+    status: "準備中",
+  },
+  {
+    title: "AI SaaS Planner",
+    description:
+      "AI SaaSの最小構成を整理するツールを準備中です。",
+    href: "#",
+    status: "準備中",
+  },
+];
 
 export default function ToolsPage() {
   return (
@@ -17,26 +43,29 @@ export default function ToolsPage() {
         </p>
 
         <div className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-            <h2 className="mb-2 font-semibold">Prompt Cost Estimator</h2>
-            <p className="text-sm text-slate-400">
-              AI APIの概算コストを計算するツールを準備中です。
-            </p>
-          </div>
+          {tools.map((tool) => {
+            const isReady = tool.href !== "#";
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-            <h2 className="mb-2 font-semibold">RAG Checklist</h2>
-            <p className="text-sm text-slate-400">
-              RAG構築時の設計チェックリストを準備中です。
-            </p>
-          </div>
+            const card = (
+              <div className="h-full rounded-2xl border border-slate-800 bg-slate-900 p-6 transition hover:border-cyan-500">
+                <div className="mb-4 inline-flex rounded-full border border-cyan-500/40 px-3 py-1 text-xs text-cyan-300">
+                  {tool.status}
+                </div>
+                <h2 className="mb-2 text-xl font-semibold">{tool.title}</h2>
+                <p className="text-sm leading-6 text-slate-400">{tool.description}</p>
+              </div>
+            );
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-            <h2 className="mb-2 font-semibold">AI SaaS Planner</h2>
-            <p className="text-sm text-slate-400">
-              AI SaaSの最小構成を整理するツールを準備中です。
-            </p>
-          </div>
+            return isReady ? (
+              <Link key={tool.title} href={tool.href}>
+                {card}
+              </Link>
+            ) : (
+              <div key={tool.title} className="opacity-70">
+                {card}
+              </div>
+            );
+          })}
         </div>
       </section>
     </main>

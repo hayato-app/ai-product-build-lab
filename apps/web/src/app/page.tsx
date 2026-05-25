@@ -29,10 +29,10 @@ export default function Home() {
             記事を見る
           </Link>
           <Link
-            href="/tools"
+            href="/tools/ai-api-cost-estimator"
             className="rounded-full border border-slate-700 px-6 py-3 text-sm font-bold text-white hover:border-cyan-400 hover:text-cyan-300"
           >
-            無料ツールを見る
+            AI APIコストを計算する
           </Link>
         </div>
 
@@ -47,7 +47,7 @@ export default function Home() {
           <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
             <h2 className="mb-2 font-semibold">無料ツール</h2>
             <p className="text-sm text-slate-400">
-              AI開発に使える小さなWebツールを順次公開します。
+              AI APIコスト計算など、開発に使える小さなWebツールを公開します。
             </p>
           </div>
 
@@ -57,6 +57,25 @@ export default function Home() {
               小さなAIプロダクトを収益化する流れを検証します。
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-6 pb-20">
+        <div className="mb-8 rounded-2xl border border-cyan-500/30 bg-cyan-950/20 p-8">
+          <p className="mb-3 text-sm font-semibold tracking-[0.3em] text-cyan-400">
+            FEATURED TOOL
+          </p>
+          <h2 className="mb-4 text-3xl font-bold">AI API Cost Estimator</h2>
+          <p className="mb-6 max-w-2xl text-slate-300">
+            AI APIの入力トークン数・出力トークン数・実行回数から、月間運用コストを概算できます。
+            AI SaaSを作る前の費用見積もりに使えます。
+          </p>
+          <Link
+            href="/tools/ai-api-cost-estimator"
+            className="inline-flex rounded-full bg-cyan-400 px-6 py-3 text-sm font-bold text-slate-950 hover:bg-cyan-300"
+          >
+            無料で計算する
+          </Link>
         </div>
       </section>
 

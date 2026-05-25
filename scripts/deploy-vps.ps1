@@ -58,7 +58,7 @@ echo "--- verify"
 sleep 8
 docker compose ps web
 curl -fsS -I http://127.0.0.1/ | head -5
-curl -fsS http://127.0.0.1/ | grep -E "AIプロダクト開発を|Featured Articles|AI API Cost Estimator" | head
+curl -fsS http://127.0.0.1/ | grep -E 'AIプロダクト開発を|Featured Articles|AI API Cost Estimator' | head
 '@
 
 $sshArgs = Get-VpsSshArgs -Path $ConnectInfoPath

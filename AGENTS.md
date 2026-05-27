@@ -99,6 +99,21 @@ npm run build
 
 If build cannot be run, explain why.
 
+## Editorial operation documents
+
+When creating, editing, or expanding articles, refer to the following documents:
+
+- docs/editorial/article-operation-rules.md
+- docs/editorial/article-quality-checklist.md
+- docs/editorial/category-policy.md
+- docs/editorial/internal-link-policy.md
+- docs/editorial/publishing-flow.md
+- docs/editorial/codex-article-instructions.md
+
+Article drafts should follow these editorial rules.
+
+Do not publish or merge AI-generated article drafts without review.
+
 ## Done means
 
 A task is done only when:

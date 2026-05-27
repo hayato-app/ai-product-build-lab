@@ -7,7 +7,12 @@ import { remark } from "remark";
 import html from "remark-html";
 import readingTime from "reading-time";
 
-const draftDirectory = path.join(process.cwd(), "../../docs/article-drafts");
+const fallbackDraftDirectory = path.join(
+  /* turbopackIgnore: true */ process.cwd(),
+  "../../docs/article-drafts",
+);
+
+const draftDirectory = process.env.DRAFT_REVIEW_DIR ?? fallbackDraftDirectory;
 
 export type DraftMeta = {
   slug: string;

@@ -98,6 +98,26 @@ Reviewed and approved articles may be moved to:
 apps/web/src/content/articles
 ```
 
+## Standard Codex Draft Workflow
+
+The standard article creation workflow is Codex-assisted draft creation inside this repository.
+
+Codex should create article drafts directly under `docs/article-drafts` after checking:
+
+- Existing published articles.
+- Existing draft articles.
+- Category policy.
+- Internal link policy.
+- Article quality checklist.
+
+The standard workflow should not depend on pasting prompts into ChatGPT Plus manually.
+
+`npm run generate:ai` in `workers/article-worker` is optional and reserved for future or explicitly approved API-based operation. It is not required for the normal editorial workflow.
+
+Codex-created drafts must remain drafts until a human reviews them in the draft review page and approves publication.
+
+Do not move a draft into `apps/web/src/content/articles` until human review is complete.
+
 ## Publishing Frequency
 
 Prefer quality over volume.

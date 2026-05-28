@@ -32,6 +32,26 @@ Codex must:
 - Treat AI-generated articles as drafts.
 - Avoid low-quality filler content.
 
+## Standard Draft Creation Workflow
+
+Codex should use the following workflow as the standard article creation process:
+
+1. Read the relevant project and editorial documents.
+2. Check existing published articles under `apps/web/src/content/articles`.
+3. Check existing drafts under `docs/article-drafts`.
+4. Select or confirm a topic that does not substantially duplicate existing content.
+5. Create the Markdown draft under `docs/article-drafts`.
+6. Add valid frontmatter, one primary category, 3 to 5 tags, practical sections, and internal links when possible.
+7. Add tables, diagrams, checklists, or command examples when they improve reader understanding.
+8. Confirm that the draft remains review-only.
+9. Summarize changed files and verification results.
+
+The standard workflow is not to generate the article through manual copy and paste into ChatGPT Plus.
+
+The `workers/article-worker` AI API mode may exist for future use, but it should only be used when explicitly requested and when API billing is available.
+
+Codex must not publish the draft automatically. Moving a draft into `apps/web/src/content/articles` requires human approval after review.
+
 ## Required Article Format
 
 Use this format when appropriate:

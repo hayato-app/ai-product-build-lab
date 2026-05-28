@@ -84,10 +84,18 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
                   draft.reviewResult,
                 )}`}
               >
-                {draft.reviewResult.toUpperCase()}
+                {reviewResultLabel(draft.reviewResult)}
               </span>
+              {draft.needsFactCheck ? (
+                <span className="rounded-full bg-rose-50 px-3 py-1 text-rose-700">
+                  ファクトチェック必要
+                </span>
+              ) : (
+                <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-700">
+                  ファクトチェック不要
+                </span>
+              )}
               <span>{draft.readingTime}</span>
-              {draft.needsFactCheck ? <span>fact check required</span> : null}
             </div>
 
             <h1 className="mt-5 text-4xl font-black leading-tight tracking-normal text-slate-950 md:text-5xl">
@@ -104,14 +112,15 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
               <MetaItem label="Pillar" value={draft.pillar || "未設定"} />
               <MetaItem label="Category" value={draft.category || "未設定"} />
               <MetaItem label="Priority" value={draft.priority} />
-              <MetaItem label="Review result" value={draft.reviewResult} />
-              <MetaItem
-                label="Reviewed at"
-                value={draft.reviewedAt || "not reviewed"}
-              />
+              <MetaItem label="Review result" value={reviewResultLabel(draft.reviewResult)} />
+              <MetaItem label="Reviewed at" value={formatReviewedAt(draft.reviewedAt)} />
               <MetaItem
                 label="Publish ready"
                 value={draft.estimatedPublishReady ? "yes" : "no"}
+              />
+              <MetaItem
+                label="Fact check"
+                value={draft.needsFactCheck ? "必要" : "不要"}
               />
             </dl>
 
@@ -129,25 +138,19 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
         </header>
 
         <div className="mx-auto max-w-4xl px-5 py-12 lg:px-8">
-          {saved ? (
-            <Notice tone="green">{savedMessage(saved)}</Notice>
-          ) : null}
+          {saved ? <Notice tone="green">{savedMessage(saved)}</Notice> : null}
           {error ? <Notice tone="red">{error}</Notice> : null}
 
           <section className="mb-10 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <p className="text-sm font-black uppercase tracking-normal text-sky-700">
-                  Review decision
-                </p>
-                <h2 className="mt-2 text-2xl font-black tracking-normal text-slate-950">
-                  レビュー状態を記録
-                </h2>
-                <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                  OK/NGや修正依頼の判定はdraft Markdownのfrontmatterに保存されます。公開記事への移動は行いません。
-                </p>
-              </div>
-            </div>
+            <p className="text-sm font-black uppercase tracking-normal text-sky-700">
+              レビュー判定
+            </p>
+            <h2 className="mt-2 text-2xl font-black tracking-normal text-slate-950">
+              レビュー状態を記録
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+              OK/NGや修正依頼の判定はdraft Markdownのfrontmatterに保存されます。公開記事への移動はここでは行いません。
+            </p>
 
             <form
               action={`/admin/drafts/${draft.slug}/review`}
@@ -155,10 +158,9 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
               className="mt-5 grid gap-4"
             >
               <input type="hidden" name="token" value={token ?? ""} />
-              <input type="hidden" name="slug" value={draft.slug} />
               <label className="grid gap-2">
                 <span className="text-sm font-bold text-slate-700">
-                  Review notes
+                  レビューメモ
                 </span>
                 <textarea
                   name="review_notes"
@@ -187,14 +189,52 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
           </section>
 
           <section className="mb-10 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm font-black uppercase tracking-normal text-emerald-700">
-              Publish
+            <p className="text-sm font-black uppercase tracking-normal text-sky-700">
+              ファクトチェック
             </p>
             <h2 className="mt-2 text-2xl font-black tracking-normal text-slate-950">
-              Move to published articles
+              事実確認の状態を切り替え
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+              価格、モデル名、API仕様、ニュース内容など、時間とともに変わる情報を確認したら「ファクトチェック完了」にしてください。
+            </p>
+            <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-semibold text-slate-700">
+              現在の状態: {draft.needsFactCheck ? "ファクトチェックが必要" : "ファクトチェック不要"}
+            </div>
+            <form
+              action={`/admin/drafts/${draft.slug}/fact-check`}
+              method="post"
+              className="mt-5 grid gap-2 sm:grid-cols-2"
+            >
+              <input type="hidden" name="token" value={token ?? ""} />
+              <button
+                type="submit"
+                name="fact_check_action"
+                value="required"
+                className="rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm font-black text-orange-700 transition hover:bg-orange-100"
+              >
+                ファクトチェックが必要
+              </button>
+              <button
+                type="submit"
+                name="fact_check_action"
+                value="done"
+                className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700 transition hover:bg-emerald-100"
+              >
+                ファクトチェック完了
+              </button>
+            </form>
+          </section>
+
+          <section className="mb-10 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p className="text-sm font-black uppercase tracking-normal text-emerald-700">
+              公開
+            </p>
+            <h2 className="mt-2 text-2xl font-black tracking-normal text-slate-950">
+              公開記事へ移動
             </h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Only drafts marked OK can be moved into the public article directory. This operation moves the Markdown file and does not push to GitHub by itself.
+              OK済みの下書きだけを公開記事ディレクトリへ移動できます。この操作はMarkdownファイルを移動しますが、GitHubへのpushは行いません。
             </p>
 
             {canPublish ? (
@@ -204,17 +244,16 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
                 className="mt-5"
               >
                 <input type="hidden" name="token" value={token ?? ""} />
-                <input type="hidden" name="slug" value={draft.slug} />
                 <button
                   type="submit"
                   className="rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-3 text-sm font-black text-emerald-700 transition hover:bg-emerald-100"
                 >
-                  Publish this draft
+                  この下書きを公開記事へ移動
                 </button>
               </form>
             ) : (
               <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-semibold leading-6 text-slate-600">
-                Publishing is available after the draft is marked OK and fact check is not required.
+                公開操作は、レビュー結果がOKで、ファクトチェック不要の状態になった後に利用できます。
               </div>
             )}
           </section>
@@ -261,13 +300,15 @@ function Notice({
 
 function savedMessage(saved: string): string {
   const messages: Record<string, string> = {
-    approve: "Review result was saved as OK.",
-    changes: "Review result was saved as changes requested.",
-    reject: "Review result was saved as NG.",
-    reset: "Review status was reset to needs review.",
+    approve: "レビュー結果をOKとして保存しました。",
+    changes: "レビュー結果を修正依頼として保存しました。",
+    fact_check_done: "ファクトチェック完了として保存しました。",
+    fact_check_required: "ファクトチェックが必要な状態として保存しました。",
+    reject: "レビュー結果をNGとして保存しました。",
+    reset: "レビュー状態を未レビューに戻しました。",
   };
 
-  return messages[saved] ?? "Review result was saved.";
+  return messages[saved] ?? "変更を保存しました。";
 }
 
 function ReviewButton({
@@ -307,6 +348,24 @@ function MetaItem({ label, value }: { label: string; value: string }) {
   );
 }
 
+function formatReviewedAt(value: string): string {
+  if (!value) {
+    return "未レビュー";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("ja-JP", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "Asia/Tokyo",
+  }).format(date);
+}
+
 function reviewStatusLabel(status: string): string {
   const labels: Record<string, string> = {
     needs_review: "Needs review",
@@ -316,6 +375,16 @@ function reviewStatusLabel(status: string): string {
   };
 
   return labels[status] ?? status;
+}
+
+function reviewResultLabel(result: string): string {
+  const labels: Record<string, string> = {
+    ok: "OK",
+    ng: "NG",
+    pending: "PENDING",
+  };
+
+  return labels[result] ?? result;
 }
 
 function reviewStatusClass(status: string): string {

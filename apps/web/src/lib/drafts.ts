@@ -172,6 +172,25 @@ export function updateDraftReview(input: DraftReviewInput): void {
   fs.writeFileSync(fullPath, matter.stringify(parsed.content, data), "utf8");
 }
 
+export function updateDraftFactCheck(slug: string, needsFactCheck: boolean): void {
+  assertSafeDraftSlug(slug);
+
+  const fullPath = getDraftPath(slug);
+
+  if (!fs.existsSync(fullPath)) {
+    throw new Error(`Draft was not found: ${slug}`);
+  }
+
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+  const parsed = matter(fileContents);
+  const data = {
+    ...parsed.data,
+    needs_fact_check: needsFactCheck,
+  };
+
+  fs.writeFileSync(fullPath, matter.stringify(parsed.content, data), "utf8");
+}
+
 export function publishApprovedDraft(slug: string): void {
   assertSafeDraftSlug(slug);
 

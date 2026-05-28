@@ -21,13 +21,15 @@ export const metadata: Metadata = {
 
 type Props = {
   searchParams: Promise<{
+    error?: string;
+    published?: string;
     token?: string;
     status?: string;
   }>;
 };
 
 export default async function DraftReviewPage({ searchParams }: Props) {
-  const { token, status } = await searchParams;
+  const { error, published, token, status } = await searchParams;
 
   if (!isDraftReviewAllowed(token)) {
     return (
@@ -89,6 +91,19 @@ export default async function DraftReviewPage({ searchParams }: Props) {
       </section>
 
       <section className="mx-auto max-w-6xl px-5 py-10 lg:px-8">
+        {published ? (
+          <Notice tone="green">
+            Published article was created:{" "}
+            <Link
+              href={`/articles/${published}`}
+              className="font-black underline decoration-emerald-300 underline-offset-4"
+            >
+              /articles/{published}
+            </Link>
+          </Notice>
+        ) : null}
+        {error ? <Notice tone="red">{error}</Notice> : null}
+
         <div className="mb-6 flex flex-wrap gap-2">
           {reviewFilters.map((filter) => (
             <Link
@@ -165,6 +180,25 @@ export default async function DraftReviewPage({ searchParams }: Props) {
         </div>
       </section>
     </SiteShell>
+  );
+}
+
+function Notice({
+  children,
+  tone,
+}: {
+  children: ReactNode;
+  tone: "green" | "red";
+}) {
+  const toneClass = {
+    green: "border-emerald-200 bg-emerald-50 text-emerald-800",
+    red: "border-rose-200 bg-rose-50 text-rose-800",
+  }[tone];
+
+  return (
+    <div className={`mb-6 rounded-2xl border p-4 text-sm font-bold ${toneClass}`}>
+      {children}
+    </div>
   );
 }
 

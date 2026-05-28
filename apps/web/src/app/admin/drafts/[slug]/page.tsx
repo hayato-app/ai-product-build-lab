@@ -10,7 +10,7 @@ import {
   isDraftReviewAllowed,
   isDraftReviewConfigured,
 } from "@/lib/drafts";
-import { updateDraftReviewAction } from "./actions";
+import { publishDraftAction, updateDraftReviewAction } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -28,13 +28,15 @@ type Props = {
     slug: string;
   }>;
   searchParams: Promise<{
+    error?: string;
+    saved?: string;
     token?: string;
   }>;
 };
 
 export default async function DraftPreviewPage({ params, searchParams }: Props) {
   const { slug } = await params;
-  const { token } = await searchParams;
+  const { error, saved, token } = await searchParams;
 
   if (!isDraftReviewAllowed(token)) {
     return (
@@ -49,6 +51,11 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
   if (!draft) {
     notFound();
   }
+
+  const canPublish =
+    draft.reviewStatus === "approved" &&
+    draft.reviewResult === "ok" &&
+    !draft.needsFactCheck;
 
   return (
     <SiteShell>
@@ -123,6 +130,11 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
         </header>
 
         <div className="mx-auto max-w-4xl px-5 py-12 lg:px-8">
+          {saved ? (
+            <Notice tone="green">{savedMessage(saved)}</Notice>
+          ) : null}
+          {error ? <Notice tone="red">{error}</Notice> : null}
+
           <section className="mb-10 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
@@ -171,6 +183,35 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
             </form>
           </section>
 
+          <section className="mb-10 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p className="text-sm font-black uppercase tracking-normal text-emerald-700">
+              Publish
+            </p>
+            <h2 className="mt-2 text-2xl font-black tracking-normal text-slate-950">
+              Move to published articles
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Only drafts marked OK can be moved into the public article directory. This operation moves the Markdown file and does not push to GitHub by itself.
+            </p>
+
+            {canPublish ? (
+              <form action={publishDraftAction} className="mt-5">
+                <input type="hidden" name="token" value={token ?? ""} />
+                <input type="hidden" name="slug" value={draft.slug} />
+                <button
+                  type="submit"
+                  className="rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-3 text-sm font-black text-emerald-700 transition hover:bg-emerald-100"
+                >
+                  Publish this draft
+                </button>
+              </form>
+            ) : (
+              <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-semibold leading-6 text-slate-600">
+                Publishing is available after the draft is marked OK and fact check is not required.
+              </div>
+            )}
+          </section>
+
           <MarkdownBody contentHtml={draft.contentHtml} />
         </div>
       </article>
@@ -190,6 +231,36 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
       </Script>
     </SiteShell>
   );
+}
+
+function Notice({
+  children,
+  tone,
+}: {
+  children: ReactNode;
+  tone: "green" | "red";
+}) {
+  const toneClass = {
+    green: "border-emerald-200 bg-emerald-50 text-emerald-800",
+    red: "border-rose-200 bg-rose-50 text-rose-800",
+  }[tone];
+
+  return (
+    <div className={`mb-6 rounded-2xl border p-4 text-sm font-bold ${toneClass}`}>
+      {children}
+    </div>
+  );
+}
+
+function savedMessage(saved: string): string {
+  const messages: Record<string, string> = {
+    approve: "Review result was saved as OK.",
+    changes: "Review result was saved as changes requested.",
+    reject: "Review result was saved as NG.",
+    reset: "Review status was reset to needs review.",
+  };
+
+  return messages[saved] ?? "Review result was saved.";
 }
 
 function ReviewButton({

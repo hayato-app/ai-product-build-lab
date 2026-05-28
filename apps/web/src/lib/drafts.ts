@@ -13,6 +13,7 @@ const fallbackDraftDirectory = path.join(
 );
 
 const draftDirectory = process.env.DRAFT_REVIEW_DIR ?? fallbackDraftDirectory;
+const articlesDirectory = path.join(process.cwd(), "src/content/articles");
 
 export type DraftMeta = {
   slug: string;
@@ -38,6 +39,10 @@ export type DraftArticle = DraftMeta & {
 
 function getDraftPath(slug: string) {
   return path.join(draftDirectory, `${slug}.md`);
+}
+
+function getArticlePath(slug: string) {
+  return path.join(articlesDirectory, `${slug}.md`);
 }
 
 function assertSafeDraftSlug(slug: string) {
@@ -165,6 +170,77 @@ export function updateDraftReview(input: DraftReviewInput): void {
   };
 
   fs.writeFileSync(fullPath, matter.stringify(parsed.content, data), "utf8");
+}
+
+export function publishApprovedDraft(slug: string): void {
+  assertSafeDraftSlug(slug);
+
+  const draftPath = getDraftPath(slug);
+  const articlePath = getArticlePath(slug);
+
+  if (!fs.existsSync(draftPath)) {
+    throw new Error(`Draft was not found: ${slug}`);
+  }
+
+  if (fs.existsSync(articlePath)) {
+    throw new Error(`Published article already exists: ${slug}`);
+  }
+
+  const fileContents = fs.readFileSync(draftPath, "utf8");
+  const parsed = matter(fileContents);
+  const errors = validatePublishableDraft(parsed.data, parsed.content);
+
+  if (errors.length > 0) {
+    throw new Error(errors.join(" / "));
+  }
+
+  const today = new Date().toISOString().slice(0, 10);
+  const data = {
+    ...parsed.data,
+    status: "published",
+    estimated_publish_ready: true,
+    publishedAt: parsed.data.publishedAt || today,
+    updatedAt: today,
+  };
+
+  fs.mkdirSync(articlesDirectory, { recursive: true });
+  fs.writeFileSync(articlePath, matter.stringify(parsed.content, data), "utf8");
+  fs.unlinkSync(draftPath);
+}
+
+function validatePublishableDraft(
+  data: matter.GrayMatterFile<string>["data"],
+  content: string,
+): string[] {
+  const errors: string[] = [];
+
+  if (data.review_status !== "approved") {
+    errors.push("review_status must be approved");
+  }
+
+  if (data.review_result !== "ok") {
+    errors.push("review_result must be ok");
+  }
+
+  if (Boolean(data.needs_fact_check)) {
+    errors.push("needs_fact_check must be false before publishing");
+  }
+
+  for (const key of ["title", "description", "category"]) {
+    if (!data[key]) {
+      errors.push(`${key} is required`);
+    }
+  }
+
+  if (!Array.isArray(data.tags) || data.tags.length === 0) {
+    errors.push("tags are required");
+  }
+
+  if (!content.trim()) {
+    errors.push("article body is empty");
+  }
+
+  return errors;
 }
 
 function reviewResultFromStatus(status: unknown): string {

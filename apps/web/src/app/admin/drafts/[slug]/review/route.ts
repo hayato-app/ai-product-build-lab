@@ -1,10 +1,7 @@
-"use server";
-
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
 import {
   isDraftReviewAllowed,
-  publishApprovedDraft,
   updateDraftReview,
   type DraftReviewInput,
 } from "@/lib/drafts";
@@ -31,17 +28,26 @@ const statusByAction: Record<
   },
 };
 
-export async function updateDraftReviewAction(formData: FormData) {
+type RouteContext = {
+  params: Promise<{
+    slug: string;
+  }>;
+};
+
+export async function POST(request: Request, context: RouteContext) {
+  const { slug } = await context.params;
+  const formData = await request.formData();
   const token = readString(formData, "token");
-  const slug = readString(formData, "slug");
   const action = readString(formData, "review_action");
   const reviewNotes = readString(formData, "review_notes");
+  const nextUrl = new URL(`/admin/drafts/${slug}`, request.url);
+
+  nextUrl.searchParams.set("token", token);
 
   if (!isDraftReviewAllowed(token)) {
-    throw new Error("Draft review token is invalid.");
+    nextUrl.searchParams.set("error", "Draft review token is invalid.");
+    return NextResponse.redirect(nextUrl);
   }
-
-  let nextUrl = `/admin/drafts/${slug}?token=${encodeURIComponent(token)}`;
 
   try {
     const nextState = statusByAction[action];
@@ -58,37 +64,12 @@ export async function updateDraftReviewAction(formData: FormData) {
 
     revalidatePath("/admin/drafts");
     revalidatePath(`/admin/drafts/${slug}`);
-    nextUrl += `&saved=${encodeURIComponent(action)}`;
+    nextUrl.searchParams.set("saved", action);
   } catch (error) {
-    nextUrl += `&error=${encodeURIComponent(errorMessage(error))}`;
+    nextUrl.searchParams.set("error", errorMessage(error));
   }
 
-  redirect(nextUrl);
-}
-
-export async function publishDraftAction(formData: FormData) {
-  const token = readString(formData, "token");
-  const slug = readString(formData, "slug");
-
-  if (!isDraftReviewAllowed(token)) {
-    throw new Error("Draft review token is invalid.");
-  }
-
-  let nextUrl = `/admin/drafts?token=${encodeURIComponent(token)}`;
-
-  try {
-    publishApprovedDraft(slug);
-    revalidatePath("/admin/drafts");
-    revalidatePath("/articles");
-    revalidatePath(`/articles/${slug}`);
-    nextUrl += `&published=${encodeURIComponent(slug)}`;
-  } catch (error) {
-    nextUrl = `/admin/drafts/${slug}?token=${encodeURIComponent(
-      token,
-    )}&error=${encodeURIComponent(errorMessage(error))}`;
-  }
-
-  redirect(nextUrl);
+  return NextResponse.redirect(nextUrl);
 }
 
 function readString(formData: FormData, key: string): string {

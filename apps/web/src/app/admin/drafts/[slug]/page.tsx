@@ -10,7 +10,6 @@ import {
   isDraftReviewAllowed,
   isDraftReviewConfigured,
 } from "@/lib/drafts";
-import { publishDraftAction, updateDraftReviewAction } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -150,7 +149,11 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
               </div>
             </div>
 
-            <form action={updateDraftReviewAction} className="mt-5 grid gap-4">
+            <form
+              action={`/admin/drafts/${draft.slug}/review`}
+              method="post"
+              className="mt-5 grid gap-4"
+            >
               <input type="hidden" name="token" value={token ?? ""} />
               <input type="hidden" name="slug" value={draft.slug} />
               <label className="grid gap-2">
@@ -195,7 +198,11 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
             </p>
 
             {canPublish ? (
-              <form action={publishDraftAction} className="mt-5">
+              <form
+                action={`/admin/drafts/${draft.slug}/publish`}
+                method="post"
+                className="mt-5"
+              >
                 <input type="hidden" name="token" value={token ?? ""} />
                 <input type="hidden" name="slug" value={draft.slug} />
                 <button

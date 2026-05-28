@@ -1,36 +1,70 @@
 # Article Worker
 
-AI Product Build Labの記事下書きをローカルテンプレートから生成するワーカーです。
+Article Worker prepares Markdown article drafts for AI Product Build Lab.
 
-この初期版は外部AI APIに接続しません。静的なseed topicsとテンプレートを使い、公開前レビュー用のMarkdownを `docs/article-drafts` に保存します。
-
-## Commands
-
-```bash
-npm install
-npm run generate -- --dry-run
-npm run generate
-npm run generate -- --count 3
-```
+Generated articles are drafts. They must be reviewed by a human before being moved into published content.
 
 ## Output
 
-デフォルトの出力先:
+The default draft output directory is:
 
 ```txt
 ../../docs/article-drafts
 ```
 
-VPSなどで出力先を明示する場合:
+You can override it when needed:
 
 ```bash
 ARTICLE_DRAFT_OUTPUT_DIR=/opt/ai-business/apps/ai-product-build-lab/docs/article-drafts npm run generate
 ```
 
+## Environment
+
+Copy `.env.example` if you want to keep local notes, but do not commit `.env`.
+
+```env
+OPENAI_API_KEY=
+ARTICLE_WORKER_MODEL=
+```
+
+`OPENAI_API_KEY` is required only for AI generation.
+
+`ARTICLE_WORKER_MODEL` is optional. If omitted, the worker uses its built-in default model.
+
+## Commands
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Preview the selected topic without API calls or file writes:
+
+```bash
+npm run dry-run
+```
+
+Generate deterministic template drafts without API calls:
+
+```bash
+npm run generate
+npm run generate -- --count 3
+```
+
+Generate one AI-assisted draft:
+
+```bash
+OPENAI_API_KEY=... npm run generate:ai
+```
+
+AI generation calls the OpenAI API, validates the Markdown draft, and writes only if validation passes.
+
 ## Safety
 
-- 既存の公開記事を読み取り、slugや内容の重複を避けます。
-- 既存記事・既存draftは削除、上書きしません。
-- slugが衝突する場合は `-2`, `-3` のように連番を付けます。
-- 生成記事は `status: "draft"` と `review_status: "needs_review"` を持ちます。
-- 公開する場合は、人間がレビューした後に `apps/web/src/content/articles` へ移動してください。
+- Existing published articles are never deleted, overwritten, or renamed.
+- Existing drafts are never overwritten.
+- Slug conflicts are resolved with suffixes such as `-2` and `-3`.
+- AI generation defaults to one article and caps `--count` at 3.
+- Generated articles include `status: "draft"` and `review_status: "needs_review"`.
+- Published content under `apps/web/src/content/articles` is updated only after human review.

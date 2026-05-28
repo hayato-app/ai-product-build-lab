@@ -5,9 +5,16 @@
   "type": "commonjs",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "dev": "npm run generate -- --dry-run",
+    "dev": "npm run dry-run",
+    "dry-run": "node dist/index.js --dry-run",
     "generate": "node dist/index.js",
-    "pregenerate": "npm run build"
+    "generate:ai": "node dist/index.js --ai",
+    "predry-run": "npm run build",
+    "pregenerate": "npm run build",
+    "pregenerate:ai": "npm run build"
+  },
+  "dependencies": {
+    "openai": "^6.39.0"
   },
   "devDependencies": {
     "@types/node": "^20.19.25",

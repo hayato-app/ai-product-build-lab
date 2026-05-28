@@ -1,5 +1,4 @@
 import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
 import {
   isDraftReviewAllowed,
   updateDraftReview,
@@ -40,13 +39,11 @@ export async function POST(request: Request, context: RouteContext) {
   const token = readString(formData, "token");
   const action = readString(formData, "review_action");
   const reviewNotes = readString(formData, "review_notes");
-  const nextUrl = new URL(`/admin/drafts/${slug}`, request.url);
-
-  nextUrl.searchParams.set("token", token);
+  const nextParams = new URLSearchParams({ token });
 
   if (!isDraftReviewAllowed(token)) {
-    nextUrl.searchParams.set("error", "Draft review token is invalid.");
-    return NextResponse.redirect(nextUrl);
+    nextParams.set("error", "Draft review token is invalid.");
+    return redirectTo(`/admin/drafts/${slug}?${nextParams.toString()}`);
   }
 
   try {
@@ -64,12 +61,12 @@ export async function POST(request: Request, context: RouteContext) {
 
     revalidatePath("/admin/drafts");
     revalidatePath(`/admin/drafts/${slug}`);
-    nextUrl.searchParams.set("saved", action);
+    nextParams.set("saved", action);
   } catch (error) {
-    nextUrl.searchParams.set("error", errorMessage(error));
+    nextParams.set("error", errorMessage(error));
   }
 
-  return NextResponse.redirect(nextUrl);
+  return redirectTo(`/admin/drafts/${slug}?${nextParams.toString()}`);
 }
 
 function readString(formData: FormData, key: string): string {
@@ -79,4 +76,13 @@ function readString(formData: FormData, key: string): string {
 
 function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
+}
+
+function redirectTo(location: string): Response {
+  return new Response(null, {
+    status: 303,
+    headers: {
+      Location: location,
+    },
+  });
 }

@@ -21,6 +21,9 @@ export type DraftMeta = {
   pillar: string;
   status: string;
   reviewStatus: string;
+  reviewResult: string;
+  reviewedAt: string;
+  reviewNotes: string;
   priority: string;
   estimatedPublishReady: boolean;
   needsFactCheck: boolean;
@@ -37,8 +40,15 @@ function getDraftPath(slug: string) {
   return path.join(draftDirectory, `${slug}.md`);
 }
 
+function assertSafeDraftSlug(slug: string) {
+  if (!/^[a-z0-9][a-z0-9-]*$/i.test(slug)) {
+    throw new Error(`Invalid draft slug: ${slug}`);
+  }
+}
+
 function toDraftMeta(slug: string, fileContents: string): DraftMeta {
   const { data, content } = matter(fileContents);
+  const reviewStatus = data.review_status ?? "needs_review";
 
   return {
     slug,
@@ -46,7 +56,10 @@ function toDraftMeta(slug: string, fileContents: string): DraftMeta {
     description: data.description ?? "",
     pillar: data.pillar ?? "",
     status: data.status ?? "draft",
-    reviewStatus: data.review_status ?? "needs_review",
+    reviewStatus,
+    reviewResult: data.review_result ?? reviewResultFromStatus(reviewStatus),
+    reviewedAt: data.reviewed_at ?? "",
+    reviewNotes: data.review_notes ?? "",
     priority: data.priority ?? "normal",
     estimatedPublishReady: Boolean(data.estimated_publish_ready),
     needsFactCheck: Boolean(data.needs_fact_check),
@@ -120,4 +133,48 @@ export function isDraftReviewAllowed(token: string | undefined): boolean {
 
 export function isDraftReviewConfigured(): boolean {
   return Boolean(process.env.DRAFT_REVIEW_TOKEN);
+}
+
+export type DraftReviewInput = {
+  slug: string;
+  reviewStatus: "needs_review" | "approved" | "rejected" | "changes_requested";
+  reviewResult: "pending" | "ok" | "ng";
+  reviewNotes: string;
+};
+
+export function updateDraftReview(input: DraftReviewInput): void {
+  assertSafeDraftSlug(input.slug);
+
+  const fullPath = getDraftPath(input.slug);
+
+  if (!fs.existsSync(fullPath)) {
+    throw new Error(`Draft was not found: ${input.slug}`);
+  }
+
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+  const parsed = matter(fileContents);
+  const data = {
+    ...parsed.data,
+    review_status: input.reviewStatus,
+    review_result: input.reviewResult,
+    reviewed_at:
+      input.reviewStatus === "needs_review" && input.reviewResult === "pending"
+        ? ""
+        : new Date().toISOString(),
+    review_notes: input.reviewNotes.trim(),
+  };
+
+  fs.writeFileSync(fullPath, matter.stringify(parsed.content, data), "utf8");
+}
+
+function reviewResultFromStatus(status: unknown): string {
+  if (status === "approved") {
+    return "ok";
+  }
+
+  if (status === "rejected") {
+    return "ng";
+  }
+
+  return "pending";
 }

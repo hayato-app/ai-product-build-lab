@@ -21,11 +21,14 @@ export async function POST(request: Request, context: RouteContext) {
 
   try {
     if (action === "required") {
-      updateDraftFactCheck(slug, true);
+      updateDraftFactCheck(slug, "required");
       nextParams.set("saved", "fact_check_required");
     } else if (action === "done") {
-      updateDraftFactCheck(slug, false);
+      updateDraftFactCheck(slug, "completed");
       nextParams.set("saved", "fact_check_done");
+    } else if (action === "not_started") {
+      updateDraftFactCheck(slug, "not_started");
+      nextParams.set("saved", "fact_check_not_started");
     } else {
       throw new Error(`Unknown fact check action: ${action}`);
     }

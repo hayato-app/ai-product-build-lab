@@ -25,6 +25,7 @@ export type DraftMeta = {
   reviewResult: string;
   reviewedAt: string;
   reviewNotes: string;
+  factCheckStatus: string;
   priority: string;
   estimatedPublishReady: boolean;
   needsFactCheck: boolean;
@@ -54,6 +55,9 @@ function assertSafeDraftSlug(slug: string) {
 function toDraftMeta(slug: string, fileContents: string): DraftMeta {
   const { data, content } = matter(fileContents);
   const reviewStatus = data.review_status ?? "needs_review";
+  const factCheckStatus =
+    data.fact_check_status ??
+    (Boolean(data.needs_fact_check) ? "not_started" : "completed");
 
   return {
     slug,
@@ -65,6 +69,7 @@ function toDraftMeta(slug: string, fileContents: string): DraftMeta {
     reviewResult: data.review_result ?? reviewResultFromStatus(reviewStatus),
     reviewedAt: data.reviewed_at ?? "",
     reviewNotes: data.review_notes ?? "",
+    factCheckStatus,
     priority: data.priority ?? "normal",
     estimatedPublishReady: Boolean(data.estimated_publish_ready),
     needsFactCheck: Boolean(data.needs_fact_check),
@@ -172,7 +177,10 @@ export function updateDraftReview(input: DraftReviewInput): void {
   fs.writeFileSync(fullPath, matter.stringify(parsed.content, data), "utf8");
 }
 
-export function updateDraftFactCheck(slug: string, needsFactCheck: boolean): void {
+export function updateDraftFactCheck(
+  slug: string,
+  status: "not_started" | "required" | "completed",
+): void {
   assertSafeDraftSlug(slug);
 
   const fullPath = getDraftPath(slug);
@@ -185,7 +193,8 @@ export function updateDraftFactCheck(slug: string, needsFactCheck: boolean): voi
   const parsed = matter(fileContents);
   const data = {
     ...parsed.data,
-    needs_fact_check: needsFactCheck,
+    fact_check_status: status,
+    needs_fact_check: status !== "completed",
   };
 
   fs.writeFileSync(fullPath, matter.stringify(parsed.content, data), "utf8");
@@ -234,29 +243,37 @@ function validatePublishableDraft(
   const errors: string[] = [];
 
   if (data.review_status !== "approved") {
-    errors.push("review_status must be approved");
+    errors.push("レビュー結果がOKではありません。");
   }
 
   if (data.review_result !== "ok") {
-    errors.push("review_result must be ok");
+    errors.push("レビュー判定がOKではありません。");
   }
 
-  if (Boolean(data.needs_fact_check)) {
-    errors.push("needs_fact_check must be false before publishing");
+  if (data.fact_check_status !== "completed" || Boolean(data.needs_fact_check)) {
+    errors.push("ファクトチェックが完了していません。");
   }
 
-  for (const key of ["title", "description", "category"]) {
-    if (!data[key]) {
-      errors.push(`${key} is required`);
-    }
+  if (!data.title) {
+    errors.push("title が未設定です。記事タイトルをfrontmatterに追加してください。");
+  }
+
+  if (!data.description) {
+    errors.push(
+      "description が未設定です。記事の概要文をfrontmatterに追加してください。",
+    );
+  }
+
+  if (!data.category) {
+    errors.push("category が未設定です。記事カテゴリをfrontmatterに追加してください。");
   }
 
   if (!Array.isArray(data.tags) || data.tags.length === 0) {
-    errors.push("tags are required");
+    errors.push("tags が未設定です。1つ以上のタグをfrontmatterに追加してください。");
   }
 
   if (!content.trim()) {
-    errors.push("article body is empty");
+    errors.push("本文が空です。記事本文を追加してください。");
   }
 
   return errors;

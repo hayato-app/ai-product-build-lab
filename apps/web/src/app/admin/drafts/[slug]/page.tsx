@@ -86,15 +86,13 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
               >
                 {reviewResultLabel(draft.reviewResult)}
               </span>
-              {draft.needsFactCheck ? (
-                <span className="rounded-full bg-rose-50 px-3 py-1 text-rose-700">
-                  ファクトチェック必要
-                </span>
-              ) : (
-                <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-700">
-                  ファクトチェック不要
-                </span>
-              )}
+              <span
+                className={`rounded-full px-3 py-1 ${factCheckStatusClass(
+                  draft.factCheckStatus,
+                )}`}
+              >
+                ファクトチェック{factCheckStatusLabel(draft.factCheckStatus)}
+              </span>
               <span>{draft.readingTime}</span>
             </div>
 
@@ -120,7 +118,7 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
               />
               <MetaItem
                 label="Fact check"
-                value={draft.needsFactCheck ? "必要" : "不要"}
+                value={factCheckStatusLabel(draft.factCheckStatus)}
               />
             </dl>
 
@@ -199,21 +197,29 @@ export default async function DraftPreviewPage({ params, searchParams }: Props) 
               価格、モデル名、API仕様、ニュース内容など、時間とともに変わる情報を確認したら「ファクトチェック完了」にしてください。
             </p>
             <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-semibold text-slate-700">
-              現在の状態: {draft.needsFactCheck ? "ファクトチェックが必要" : "ファクトチェック不要"}
+              現在の状態: {factCheckStatusLabel(draft.factCheckStatus)}
             </div>
             <form
               action={`/admin/drafts/${draft.slug}/fact-check`}
               method="post"
-              className="mt-5 grid gap-2 sm:grid-cols-2"
+              className="mt-5 grid gap-2 sm:grid-cols-3"
             >
               <input type="hidden" name="token" value={token ?? ""} />
+              <button
+                type="submit"
+                name="fact_check_action"
+                value="not_started"
+                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-black text-slate-700 transition hover:bg-slate-100"
+              >
+                未実施に戻す
+              </button>
               <button
                 type="submit"
                 name="fact_check_action"
                 value="required"
                 className="rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm font-black text-orange-700 transition hover:bg-orange-100"
               >
-                ファクトチェックが必要
+                ファクトチェック未完了
               </button>
               <button
                 type="submit"
@@ -303,7 +309,8 @@ function savedMessage(saved: string): string {
     approve: "レビュー結果をOKとして保存しました。",
     changes: "レビュー結果を修正依頼として保存しました。",
     fact_check_done: "ファクトチェック完了として保存しました。",
-    fact_check_required: "ファクトチェックが必要な状態として保存しました。",
+    fact_check_not_started: "ファクトチェックを未実施に戻しました。",
+    fact_check_required: "ファクトチェック未完了として保存しました。",
     reject: "レビュー結果をNGとして保存しました。",
     reset: "レビュー状態を未レビューに戻しました。",
   };
@@ -406,6 +413,26 @@ function reviewResultClass(result: string): string {
   };
 
   return classes[result] ?? "bg-slate-100 text-slate-600";
+}
+
+function factCheckStatusLabel(status: string): string {
+  const labels: Record<string, string> = {
+    completed: "完了",
+    not_started: "未実施",
+    required: "未完了",
+  };
+
+  return labels[status] ?? "未実施";
+}
+
+function factCheckStatusClass(status: string): string {
+  const classes: Record<string, string> = {
+    completed: "bg-emerald-50 text-emerald-700",
+    not_started: "bg-slate-100 text-slate-600",
+    required: "bg-orange-50 text-orange-700",
+  };
+
+  return classes[status] ?? "bg-slate-100 text-slate-600";
 }
 
 function AccessDenied({ configured }: { configured: boolean }) {

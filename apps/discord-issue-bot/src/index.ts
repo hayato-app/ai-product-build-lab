@@ -118,6 +118,12 @@ async function main(): Promise<void> {
 
     try {
       const canReply = await safeDeferReply(interaction);
+      if (!canReply) {
+        console.error(
+          `Skipping issue creation because /${interaction.commandName} could not be acknowledged.`,
+        );
+        return;
+      }
 
       const payload = payloadFromInteraction(interaction);
       const createdIssue = await createGitHubIssue({
@@ -133,9 +139,7 @@ async function main(): Promise<void> {
         `Created issue #${createdIssue.number} from /${interaction.commandName} by ${interaction.user.id}.`,
       );
 
-      if (canReply) {
-        await safeReply(interaction, `GitHub Issueを作成しました: ${createdIssue.htmlUrl}`);
-      }
+      await safeReply(interaction, `GitHub Issueを作成しました: ${createdIssue.htmlUrl}`);
     } catch (error) {
       console.error("Issue creation error:", error instanceof Error ? error.message : error);
 

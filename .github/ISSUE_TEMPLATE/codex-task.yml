@@ -1,0 +1,72 @@
+name: Codex task
+description: Request a general Codex task such as site adjustment, UI fix, or operations improvement.
+title: "[Codex Task] "
+labels:
+  - codex
+  - task
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for general Codex work.
+
+        Safety rules:
+        - Codex must read `AGENTS.md` before planning.
+        - Codex must present an implementation plan in Japanese before file creation, file editing, or code implementation.
+        - Codex must wait for explicit user approval such as "OK" or "進めてください".
+        - Do not add SaaS, login, payment, dashboard, or account features unless explicitly requested.
+        - Submit changes as a pull request.
+  - type: textarea
+    id: summary
+    attributes:
+      label: 作業概要
+      description: What should Codex do?
+      placeholder: 例：draftレビュー画面の表示を改善してください。
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: 目的
+      description: Why is this task needed?
+      placeholder: 例：スマホから確認したときに状態が分かりづらいため。
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: 対象範囲
+      description: Files, pages, or features that may be changed.
+      placeholder: 例：apps/web/src/app/admin/drafts 配下
+    validations:
+      required: false
+  - type: textarea
+    id: allowed_changes
+    attributes:
+      label: 変更してよいこと
+      placeholder: 例：文言変更、UI表示改善、軽微なロジック修正
+    validations:
+      required: false
+  - type: textarea
+    id: forbidden_changes
+    attributes:
+      label: 変更してはいけないこと
+      placeholder: 例：公開URL変更、既存記事削除、認証機能追加
+    validations:
+      required: false
+  - type: textarea
+    id: verification
+    attributes:
+      label: 確認方法
+      placeholder: 例：npm run build、対象URLでの表示確認
+    validations:
+      required: false
+  - type: checkboxes
+    id: approval_flow
+    attributes:
+      label: Codex作業前チェック
+      options:
+        - label: Codexは実装前に日本語で実装計画を提示し、承認まで編集を開始しないこと。
+          required: true
+        - label: 作業はPRベースで提出すること。
+          required: true

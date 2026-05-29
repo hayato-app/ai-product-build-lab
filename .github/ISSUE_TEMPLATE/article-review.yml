@@ -1,0 +1,87 @@
+name: Article review / improvement
+description: Request improvements to an existing article or draft.
+title: "[Article Review] "
+labels:
+  - codex
+  - article
+  - review
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to improve an existing article or draft.
+
+        Codex instructions:
+        - Read `AGENTS.md`, `docs/project-brief.md`, and `docs/editorial` before planning.
+        - Present an implementation plan in Japanese before editing files.
+        - Wait for explicit approval before editing.
+        - Do not delete existing articles.
+        - Do not change slug or URL unless explicitly requested.
+        - Do not automatically publish drafts.
+  - type: input
+    id: slug
+    attributes:
+      label: 対象記事slug
+      description: Existing article or draft slug.
+      placeholder: beginner-rag-tool-selection
+    validations:
+      required: true
+  - type: dropdown
+    id: source
+    attributes:
+      label: 対象種別
+      options:
+        - draft article
+        - published article
+        - unsure
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: 改善目的
+      placeholder: 例：初心者向けに用語説明を増やし、表とチェックリストを追加したい。
+    validations:
+      required: true
+  - type: textarea
+    id: additions
+    attributes:
+      label: 追加したい内容
+      placeholder: 例：AI API Cost Estimatorへの内部リンク、よくある失敗、コマンド例
+    validations:
+      required: false
+  - type: textarea
+    id: internal_links
+    attributes:
+      label: 関連内部リンク候補
+      placeholder: 例：/tools/ai-api-cost-estimator, /articles/nextjs-ai-app-basic-architecture
+    validations:
+      required: false
+  - type: dropdown
+    id: fact_check
+    attributes:
+      label: ファクトチェック
+      options:
+        - 必要
+        - 不要
+        - Codexが判断
+    validations:
+      required: true
+  - type: textarea
+    id: forbidden_changes
+    attributes:
+      label: 変更してはいけないこと
+      placeholder: 例：slug変更、公開URL変更、既存記事削除
+    validations:
+      required: false
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: 安全確認
+      options:
+        - label: CodexはAGENTS.mdの承認フローを守ること。
+          required: true
+        - label: 既存記事を削除しないこと。
+          required: true
+        - label: draftはレビュー前に公開しないこと。
+          required: true

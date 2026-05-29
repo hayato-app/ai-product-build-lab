@@ -1,0 +1,62 @@
+name: Bug report
+description: Report a site, admin, draft review, or VPS behavior issue.
+title: "[Bug] "
+labels:
+  - bug
+  - codex
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to report behavior that should be investigated by Codex.
+
+        Codex instructions:
+        - Read `AGENTS.md` before planning.
+        - Present an investigation or implementation plan in Japanese before editing files.
+        - Wait for explicit approval before file edits or code changes.
+        - Do not run destructive commands.
+  - type: input
+    id: url
+    attributes:
+      label: 発生URL
+      placeholder: https://example.com/admin/drafts
+    validations:
+      required: false
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待する動作
+      placeholder: 例：OKボタンを押すと詳細ページに戻り、保存メッセージが出る
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 実際の動作
+      placeholder: 例：白い画面に遷移する
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      placeholder: |
+        1. /admin/drafts を開く
+        2. 記事詳細へ移動
+        3. OKボタンを押す
+    validations:
+      required: false
+  - type: input
+    id: device
+    attributes:
+      label: 端末・ブラウザ
+      placeholder: iPhone GitHub app, Chrome, Safari, PC Chrome
+    validations:
+      required: false
+  - type: textarea
+    id: notes
+    attributes:
+      label: 補足・スクリーンショット
+      placeholder: スクリーンショットがある場合は添付してください。
+    validations:
+      required: false

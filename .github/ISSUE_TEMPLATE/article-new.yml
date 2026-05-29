@@ -1,0 +1,83 @@
+name: New draft article
+description: Request a new draft article under docs/article-drafts.
+title: "[Article New] "
+labels:
+  - codex
+  - article
+  - draft
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to request a new draft article.
+
+        Codex instructions:
+        - Read `AGENTS.md`, `docs/project-brief.md`, and `docs/editorial`.
+        - Check existing published articles and drafts for duplication.
+        - Present an implementation plan in Japanese before creating files.
+        - Wait for explicit approval before creating or editing files.
+        - Create drafts under `docs/article-drafts`.
+        - Do not automatically publish.
+  - type: input
+    id: topic
+    attributes:
+      label: 記事テーマ
+      placeholder: AI APIコストを下げる方法
+    validations:
+      required: true
+  - type: input
+    id: category
+    attributes:
+      label: 想定カテゴリ
+      placeholder: OpenAI API
+    validations:
+      required: false
+  - type: textarea
+    id: target_reader
+    attributes:
+      label: 想定読者
+      placeholder: 例：AI APIを使い始めた開発初心者
+    validations:
+      required: true
+  - type: textarea
+    id: search_intent
+    attributes:
+      label: 検索意図・読者の悩み
+      placeholder: 例：APIコストが増える原因と下げ方を知りたい
+    validations:
+      required: false
+  - type: textarea
+    id: difference
+    attributes:
+      label: 既存記事との差分
+      placeholder: 例：既存の見積もり記事より、削減策に寄せる
+    validations:
+      required: false
+  - type: textarea
+    id: internal_links
+    attributes:
+      label: 関連内部リンク候補
+      placeholder: 例：/tools/ai-api-cost-estimator
+    validations:
+      required: false
+  - type: dropdown
+    id: fact_check
+    attributes:
+      label: ファクトチェック
+      options:
+        - 必要
+        - 不要
+        - Codexが判断
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: 安全確認
+      options:
+        - label: 新規記事はdraftとして作成し、自動公開しないこと。
+          required: true
+        - label: Codexは実装前に日本語で計画を提示し、承認まで編集を開始しないこと。
+          required: true
+        - label: 既存記事との重複確認を行うこと。
+          required: true

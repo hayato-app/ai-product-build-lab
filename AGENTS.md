@@ -114,6 +114,16 @@ Article drafts should follow these editorial rules.
 
 Do not publish or merge AI-generated article drafts without review.
 
+## GitHub Issue based operations
+
+When working from a GitHub Issue, follow:
+
+- docs/operations/codex-issue-workflow.md
+
+Issues are work requests, not automatic execution commands.
+Codex must still follow the Pre-Implementation Approval Flow before creating
+files, editing files, or implementing code.
+
 ## Done means
 
 A task is done only when:

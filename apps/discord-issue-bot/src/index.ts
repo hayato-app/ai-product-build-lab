@@ -80,7 +80,7 @@ async function main(): Promise<void> {
     intents: [GatewayIntentBits.Guilds],
   });
 
-  client.once("ready", (readyClient) => {
+  client.once("clientReady", (readyClient) => {
     console.log(`Discord Issue Bot logged in as ${readyClient.user.tag}.`);
   });
 

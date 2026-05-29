@@ -71,6 +71,33 @@ function publicErrorMessage(error: unknown): string {
   return "Issue creation failed. Please check the bot logs.";
 }
 
+async function safeDeferReply(interaction: ChatInputCommandInteraction): Promise<boolean> {
+  try {
+    if (interaction.deferred || interaction.replied) {
+      return true;
+    }
+
+    await interaction.deferReply({ ephemeral: true });
+    return true;
+  } catch (error) {
+    console.error("Failed to defer interaction:", error instanceof Error ? error.message : error);
+    return false;
+  }
+}
+
+async function safeReply(interaction: ChatInputCommandInteraction, message: string): Promise<void> {
+  try {
+    if (interaction.deferred || interaction.replied) {
+      await interaction.editReply(message);
+      return;
+    }
+
+    await interaction.reply({ content: message, ephemeral: true });
+  } catch (error) {
+    console.error("Failed to send Discord reply:", error instanceof Error ? error.message : error);
+  }
+}
+
 async function main(): Promise<void> {
   const config = loadConfig();
 
@@ -90,7 +117,7 @@ async function main(): Promise<void> {
     }
 
     try {
-      await interaction.deferReply({ ephemeral: true });
+      const canReply = await safeDeferReply(interaction);
 
       const payload = payloadFromInteraction(interaction);
       const createdIssue = await createGitHubIssue({
@@ -106,18 +133,13 @@ async function main(): Promise<void> {
         `Created issue #${createdIssue.number} from /${interaction.commandName} by ${interaction.user.id}.`,
       );
 
-      await interaction.editReply(
-        `GitHub Issueを作成しました: ${createdIssue.htmlUrl}`,
-      );
+      if (canReply) {
+        await safeReply(interaction, `GitHub Issueを作成しました: ${createdIssue.htmlUrl}`);
+      }
     } catch (error) {
       console.error("Issue creation error:", error instanceof Error ? error.message : error);
 
-      const message = publicErrorMessage(error);
-      if (interaction.deferred || interaction.replied) {
-        await interaction.editReply(message);
-      } else {
-        await interaction.reply({ content: message, ephemeral: true });
-      }
+      await safeReply(interaction, publicErrorMessage(error));
     }
   });
 

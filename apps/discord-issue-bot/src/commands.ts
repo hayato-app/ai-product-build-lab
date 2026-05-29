@@ -85,6 +85,17 @@ export const commandDefinitions: RESTPostAPIApplicationCommandsJSONBody[] = [
         required: true,
       },
       {
+        name: "fact_check",
+        description: "Whether fact check is required.",
+        type: ApplicationCommandOptionType.String,
+        required: true,
+        choices: [
+          { name: "required", value: "required" },
+          { name: "not required", value: "not_required" },
+          { name: "let Codex decide", value: "codex_decides" },
+        ],
+      },
+      {
         name: "additions",
         description: "Content that should be added.",
         type: ApplicationCommandOptionType.String,
@@ -95,17 +106,6 @@ export const commandDefinitions: RESTPostAPIApplicationCommandsJSONBody[] = [
         description: "Candidate internal links.",
         type: ApplicationCommandOptionType.String,
         required: false,
-      },
-      {
-        name: "fact_check",
-        description: "Whether fact check is required.",
-        type: ApplicationCommandOptionType.String,
-        required: true,
-        choices: [
-          { name: "required", value: "required" },
-          { name: "not required", value: "not_required" },
-          { name: "let Codex decide", value: "codex_decides" },
-        ],
       },
       {
         name: "forbidden_changes",
@@ -132,6 +132,17 @@ export const commandDefinitions: RESTPostAPIApplicationCommandsJSONBody[] = [
         required: true,
       },
       {
+        name: "fact_check",
+        description: "Whether fact check is required.",
+        type: ApplicationCommandOptionType.String,
+        required: true,
+        choices: [
+          { name: "required", value: "required" },
+          { name: "not required", value: "not_required" },
+          { name: "let Codex decide", value: "codex_decides" },
+        ],
+      },
+      {
         name: "category",
         description: "Expected category.",
         type: ApplicationCommandOptionType.String,
@@ -154,17 +165,6 @@ export const commandDefinitions: RESTPostAPIApplicationCommandsJSONBody[] = [
         description: "Candidate internal links.",
         type: ApplicationCommandOptionType.String,
         required: false,
-      },
-      {
-        name: "fact_check",
-        description: "Whether fact check is required.",
-        type: ApplicationCommandOptionType.String,
-        required: true,
-        choices: [
-          { name: "required", value: "required" },
-          { name: "not required", value: "not_required" },
-          { name: "let Codex decide", value: "codex_decides" },
-        ],
       },
     ],
   },

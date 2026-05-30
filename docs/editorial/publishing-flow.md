@@ -6,6 +6,12 @@ This document defines the standard flow for creating, reviewing, and publishing 
 
 A generated article is considered a draft until it passes review.
 
+For AI-generated article publication through pull requests, also follow:
+
+```txt
+docs/operations/ai-article-pr-workflow.md
+```
+
 ## Standard Flow
 
 1. Generate or write article idea.
@@ -130,3 +136,9 @@ After publishing or deploying, confirm:
 Only publish or merge after review.
 
 Do not publish AI-generated drafts without human review.
+
+When publishing AI-generated drafts into the web app, use the PR workflow in:
+
+```txt
+docs/operations/ai-article-pr-workflow.md
+```

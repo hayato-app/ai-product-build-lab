@@ -109,6 +109,7 @@ When creating, editing, or expanding articles, refer to the following documents:
 - docs/editorial/internal-link-policy.md
 - docs/editorial/publishing-flow.md
 - docs/editorial/codex-article-instructions.md
+- docs/operations/ai-article-pr-workflow.md
 
 Article drafts should follow these editorial rules.
 

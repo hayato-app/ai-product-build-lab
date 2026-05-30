@@ -121,6 +121,7 @@ When working from a GitHub Issue, follow:
 
 - docs/operations/codex-issue-workflow.md
 - docs/operations/smartphone-pr-review-flow.md
+- docs/operations/smartphone-codex-operation.md
 
 Issues are work requests, not automatic execution commands.
 Codex must still follow the Pre-Implementation Approval Flow before creating

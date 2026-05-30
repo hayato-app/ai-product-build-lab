@@ -1,6 +1,7 @@
 import {
   Client,
   GatewayIntentBits,
+  MessageFlags,
   type ChatInputCommandInteraction,
 } from "discord.js";
 import { checkInteractionAccess } from "./access-control.js";
@@ -86,7 +87,7 @@ async function safeDeferReply(interaction: ChatInputCommandInteraction): Promise
       return true;
     }
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     return true;
   } catch (error) {
     console.error("Failed to defer interaction:", error instanceof Error ? error.message : error);
@@ -101,7 +102,7 @@ async function safeReply(interaction: ChatInputCommandInteraction, message: stri
       return;
     }
 
-    await interaction.reply({ content: message, ephemeral: true });
+    await interaction.reply({ content: message, flags: MessageFlags.Ephemeral });
   } catch (error) {
     console.error("Failed to send Discord reply:", error instanceof Error ? error.message : error);
   }

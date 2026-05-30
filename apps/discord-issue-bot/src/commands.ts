@@ -10,6 +10,9 @@ export const commandNames = {
   issue: "issue",
   articleReview: "article-review",
   articleNew: "article-new",
+  help: "help",
+  status: "status",
+  pr: "pr",
 } as const;
 
 export type SupportedCommandName = (typeof commandNames)[keyof typeof commandNames];
@@ -167,6 +170,18 @@ export const commandDefinitions: RESTPostAPIApplicationCommandsJSONBody[] = [
         required: false,
       },
     ],
+  },
+  {
+    name: commandNames.help,
+    description: "Show the safe operating guide for this bot.",
+  },
+  {
+    name: commandNames.status,
+    description: "Show recent open GitHub Issues and Pull Requests.",
+  },
+  {
+    name: commandNames.pr,
+    description: "Show recent open GitHub Pull Requests.",
   },
 ];
 

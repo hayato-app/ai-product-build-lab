@@ -60,6 +60,30 @@ OPENAI_API_KEY=... npm run generate:ai
 
 AI generation calls the OpenAI API, validates the Markdown draft, and writes only if validation passes.
 
+Create a review-only article planning report without API calls:
+
+```bash
+npm run plan -- --topic "AI APIコストを下げる方法"
+```
+
+Planning reports are written under:
+
+```txt
+../../docs/article-drafts/_worker-reports
+```
+
+The planning command reads existing published articles and drafts, then outputs:
+
+- duplicate risk
+- category suggestions
+- internal link suggestions
+- title ideas
+- description ideas
+- heading structure ideas
+- pre-publication checklist
+
+Reports are editorial support material. They are not articles and must not be published directly.
+
 ## Safety
 
 - Existing published articles are never deleted, overwritten, or renamed.
@@ -68,3 +92,4 @@ AI generation calls the OpenAI API, validates the Markdown draft, and writes onl
 - AI generation defaults to one article and caps `--count` at 3.
 - Generated articles include `status: "draft"` and `review_status: "needs_review"`.
 - Published content under `apps/web/src/content/articles` is updated only after human review.
+- Planning reports are review-only and do not create public articles.

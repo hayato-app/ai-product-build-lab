@@ -26,7 +26,10 @@ function walkFiles(dir, predicate = () => true) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (["node_modules", ".git", ".next", "dist", "build"].includes(entry.name)) {
+      if (
+        ["node_modules", ".git", ".next", "dist", "build"].includes(entry.name) ||
+        entry.name.startsWith("_")
+      ) {
         continue;
       }
       results.push(...walkFiles(fullPath, predicate));

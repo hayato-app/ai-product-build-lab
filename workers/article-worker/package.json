@@ -9,9 +9,11 @@
     "dry-run": "node dist/index.js --dry-run",
     "generate": "node dist/index.js",
     "generate:ai": "node dist/index.js --ai",
+    "plan": "node dist/plan.js",
     "predry-run": "npm run build",
     "pregenerate": "npm run build",
-    "pregenerate:ai": "npm run build"
+    "pregenerate:ai": "npm run build",
+    "preplan": "npm run build"
   },
   "dependencies": {
     "openai": "^6.39.0"

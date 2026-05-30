@@ -1,0 +1,104 @@
+name: Tool improvement
+description: Request an improvement to a free tool page or tool behavior.
+title: "[Tool Improvement] "
+labels:
+  - codex
+  - tool
+  - improvement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for free tool page or tool behavior improvements.
+
+        Codex instructions:
+        - Read `AGENTS.md` before planning.
+        - Present an implementation plan in Japanese before editing files.
+        - Wait for explicit user approval before implementation.
+        - Keep existing tool URLs stable.
+        - Do not add SaaS, login, payment, dashboard, or account features unless explicitly requested.
+        - Submit changes as a pull request when files change.
+  - type: input
+    id: tool_name
+    attributes:
+      label: Tool name
+      placeholder: AI API Cost Estimator
+    validations:
+      required: true
+  - type: input
+    id: tool_url
+    attributes:
+      label: Tool URL
+      placeholder: /tools/ai-api-cost-estimator
+    validations:
+      required: false
+  - type: textarea
+    id: current_problem
+    attributes:
+      label: Current problem
+      description: What is confusing, missing, or incorrect?
+      placeholder: The output does not clearly explain what causes the monthly cost.
+    validations:
+      required: true
+  - type: textarea
+    id: improvement_goal
+    attributes:
+      label: Improvement goal
+      description: What should the tool help users do better?
+      placeholder: Help users understand which input most affects AI API cost.
+    validations:
+      required: true
+  - type: textarea
+    id: input_output
+    attributes:
+      label: Input / output expectations
+      placeholder: Inputs should stay the same. Output should add a short explanation and caution note.
+    validations:
+      required: false
+  - type: textarea
+    id: allowed_changes
+    attributes:
+      label: Allowed changes
+      placeholder: Tool UI wording, validation messages, result explanation, related article links
+    validations:
+      required: false
+  - type: textarea
+    id: forbidden_changes
+    attributes:
+      label: Forbidden changes
+      placeholder: Tool URL changes, paid feature changes, login requirement, removing existing inputs
+    validations:
+      required: false
+  - type: textarea
+    id: related_articles
+    attributes:
+      label: Related article or internal link candidates
+      placeholder: /articles/beginner-ai-api-cost-basics
+    validations:
+      required: false
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification
+      placeholder: npm run build, target tool page interaction check
+    validations:
+      required: false
+  - type: dropdown
+    id: vps_deployment
+    attributes:
+      label: VPS deployment likely needed?
+      options:
+        - Codex should decide
+        - Yes
+        - No
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety confirmation
+      options:
+        - label: Codex must present a Japanese implementation plan before editing files.
+          required: true
+        - label: Existing tool URLs should remain stable.
+          required: true

@@ -1,0 +1,99 @@
+name: Site improvement
+description: Request a public site, navigation, readability, or admin UI improvement.
+title: "[Site Improvement] "
+labels:
+  - codex
+  - site
+  - improvement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for site, navigation, readability, discovery, or admin UI improvements.
+
+        Codex instructions:
+        - Read `AGENTS.md` before planning.
+        - Read `docs/project-brief.md` when the public site experience is affected.
+        - Present an implementation plan in Japanese before editing files.
+        - Wait for explicit user approval before implementation.
+        - Keep existing routes stable.
+        - Do not add SaaS, login, payment, dashboard, or account features unless explicitly requested.
+        - Submit changes as a pull request when files change.
+  - type: input
+    id: target_url
+    attributes:
+      label: Target URL or page
+      description: Page, route, or admin screen that should be improved.
+      placeholder: /, /articles, /admin/drafts
+    validations:
+      required: false
+  - type: textarea
+    id: problem
+    attributes:
+      label: Current problem
+      description: What feels hard to use, hard to read, or unclear?
+      placeholder: The category section is hard to scan on smartphone.
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: Improvement goal
+      description: What should be better after the change?
+      placeholder: Make article discovery easier for beginner AI developers.
+    validations:
+      required: true
+  - type: textarea
+    id: audience
+    attributes:
+      label: Target audience
+      placeholder: Beginner AI app developers, returning readers, article reviewers
+    validations:
+      required: false
+  - type: textarea
+    id: allowed_changes
+    attributes:
+      label: Allowed changes
+      placeholder: Layout, wording, spacing, component extraction, light styling adjustments
+    validations:
+      required: false
+  - type: textarea
+    id: forbidden_changes
+    attributes:
+      label: Forbidden changes
+      placeholder: Route changes, article deletion, authentication changes, payment features
+    validations:
+      required: false
+  - type: textarea
+    id: design_direction
+    attributes:
+      label: Design direction
+      placeholder: Bright AI development media style, Japanese UI text, readable on smartphone
+    validations:
+      required: false
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification
+      placeholder: npm run build, visual check on target page, mobile layout check
+    validations:
+      required: false
+  - type: dropdown
+    id: vps_deployment
+    attributes:
+      label: VPS deployment likely needed?
+      options:
+        - Codex should decide
+        - Yes
+        - No
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety confirmation
+      options:
+        - label: Codex must present a Japanese implementation plan before editing files.
+          required: true
+        - label: Existing routes and public URLs should remain stable.
+          required: true

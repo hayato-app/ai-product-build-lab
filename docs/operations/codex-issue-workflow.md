@@ -16,6 +16,8 @@ Supported Issue types:
 - Codex task
 - Article review / improvement
 - New draft article
+- Site improvement
+- Tool improvement
 - Bug report
 
 This workflow does not authorize direct deployment, direct VPS operations, or
@@ -56,6 +58,64 @@ Then reply with a Japanese implementation plan that includes:
 - Concerns or confirmation points
 
 Do not edit files until the user clearly approves the plan.
+
+## Standard Codex Issue Flow
+
+Use this as the default sequence for Issue-based work:
+
+1. Read the Issue title, body, labels, and template fields.
+2. Read `AGENTS.md`.
+3. Read related documents:
+   - `docs/operations/github-issue-template-guide.md`
+   - `docs/operations/smartphone-pr-review-flow.md`
+   - `docs/operations/ai-article-pr-workflow.md` for AI article publication
+     work
+   - `docs/editorial` for article work
+4. Inspect the target files, routes, articles, tools, or scripts.
+5. Identify what is in scope and out of scope.
+6. Present a Japanese implementation plan.
+7. Wait for explicit user approval.
+8. After approval, make small scoped changes.
+9. Run the most relevant verification.
+10. Summarize changes, verification, residual risks, and deployment needs.
+
+## Before Approval
+
+Before explicit user approval, Codex may:
+
+- Read repository files.
+- Inspect Issue content.
+- Search for relevant code, documents, or articles.
+- Run non-destructive read-only commands.
+- Present questions when the Issue is too ambiguous.
+- Present a Japanese implementation plan.
+
+Before explicit user approval, Codex must not:
+
+- Create files.
+- Edit files.
+- Delete files.
+- Move articles from draft to public content.
+- Change routes, slugs, or URLs.
+- Run deployment commands.
+- Run destructive commands.
+- Commit or push changes.
+
+## After Approval
+
+After explicit user approval, Codex should:
+
+- Keep changes inside the approved scope.
+- Prefer the smallest useful diff.
+- Preserve existing routes, slugs, and URLs unless explicitly approved.
+- Preserve existing article files.
+- Avoid unrelated refactors.
+- Avoid adding SaaS, login, payment, dashboard, or account features unless
+  explicitly requested.
+- Report unexpected findings before expanding scope.
+
+If the requested change becomes broader than the approved plan, pause and
+present an updated Japanese plan before continuing.
 
 ## Issue Type Handling
 
@@ -103,6 +163,38 @@ Codex should:
 - Include review notes when facts, product names, dates, or external claims
   require confirmation.
 
+### Site Improvement
+
+Use this for public site, navigation, readability, discovery, layout, or admin
+UI improvements.
+
+Codex should:
+
+- Read `AGENTS.md`.
+- Read `docs/project-brief.md` when the public site experience is affected.
+- Keep existing routes stable.
+- Use Japanese UI text when UI text is changed.
+- Preserve the bright AI development media direction unless the Issue
+  explicitly requests another style.
+- Run `npm run build` under `apps/web` when app code changes.
+- State whether VPS deployment is needed.
+
+### Tool Improvement
+
+Use this for free tool pages or tool behavior improvements.
+
+Codex should:
+
+- Read `AGENTS.md`.
+- Confirm the target tool URL.
+- Keep existing tool URLs stable.
+- Preserve existing inputs and outputs unless the Issue explicitly approves a
+  change.
+- Avoid adding login, payment, account, or dashboard behavior.
+- Add or improve internal links when useful.
+- Run `npm run build` under `apps/web` when app code changes.
+- State whether VPS deployment is needed.
+
 ### Bug Report
 
 Use this for behavior that appears broken in the site, admin draft review UI,
@@ -130,6 +222,89 @@ The PR description should include:
 - Whether VPS deployment is needed
 
 Documentation-only changes usually do not require VPS deployment.
+
+## Branch Rules
+
+When working in an environment that supports branch creation, use a short
+branch name with the `codex/` prefix.
+
+Good examples:
+
+- `codex/site-improvement-home-discovery`
+- `codex/article-review-beginner-cost`
+- `codex/tool-cost-estimator-copy`
+
+Branch creation is especially useful when:
+
+- The work is expected to become a pull request.
+- Multiple files will change.
+- App code, article publication, worker code, or bot code changes.
+
+For tiny documentation changes in a direct-push workflow, the branch step may
+be skipped when the user has approved that workflow.
+
+## Verification Rules
+
+Choose verification based on the files changed.
+
+Use `npm run build` under `apps/web` when:
+
+- Public site code changes.
+- Admin UI code changes.
+- Published article content changes.
+- Routing or article rendering behavior changes.
+
+Use bot package checks when `apps/discord-issue-bot` changes:
+
+```bash
+cd apps/discord-issue-bot
+npm run typecheck
+npm run build
+```
+
+Use worker package checks when `workers/article-worker` changes:
+
+```bash
+cd workers/article-worker
+npm run build
+```
+
+Use Markdown and structure checks when only documentation changes.
+
+If verification cannot be run, explain why and state the remaining risk.
+
+## PR Body Requirements
+
+When preparing a pull request, include:
+
+- Linked Issue number.
+- Purpose of the change.
+- Summary of changed files.
+- Verification results.
+- Screenshots or URLs when UI changed.
+- Article review status and fact-check status for article work.
+- Whether VPS deployment is needed.
+- Remaining risks or manual checks.
+
+For article publication PRs, also follow:
+
+```txt
+docs/operations/ai-article-pr-workflow.md
+```
+
+## Commit and Push Rules
+
+Before committing:
+
+- Confirm the changed file list.
+- Confirm no `.env` or secret files are staged.
+- Confirm no private connection information is staged.
+- Run relevant checks or explain why they were skipped.
+
+Use concise commit messages that describe the completed unit of work.
+
+Push after each approved phase or Issue-sized unit when the work is complete
+and verified.
 
 ## VPS Deployment Rules
 

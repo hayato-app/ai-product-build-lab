@@ -98,6 +98,23 @@ Reviewed and approved articles may be moved to:
 apps/web/src/content/articles
 ```
 
+## Draft Thumbnail Rule
+
+New article drafts should include a thumbnail image by default.
+
+The thumbnail helps reviewers scan the draft list and helps readers understand the article topic visually.
+
+Default thumbnail handling:
+
+- Store thumbnail assets under `apps/web/public/images/drafts`.
+- Add `thumbnail: "/images/drafts/<file-name>.png"` to the draft frontmatter.
+- Insert the same image near the beginning of the draft body with useful alt text.
+- Keep images local to the repository. Do not rely on external image URLs.
+- Prefer bright, clean, beginner-friendly visuals that match the AI development media design direction.
+- Keep in-image text minimal and use the article body or alt text for detailed explanation.
+
+If a draft is created without a thumbnail, explain why in the final summary or PR body.
+
 ## Standard Codex Draft Workflow
 
 The standard article creation workflow is Codex-assisted draft creation inside this repository.
@@ -135,6 +152,7 @@ An article should include:
 - Category and tags
 - Related internal links when possible
 - Valid Markdown frontmatter
+- Thumbnail image when possible
 - Tables, diagrams, or checklists when useful
 
 ## Definition of Publish-Ready

@@ -29,6 +29,7 @@ Codex must:
 - Use 3 to 5 tags when possible.
 - Add practical explanations.
 - Add internal links when possible.
+- Add a thumbnail image by default.
 - Treat AI-generated articles as drafts.
 - Avoid low-quality filler content.
 
@@ -42,15 +43,42 @@ Codex should use the following workflow as the standard article creation process
 4. Select or confirm a topic that does not substantially duplicate existing content.
 5. Create the Markdown draft under `docs/article-drafts`.
 6. Add valid frontmatter, one primary category, 3 to 5 tags, practical sections, and internal links when possible.
-7. Add tables, diagrams, checklists, or command examples when they improve reader understanding.
-8. Confirm that the draft remains review-only.
-9. Summarize changed files and verification results.
+7. Create or add a local thumbnail image when possible.
+8. Add tables, diagrams, checklists, or command examples when they improve reader understanding.
+9. Confirm that the draft remains review-only.
+10. Summarize changed files and verification results.
 
 The standard workflow is not to generate the article through manual copy and paste into ChatGPT Plus.
 
 The `workers/article-worker` AI API mode may exist for future use, but it should only be used when explicitly requested and when API billing is available.
 
 Codex must not publish the draft automatically. Moving a draft into `apps/web/src/content/articles` requires human approval after review.
+
+## Thumbnail Handling
+
+Codex should add a thumbnail image to new article drafts by default.
+
+Use this standard handling:
+
+1. Save the image under `apps/web/public/images/drafts`.
+2. Use a stable, article-specific file name such as `ai-development-terms-thumbnail.png`.
+3. Add the image path to frontmatter:
+
+```yaml
+thumbnail: "/images/drafts/example-thumbnail.png"
+```
+
+4. Insert the image near the beginning of the draft body:
+
+```md
+![Short useful alt text for the article thumbnail](/images/drafts/example-thumbnail.png)
+```
+
+5. Keep images local to the repository. Do not use external image URLs.
+6. Keep in-image text minimal. Use alt text and article body text for detailed explanation.
+7. Prefer bright, clean, practical visuals that match the site's AI development media direction.
+
+If a thumbnail is skipped, explain the reason in the final summary or PR body.
 
 ## Required Article Format
 
@@ -150,5 +178,6 @@ Before finishing article work, Codex should confirm:
 - Whether a new draft was created
 - Whether existing articles were preserved
 - Whether frontmatter is valid
+- Whether the draft has a thumbnail or a clear reason for skipping it
 - Whether internal links were added
 - Whether build was run, if publishing into the web app

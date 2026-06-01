@@ -20,6 +20,7 @@ export type DraftMeta = {
   slug: string;
   title: string;
   description: string;
+  thumbnail: string;
   pillar: string;
   status: string;
   reviewStatus: string;
@@ -64,6 +65,7 @@ function toDraftMeta(slug: string, fileContents: string): DraftMeta {
     slug,
     title: data.title ?? slug,
     description: data.description ?? "",
+    thumbnail: data.thumbnail ?? "",
     pillar: data.pillar ?? "",
     status: data.status ?? "draft",
     reviewStatus,

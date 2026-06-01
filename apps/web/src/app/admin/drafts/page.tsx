@@ -125,50 +125,63 @@ export default async function DraftReviewPage({ searchParams }: Props) {
             <Link
               key={draft.slug}
               href={`/admin/drafts/${draft.slug}?token=${encodeURIComponent(token ?? "")}`}
-              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-md"
+              className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-md"
             >
-              <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-normal text-slate-500">
-                <Badge tone={draft.priority === "high" ? "orange" : "slate"}>
-                  {draft.priority}
-                </Badge>
-                <Badge
-                  tone={
-                    reviewBadgeTone(draft.reviewStatus)
-                  }
-                >
-                  {reviewStatusLabel(draft.reviewStatus)}
-                </Badge>
-                <Badge
-                  tone={draft.reviewResult === "ok" ? "green" : draft.reviewResult === "ng" ? "red" : "slate"}
-                >
-                  {draft.reviewResult.toUpperCase()}
-                </Badge>
-                {draft.needsFactCheck ? (
-                  <Badge tone="red">fact check</Badge>
-                ) : null}
-                <span>{draft.readingTime}</span>
-              </div>
-
-              <h2 className="mt-3 text-2xl font-black tracking-normal text-slate-950">
-                {draft.title}
-              </h2>
-              {draft.description ? (
-                <p className="mt-2 max-w-3xl leading-7 text-slate-600">
-                  {draft.description}
-                </p>
+              {draft.thumbnail ? (
+                <div className="aspect-[16/9] w-full overflow-hidden border-b border-slate-100 bg-slate-50">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={draft.thumbnail}
+                    alt={`${draft.title}のサムネイル`}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
               ) : null}
+              <div className="p-5">
+                <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-normal text-slate-500">
+                  <Badge tone={draft.priority === "high" ? "orange" : "slate"}>
+                    {draft.priority}
+                  </Badge>
+                  <Badge
+                    tone={
+                      reviewBadgeTone(draft.reviewStatus)
+                    }
+                  >
+                    {reviewStatusLabel(draft.reviewStatus)}
+                  </Badge>
+                  <Badge
+                    tone={draft.reviewResult === "ok" ? "green" : draft.reviewResult === "ng" ? "red" : "slate"}
+                  >
+                    {draft.reviewResult.toUpperCase()}
+                  </Badge>
+                  {draft.needsFactCheck ? (
+                    <Badge tone="red">fact check</Badge>
+                  ) : null}
+                  <span>{draft.readingTime}</span>
+                </div>
 
-              <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-slate-500">
-                {draft.pillar ? (
-                  <span className="rounded-full bg-slate-100 px-3 py-1">
-                    {draft.pillar}
-                  </span>
+                <h2 className="mt-3 text-2xl font-black tracking-normal text-slate-950">
+                  {draft.title}
+                </h2>
+                {draft.description ? (
+                  <p className="mt-2 max-w-3xl leading-7 text-slate-600">
+                    {draft.description}
+                  </p>
                 ) : null}
-                {draft.tags.map((tag) => (
-                  <span key={tag} className="rounded-full bg-sky-50 px-3 py-1 text-sky-700">
-                    #{tag}
-                  </span>
-                ))}
+
+                <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-slate-500">
+                  {draft.pillar ? (
+                    <span className="rounded-full bg-slate-100 px-3 py-1">
+                      {draft.pillar}
+                    </span>
+                  ) : null}
+                  {draft.tags.map((tag) => (
+                    <span key={tag} className="rounded-full bg-sky-50 px-3 py-1 text-sky-700">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </Link>
           ))}

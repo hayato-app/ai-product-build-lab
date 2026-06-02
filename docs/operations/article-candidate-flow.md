@@ -57,12 +57,14 @@ Use this as the default article expansion sequence:
 3. Codex creates a candidate list under `docs/article-candidates`.
 4. User reviews the candidate list.
 5. User explicitly selects candidates to draft.
-6. Codex presents a Japanese implementation plan for the selected draft work.
-7. User approves the plan.
-8. Codex creates only the approved draft articles under `docs/article-drafts`.
-9. Codex creates thumbnail images by default.
-10. Drafts are reviewed in the draft review page.
-11. Approved drafts may later be published through the publishing flow.
+6. Codex may create article briefs under `docs/article-briefs` for the selected
+   candidates.
+7. Codex presents a Japanese implementation plan for the selected draft work.
+8. User approves the plan.
+9. Codex creates only the approved draft articles under `docs/article-drafts`.
+10. Codex creates thumbnail images by default.
+11. Drafts are reviewed in the draft review page.
+12. Approved drafts may later be published through the publishing flow.
 
 ## Candidate Discovery Sources
 
@@ -116,6 +118,23 @@ issue-<number>-candidates.md
 
 Candidate lists are not article drafts. They should not appear in the public
 site.
+
+## Article Brief Storage
+
+When a selected candidate needs more structure before draft creation, store an
+article brief under:
+
+```txt
+docs/article-briefs
+```
+
+Article briefs are also planning documents. They preserve the selected
+candidate's reader, search intent, overlap, internal link, thumbnail, and
+fact-check context.
+
+Creating a brief does not approve draft creation. Codex must still follow the
+approval flow in `AGENTS.md` before creating or editing files under
+`docs/article-drafts`.
 
 ## Candidate Selection
 

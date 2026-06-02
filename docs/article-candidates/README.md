@@ -116,3 +116,17 @@ node scripts/generate-article-candidates.mjs --out docs/article-candidates/2026-
 
 The generator creates candidate lists only. It does not create article drafts,
 generate thumbnails, publish articles, or call external AI APIs.
+
+## Creating Briefs From Selected Candidates
+
+Phase 28 adds a local brief generator for candidates the user has selected:
+
+```bash
+node scripts/create-article-brief-from-candidate.mjs --source docs/article-candidates/2026-06-02.md --candidate 1
+```
+
+The brief is saved under `docs/article-briefs`.
+
+The brief generator does not create article drafts. It creates an intermediate
+planning document that can be used after Codex presents a Japanese
+implementation plan and the user approves draft creation.

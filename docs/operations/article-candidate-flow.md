@@ -61,10 +61,12 @@ Use this as the default article expansion sequence:
    candidates.
 7. Codex presents a Japanese implementation plan for the selected draft work.
 8. User approves the plan.
-9. Codex creates only the approved draft articles under `docs/article-drafts`.
-10. Codex creates thumbnail images by default.
-11. Drafts are reviewed in the draft review page.
-12. Approved drafts may later be published through the publishing flow.
+9. Codex may create a draft scaffold from the approved brief.
+10. Codex creates only the approved draft articles under `docs/article-drafts`.
+11. Codex expands the scaffold into a useful article body.
+12. Codex creates thumbnail images by default.
+13. Drafts are reviewed in the draft review page.
+14. Approved drafts may later be published through the publishing flow.
 
 ## Candidate Discovery Sources
 
@@ -135,6 +137,22 @@ fact-check context.
 Creating a brief does not approve draft creation. Codex must still follow the
 approval flow in `AGENTS.md` before creating or editing files under
 `docs/article-drafts`.
+
+## Draft Scaffold Creation
+
+When the user approves draft preparation from a brief, Codex may create a draft
+scaffold under:
+
+```txt
+docs/article-drafts
+```
+
+The scaffold should preserve the brief context and include review-oriented
+frontmatter, heading ideas, internal link candidates, thumbnail TODOs, and
+fact-check TODOs.
+
+A scaffold is not a finished article. It must be expanded, reviewed, and
+approved before publication.
 
 ## Candidate Selection
 

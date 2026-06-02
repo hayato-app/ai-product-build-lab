@@ -81,3 +81,20 @@ Use `--force` only when intentionally overwriting an existing brief.
 
 The generator creates briefs only. It does not create article drafts, generate
 thumbnail images, publish articles, or call external AI APIs.
+
+## Creating Draft Scaffolds From Briefs
+
+Phase 29 adds a local draft scaffold generator:
+
+```bash
+node scripts/create-draft-from-brief.mjs --brief docs/article-briefs/ai-app-development-environment-variables.md
+```
+
+The draft scaffold is saved under `docs/article-drafts`.
+
+The scaffold is not a finished article. It is a review-only Markdown draft
+structure that still requires article writing, thumbnail creation, internal link
+checks, and final review before publication.
+
+The generator refuses to overwrite existing drafts by default and never
+overwrites published articles.

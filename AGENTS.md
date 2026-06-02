@@ -110,6 +110,7 @@ When creating, editing, or expanding articles, refer to the following documents:
 - docs/editorial/publishing-flow.md
 - docs/editorial/codex-article-instructions.md
 - docs/operations/ai-article-pr-workflow.md
+- docs/operations/article-candidate-flow.md
 
 Article drafts should follow these editorial rules.
 

@@ -219,6 +219,26 @@ For article work, use the project editorial flow:
 Article work must preserve existing slugs and URLs unless a change is
 explicitly approved.
 
+## Article Candidate Flow
+
+When the user wants to select topics before creating drafts, use:
+
+```txt
+docs/operations/article-candidate-flow.md
+```
+
+The default approach is:
+
+1. Create or request an article candidate list.
+2. Save the list under `docs/article-candidates`.
+3. User selects which candidates should become drafts.
+4. Codex presents a Japanese implementation plan for selected drafts.
+5. User approves.
+6. Codex creates only the selected drafts and thumbnails.
+
+Candidate generation is not the same as draft generation. The user must approve
+which candidates become drafts.
+
 ## Troubleshooting
 
 If Discord command creation fails:

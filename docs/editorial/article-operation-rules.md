@@ -119,6 +119,12 @@ If a draft is created without a thumbnail, explain why in the final summary or P
 
 The standard article creation workflow is Codex-assisted draft creation inside this repository.
 
+When starting from article candidate selection, follow:
+
+```txt
+docs/operations/article-candidate-flow.md
+```
+
 Codex should create article drafts directly under `docs/article-drafts` after checking:
 
 - Existing published articles.

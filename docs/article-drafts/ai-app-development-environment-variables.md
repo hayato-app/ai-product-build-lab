@@ -141,19 +141,18 @@ OPENAI_API_KEY=
 
 AIアプリでは、APIキーをブラウザ側に置かず、サーバー側APIで読み込むのが基本です。
 
-```mermaid
-flowchart LR
-  User["ユーザー"] --> Browser["ブラウザ<br />入力フォーム"]
-  Browser --> Server["サーバー側API<br />Route Handler"]
-  Env["環境変数<br />OPENAI_API_KEY"] --> Server
-  Server --> AI["AI API"]
-  AI --> Server
-  Server --> Browser
-```
+| 流れ | 役割 |
+| --- | --- |
+| 1. ユーザー | 画面に質問や文章を入力する |
+| 2. ブラウザ | 入力内容をサーバー側APIへ送る |
+| 3. サーバー側API | 環境変数から `OPENAI_API_KEY` を読み込む |
+| 4. AI API | サーバーから送られた内容を処理する |
+| 5. サーバー側API | AI APIの結果を受け取り、画面へ返す |
+| 6. ブラウザ | 結果をユーザーに表示する |
 
 この構成では、ブラウザはAI APIキーを直接持ちません。
 
-ブラウザはサーバー側APIに入力内容を送り、サーバー側APIが環境変数からAPIキーを読み込んでAI APIを呼びます。
+ブラウザはサーバー側APIに入力内容を送ります。サーバー側APIが環境変数からAPIキーを読み込み、AI APIを呼び出します。
 
 Next.jsでAIアプリを作る基本構成は、[Next.jsでAIアプリを作る基本構成](/articles/nextjs-ai-app-basic-architecture) でも整理しています。
 

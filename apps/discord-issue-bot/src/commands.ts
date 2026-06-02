@@ -13,6 +13,7 @@ export const commandNames = {
   help: "help",
   status: "status",
   pr: "pr",
+  articleCandidates: "article-candidates",
 } as const;
 
 export type SupportedCommandName = (typeof commandNames)[keyof typeof commandNames];
@@ -182,6 +183,26 @@ export const commandDefinitions: RESTPostAPIApplicationCommandsJSONBody[] = [
   {
     name: commandNames.pr,
     description: "Show recent open GitHub Pull Requests.",
+  },
+  {
+    name: commandNames.articleCandidates,
+    description: "Show latest article candidates without creating an Issue.",
+    options: [
+      {
+        name: "candidate",
+        description: "Candidate number for detail view.",
+        type: ApplicationCommandOptionType.Integer,
+        required: false,
+      },
+      {
+        name: "limit",
+        description: "Number of candidates to show in list view.",
+        type: ApplicationCommandOptionType.Integer,
+        required: false,
+        min_value: 1,
+        max_value: 10,
+      },
+    ],
   },
 ];
 

@@ -5,6 +5,11 @@ import {
   type ChatInputCommandInteraction,
 } from "discord.js";
 import { checkInteractionAccess } from "./access-control.js";
+import {
+  formatCandidateDetail,
+  formatCandidateList,
+  loadLatestCandidateFile,
+} from "./articleCandidates.js";
 import { commandNames } from "./commands.js";
 import { loadConfig } from "./config.js";
 import {
@@ -132,8 +137,9 @@ function helpMessage(): string {
     "- /article-new: 新規記事下書きの作成Issueを作成します。",
     "- /status: open Issueとopen PRを確認します。",
     "- /pr: open PRを確認します。",
+    "- /article-candidates: 最新の記事候補を確認します。",
     "",
-    "このBotはGitHub Issue作成と状態確認だけを行います。ファイル編集、push、VPS操作、公開操作は行いません。",
+    "このBotはGitHub Issue作成、状態確認、候補確認だけを行います。ファイル編集、push、VPS操作、公開操作は行いません。",
   ].join("\n");
 }
 
@@ -180,6 +186,25 @@ async function handleReadOnlyCommand(
         ["Open PRs:", formatGitHubItems(pullRequests, "現在表示できるopen PRはありません。")].join(
           "\n",
         ),
+      );
+      return true;
+    }
+
+    case commandNames.articleCandidates: {
+      const canReply = await safeDeferReply(interaction);
+      if (!canReply) {
+        return true;
+      }
+
+      const candidateFile = loadLatestCandidateFile();
+      const candidateNumber = interaction.options.getInteger("candidate") ?? undefined;
+      const limit = interaction.options.getInteger("limit") ?? 5;
+
+      await safeReply(
+        interaction,
+        candidateNumber
+          ? formatCandidateDetail(candidateFile, candidateNumber)
+          : formatCandidateList(candidateFile, limit),
       );
       return true;
     }

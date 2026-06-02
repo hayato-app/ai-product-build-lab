@@ -33,6 +33,7 @@ Read-only helper commands can be added later:
 
 - `/status`
 - `/pr`
+- `/article-candidates`
 
 ## Explicit Non-Goals
 
@@ -114,6 +115,20 @@ Optional later command.
 Shows the latest pull request or pull requests waiting for review.
 
 The command should be read-only.
+
+### `/article-candidates`
+
+Optional later command.
+
+Shows the latest article candidate list from `docs/article-candidates`.
+
+Recommended inputs:
+
+- `candidate`: optional candidate number for detail view
+- `limit`: optional list limit
+
+The command should be read-only. It must not create Issues, create briefs,
+create drafts, edit files, push commits, publish articles, or run VPS commands.
 
 ## Generated Issue Requirements
 

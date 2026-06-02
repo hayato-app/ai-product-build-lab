@@ -97,3 +97,22 @@ Good approval examples:
 
 After selection, Codex should present a Japanese implementation plan before
 creating draft files.
+
+## Local Generator
+
+Phase 27 adds a local rule-based generator:
+
+```bash
+node scripts/generate-article-candidates.mjs
+```
+
+Common options:
+
+```bash
+node scripts/generate-article-candidates.mjs --count 5
+node scripts/generate-article-candidates.mjs --pillar beginner
+node scripts/generate-article-candidates.mjs --out docs/article-candidates/2026-06-02.md
+```
+
+The generator creates candidate lists only. It does not create article drafts,
+generate thumbnails, publish articles, or call external AI APIs.

@@ -80,7 +80,7 @@ export function formatCandidateList(file: CandidateFile, limit: number): string 
 }
 
 export function formatCandidateDetail(file: CandidateFile, candidateNumber: number): string {
-  const candidate = file.candidates.find((item) => item.number === candidateNumber);
+  const candidate = findArticleCandidate(file, candidateNumber);
 
   if (!candidate) {
     return [
@@ -114,6 +114,13 @@ export function formatCandidateDetail(file: CandidateFile, candidateNumber: numb
     "",
     "このコマンドは確認専用です。候補をIssue化する操作はPhase 32で追加予定です。",
   ].join("\n");
+}
+
+export function findArticleCandidate(
+  file: CandidateFile,
+  candidateNumber: number,
+): ArticleCandidate | undefined {
+  return file.candidates.find((item) => item.number === candidateNumber);
 }
 
 export function parseArticleCandidates(markdown: string): ArticleCandidate[] {

@@ -2,6 +2,7 @@ import {
   commandNames,
   type SupportedCommandName,
 } from "./commands.js";
+import type { ArticleCandidate, CandidateFile } from "./articleCandidates.js";
 
 export type IssuePayload = {
   title: string;
@@ -36,6 +37,13 @@ export type ArticleNewCommandInput = {
   difference?: string;
   internalLinks?: string;
   factCheck: string;
+};
+
+export type ArticleCandidateSelectCommandInput = {
+  candidateFile: CandidateFile;
+  candidate: ArticleCandidate;
+  note?: string;
+  priority?: string;
 };
 
 const emptyValue = "_Not provided_";
@@ -134,6 +142,50 @@ export function buildArticleNewPayload(input: ArticleNewCommandInput): IssuePayl
       articleCodexInstructions(),
       "- Check existing published articles and drafts for duplication.",
       "- Create new content only under `docs/article-drafts` unless another path is explicitly approved.",
+    ].join("\n"),
+  };
+}
+
+export function buildArticleCandidateSelectPayload(
+  input: ArticleCandidateSelectCommandInput,
+): IssuePayload {
+  return {
+    title: `[Article Candidate] Candidate ${input.candidate.number}: ${input.candidate.title}`,
+    labels: ["codex", "article", "candidate"],
+    body: [
+      "# Article candidate selection request",
+      "",
+      "## Selected candidate",
+      "",
+      `- Source candidate file: ${field(input.candidateFile.relativePath)}`,
+      `- Candidate number: ${input.candidate.number}`,
+      `- Title: ${field(input.candidate.title)}`,
+      `- Pillar: ${field(input.candidate.pillar)}`,
+      `- Category: ${field(input.candidate.category)}`,
+      `- Target reader: ${field(input.candidate.targetReader)}`,
+      `- Search intent: ${field(input.candidate.searchIntent)}`,
+      `- Reader problem: ${field(input.candidate.readerProblem)}`,
+      `- Proposed angle: ${field(input.candidate.proposedAngle)}`,
+      `- Existing overlap: ${field(input.candidate.existingOverlap)}`,
+      `- Internal link candidates: ${field(input.candidate.internalLinks)}`,
+      `- Thumbnail idea: ${field(input.candidate.thumbnailIdea)}`,
+      `- Fact check: ${field(input.candidate.factCheck)}`,
+      `- Candidate priority: ${field(input.candidate.priority)}`,
+      `- Draft recommendation: ${field(input.candidate.draftRecommendation)}`,
+      "",
+      "## User note",
+      "",
+      `- Note: ${field(input.note)}`,
+      `- Priority note: ${field(input.priority)}`,
+      "",
+      commonCodexInstructions(commandNames.articleCandidateSelect),
+      articleCodexInstructions(),
+      "- Read `docs/operations/article-candidate-flow.md`.",
+      "- Treat this Issue as a request to plan the next article workflow step.",
+      "- First present a Japanese implementation plan for creating an article brief from this candidate.",
+      "- Do not create briefs, drafts, thumbnails, or published articles until the user explicitly approves the plan.",
+      "- Do not automatically publish generated content.",
+      "- Preserve existing published articles, draft articles, slugs, URLs, and Markdown structure.",
     ].join("\n"),
   };
 }

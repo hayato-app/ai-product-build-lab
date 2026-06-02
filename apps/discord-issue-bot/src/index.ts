@@ -6,6 +6,7 @@ import {
 } from "discord.js";
 import { checkInteractionAccess } from "./access-control.js";
 import {
+  findArticleCandidate,
   formatCandidateDetail,
   formatCandidateList,
   loadLatestCandidateFile,
@@ -20,6 +21,7 @@ import {
 } from "./github.js";
 import {
   buildArticleNewPayload,
+  buildArticleCandidateSelectPayload,
   buildArticleReviewPayload,
   buildIssuePayload,
   type IssuePayload,
@@ -63,6 +65,23 @@ function payloadFromInteraction(interaction: ChatInputCommandInteraction): Issue
         factCheck: interaction.options.getString("fact_check", true),
       });
 
+    case commandNames.articleCandidateSelect: {
+      const candidateFile = loadLatestCandidateFile();
+      const candidateNumber = interaction.options.getInteger("candidate", true);
+      const candidate = findArticleCandidate(candidateFile, candidateNumber);
+
+      if (!candidate) {
+        throw new Error(`Article candidate ${candidateNumber} was not found.`);
+      }
+
+      return buildArticleCandidateSelectPayload({
+        candidateFile,
+        candidate,
+        note: option(interaction, "note"),
+        priority: option(interaction, "priority"),
+      });
+    }
+
     default:
       throw new Error(`Unsupported command: ${interaction.commandName}`);
   }
@@ -80,6 +99,10 @@ function publicErrorMessage(error: unknown): string {
 
     if (error.message.includes("GitHub read failed")) {
       return "GitHubの情報取得に失敗しました。tokenのIssue/PR読み取り権限を確認してください。";
+    }
+
+    if (error.message.includes("Article candidate") && error.message.includes("was not found")) {
+      return "指定された記事候補が見つかりませんでした。/article-candidates で候補番号を確認してください。";
     }
   }
 
@@ -138,6 +161,7 @@ function helpMessage(): string {
     "- /status: open Issueとopen PRを確認します。",
     "- /pr: open PRを確認します。",
     "- /article-candidates: 最新の記事候補を確認します。",
+    "- /article-candidate-select: 選択した記事候補からGitHub Issueを作成します。",
     "",
     "このBotはGitHub Issue作成、状態確認、候補確認だけを行います。ファイル編集、push、VPS操作、公開操作は行いません。",
   ].join("\n");

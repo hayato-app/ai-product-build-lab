@@ -28,6 +28,7 @@ Initial commands:
 - `/issue`
 - `/article-review`
 - `/article-new`
+- `/article-candidate-select`
 
 Read-only helper commands can be added later:
 
@@ -99,6 +100,36 @@ Recommended inputs:
 - `fact_check`: whether fact check is required
 
 Generated Issue should map to the `New draft article` Issue template.
+
+### `/article-candidate-select`
+
+Creates an Issue from a selected article candidate.
+
+Recommended inputs:
+
+- `candidate`: selected candidate number
+- `note`: optional user note for Codex
+- `priority`: optional priority note
+
+Generated Issue should include:
+
+- Source candidate file
+- Candidate number
+- Candidate title
+- Pillar
+- Category
+- Target reader
+- Search intent
+- Reader problem
+- Proposed angle
+- Existing overlap
+- Internal link candidates
+- Thumbnail idea
+- Fact-check status
+- User note
+
+This command creates only a GitHub Issue. It must not create briefs, create
+drafts, edit files, push commits, publish articles, or run VPS commands.
 
 ### `/status`
 

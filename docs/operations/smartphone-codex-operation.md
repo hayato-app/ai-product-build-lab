@@ -34,6 +34,7 @@ The implemented Discord bot can:
 - Show recent open Issues and open PRs with `/status`.
 - Show recent open PRs with `/pr`.
 - Show latest article candidates with `/article-candidates`.
+- Create candidate selection Issues with `/article-candidate-select`.
 
 The bot is deployed on the VPS as a systemd service and runs as:
 
@@ -74,6 +75,7 @@ Use this flow for most smartphone requests.
    - `/article-review` for improving an existing article or draft.
    - `/article-new` for requesting a new draft article.
    - `/article-candidates` for checking the latest article candidates.
+   - `/article-candidate-select` for turning a selected candidate into a GitHub Issue.
 3. Fill in the fields as specifically as possible.
 4. Submit the command.
 5. Confirm that the bot returns a GitHub Issue URL.
@@ -249,11 +251,15 @@ Use this flow when choosing article topics from a smartphone.
 2. Review the candidate numbers, titles, categories, and priorities.
 3. Run `/article-candidates candidate:<number>` when more detail is needed.
 4. Decide which candidate should move forward.
-5. In Phase 32 or later, use the candidate selection command to create a GitHub
-   Issue. Until then, ask Codex to work from the selected candidate manually.
+5. Run `/article-candidate-select candidate:<number>` to create a GitHub Issue.
+6. Ask Codex to read the created Issue and present a Japanese implementation
+   plan.
 
 `/article-candidates` is read-only. It does not create Issues, briefs, drafts,
 or published articles.
+
+`/article-candidate-select` creates only a GitHub Issue. It does not create
+briefs, drafts, thumbnails, or published articles.
 
 ## Troubleshooting
 

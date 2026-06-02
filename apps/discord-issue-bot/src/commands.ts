@@ -14,6 +14,7 @@ export const commandNames = {
   status: "status",
   pr: "pr",
   articleCandidates: "article-candidates",
+  articleCandidateSelect: "article-candidate-select",
 } as const;
 
 export type SupportedCommandName = (typeof commandNames)[keyof typeof commandNames];
@@ -201,6 +202,35 @@ export const commandDefinitions: RESTPostAPIApplicationCommandsJSONBody[] = [
         required: false,
         min_value: 1,
         max_value: 10,
+      },
+    ],
+  },
+  {
+    name: commandNames.articleCandidateSelect,
+    description: "Create a GitHub Issue from a selected article candidate.",
+    options: [
+      {
+        name: "candidate",
+        description: "Candidate number to create an Issue from.",
+        type: ApplicationCommandOptionType.Integer,
+        required: true,
+      },
+      {
+        name: "note",
+        description: "User note for Codex.",
+        type: ApplicationCommandOptionType.String,
+        required: false,
+      },
+      {
+        name: "priority",
+        description: "Priority note for this request.",
+        type: ApplicationCommandOptionType.String,
+        required: false,
+        choices: [
+          { name: "high", value: "high" },
+          { name: "normal", value: "normal" },
+          { name: "low", value: "low" },
+        ],
       },
     ],
   },

@@ -110,6 +110,19 @@ Candidate ideas may come from:
 Do not rely only on generic AI topic lists. Every candidate should explain why
 it is useful for this site.
 
+For weekly candidate replenishment, follow:
+
+```txt
+docs/operations/article-candidate-refresh-flow.md
+```
+
+AI news items may be used as candidate inputs only after they are classified and
+reviewed through:
+
+```txt
+docs/operations/ai-news-collection-flow.md
+```
+
 ## Candidate Evaluation Rules
 
 Before recommending a candidate, check:
@@ -263,6 +276,7 @@ The following may be automated later:
 - Category suggestions.
 - Thumbnail idea suggestions.
 - GitHub Issue creation from Discord.
+- Recurring reminders for candidate refresh and news collection.
 
 The following should remain human-approved:
 
@@ -270,6 +284,7 @@ The following should remain human-approved:
 - Whether a draft is publish-ready.
 - Whether to publish an article.
 - Whether to deploy to VPS.
+- Whether automation output should become repository changes.
 
 ## Relationship to Later Phases
 

@@ -256,6 +256,27 @@ The default approach is:
 Candidate generation is not the same as draft generation. The user must approve
 which candidates become drafts.
 
+For recurring candidate replenishment, use:
+
+```txt
+docs/operations/article-candidate-refresh-flow.md
+```
+
+This flow should run as an independent Codex automation and should produce a
+reviewable recommendation before any candidate file is created or edited.
+
+## AI News Collection Flow
+
+For daily AI news monitoring, use:
+
+```txt
+docs/operations/ai-news-collection-flow.md
+```
+
+This flow should run as an independent Codex automation. It may gather current
+news and classify items, but it must not create articles, drafts, commits, or
+VPS changes without explicit user approval.
+
 ## Smartphone Flow: Candidate Check
 
 Use this flow when choosing article topics from a smartphone.

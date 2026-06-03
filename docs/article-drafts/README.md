@@ -32,7 +32,10 @@ node scripts/create-draft-from-brief.mjs --brief docs/article-briefs/<slug>.md
 5. Add a local thumbnail image under `apps/web/public/images/drafts`.
 6. Add `thumbnail` frontmatter and insert the same image near the beginning of
    the draft body.
-7. Check the draft in the admin draft review page.
+7. Commit and push the draft work.
+8. When the user wants to review it on the VPS admin page, run the VPS pull and
+   web rebuild/restart flow.
+9. Check the draft in the admin draft review page.
 
 Issue creation and brief creation do not automatically approve publication.
 Draft publication remains a separate human decision.

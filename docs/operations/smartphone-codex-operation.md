@@ -223,6 +223,19 @@ For article work, use the project editorial flow:
 Article work must preserve existing slugs and URLs unless a change is
 explicitly approved.
 
+When the user's goal is to review a new draft in the VPS admin page, include the
+VPS update in the approved scope:
+
+1. Create or update the draft under `docs/article-drafts`.
+2. Add the local thumbnail asset when needed.
+3. Run local article checks.
+4. Commit and push the change.
+5. Run the VPS `git pull` and public web app rebuild/restart flow.
+6. Confirm the VPS web app responds successfully.
+
+This still does not publish the article. It only makes the review-only draft
+available in the admin draft review page.
+
 ## Article Candidate Flow
 
 When the user wants to select topics before creating drafts, use:

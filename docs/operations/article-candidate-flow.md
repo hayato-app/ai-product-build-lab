@@ -70,6 +70,18 @@ Use this as the default article expansion sequence:
 14. Drafts are reviewed in the draft review page.
 15. Approved drafts may later be published through the publishing flow.
 
+When the user wants to review the draft on the VPS admin page immediately,
+include deployment-to-review in the approved work:
+
+1. Commit and push the draft and thumbnail.
+2. Run `git pull` on the VPS.
+3. Rebuild/restart the public web app with Docker Compose.
+4. Confirm the web app responds.
+5. Ask the user to review the draft in the admin draft review page.
+
+This deployment-to-review step does not publish the article. The draft remains
+under `docs/article-drafts` and still requires human review before publication.
+
 After Phase 36, the brief-to-draft scaffold step should use:
 
 ```bash

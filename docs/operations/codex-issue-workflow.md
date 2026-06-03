@@ -16,6 +16,7 @@ Supported Issue types:
 - Codex task
 - Article review / improvement
 - New draft article
+- Article candidate selection
 - Site improvement
 - Tool improvement
 - Bug report
@@ -162,6 +163,23 @@ Codex should:
 - Do not move drafts into the public article directory automatically.
 - Include review notes when facts, product names, dates, or external claims
   require confirmation.
+
+### Article Candidate Selection
+
+Use this for Issues created by `/article-candidate-select`.
+
+Codex should:
+
+- Read `AGENTS.md`, `docs/project-brief.md`, and all documents under
+  `docs/editorial`.
+- Read `docs/operations/article-candidate-flow.md`.
+- Read `docs/operations/candidate-issue-to-brief-flow.md`.
+- Confirm the source candidate file and candidate number.
+- Check existing published articles and drafts for duplication.
+- Present a Japanese implementation plan before creating a brief.
+- Create only an article brief under `docs/article-briefs` after approval.
+- Do not create draft articles, thumbnails, or published articles during the
+  brief step unless the user explicitly approves a later plan.
 
 ### Site Improvement
 

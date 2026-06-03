@@ -261,6 +261,19 @@ or published articles.
 `/article-candidate-select` creates only a GitHub Issue. It does not create
 briefs, drafts, thumbnails, or published articles.
 
+## Smartphone Flow: Candidate Issue to Brief
+
+Use this flow after `/article-candidate-select` creates a GitHub Issue.
+
+1. Open the created Issue URL from Discord.
+2. Ask Codex to read the Issue number or URL.
+3. Codex reads `docs/operations/candidate-issue-to-brief-flow.md`.
+4. Codex presents a Japanese implementation plan for creating one article brief.
+5. Approve only if the selected candidate, source file, and brief filename are
+   correct.
+6. Codex creates the brief under `docs/article-briefs`.
+7. Draft scaffold creation remains a later step and needs another approval.
+
 ## Troubleshooting
 
 If Discord command creation fails:

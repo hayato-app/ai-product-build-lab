@@ -57,16 +57,18 @@ Use this as the default article expansion sequence:
 3. Codex creates a candidate list under `docs/article-candidates`.
 4. User reviews the candidate list.
 5. User explicitly selects candidates to draft.
-6. Codex may create article briefs under `docs/article-briefs` for the selected
+6. If the candidate was selected through Discord, the bot creates a GitHub Issue
+   with `/article-candidate-select`.
+7. Codex may create article briefs under `docs/article-briefs` for the selected
    candidates.
-7. Codex presents a Japanese implementation plan for the selected draft work.
-8. User approves the plan.
-9. Codex may create a draft scaffold from the approved brief.
-10. Codex creates only the approved draft articles under `docs/article-drafts`.
-11. Codex expands the scaffold into a useful article body.
-12. Codex creates thumbnail images by default.
-13. Drafts are reviewed in the draft review page.
-14. Approved drafts may later be published through the publishing flow.
+8. Codex presents a Japanese implementation plan for the selected draft work.
+9. User approves the plan.
+10. Codex may create a draft scaffold from the approved brief.
+11. Codex creates only the approved draft articles under `docs/article-drafts`.
+12. Codex expands the scaffold into a useful article body.
+13. Codex creates thumbnail images by default.
+14. Drafts are reviewed in the draft review page.
+15. Approved drafts may later be published through the publishing flow.
 
 ## Candidate Discovery Sources
 
@@ -137,6 +139,13 @@ fact-check context.
 Creating a brief does not approve draft creation. Codex must still follow the
 approval flow in `AGENTS.md` before creating or editing files under
 `docs/article-drafts`.
+
+When a candidate is selected through a GitHub Issue created by
+`/article-candidate-select`, follow:
+
+```txt
+docs/operations/candidate-issue-to-brief-flow.md
+```
 
 ## Draft Scaffold Creation
 

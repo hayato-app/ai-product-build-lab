@@ -98,3 +98,24 @@ checks, and final review before publication.
 
 The generator refuses to overwrite existing drafts by default and never
 overwrites published articles.
+
+## Creating Briefs From Candidate Selection Issues
+
+Phase 33 defines the standard GitHub Issue based flow:
+
+```txt
+Discord /article-candidate-select
+  -> GitHub Issue
+  -> Codex implementation plan
+  -> User approval
+  -> article brief under docs/article-briefs
+```
+
+When starting from an Issue, follow:
+
+```txt
+docs/operations/candidate-issue-to-brief-flow.md
+```
+
+The Issue is not permission to create a draft article. It is only a request for
+Codex to plan brief creation and wait for user approval.

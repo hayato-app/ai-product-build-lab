@@ -9,7 +9,7 @@ status: "draft"
 review_status: "needs_review"
 review_result: "pending"
 reviewed_at: ""
-review_notes: "Brief docs/article-briefs/ai-app-development-environment-variables.md から生成したdraft骨子です。本文、サムネイル、内部リンク、ファクトチェックを確認してください。"
+review_notes: "GitHub Issue #11 / Brief docs/article-briefs/ai-app-development-environment-variables.md から作成したreview用draftです。本文、サムネイル、内部リンク、ファクトチェックを管理画面で確認してください。"
 priority: "high"
 estimated_publish_ready: false
 needs_fact_check: false
@@ -25,6 +25,10 @@ tags:
 ## このdraftの状態
 
 このファイルは記事ブリーフから作成したレビュー用draftです。
+
+元Issue: https://github.com/hayato-app/ai-product-build-lab/issues/11
+
+元brief: `docs/article-briefs/ai-app-development-environment-variables.md`
 
 公開前に、表現、内部リンク、サムネイル、ファクトチェックの最終確認を行ってください。
 

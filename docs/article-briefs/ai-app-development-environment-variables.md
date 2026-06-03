@@ -41,9 +41,19 @@ It is not an article draft and should not be published directly.
 
 - Candidate selection Issue has been read.
 - Article brief exists and is aligned with the Issue content.
-- Draft article already exists as review-only content.
+- Draft article already exists as review-only content: `docs/article-drafts/ai-app-development-environment-variables.md`
 - Thumbnail already exists for the draft.
+- Draft review handoff is ready for the admin draft review page.
 - Publication has not been approved by this brief.
+
+## Review Handoff
+
+- Review target: `docs/article-drafts/ai-app-development-environment-variables.md`
+- Review page status: `needs_review`
+- Review result: `pending`
+- Fact check status: `completed`
+- Next action: review the draft in the admin draft review page, then mark it OK, request changes, or reject it.
+- Publishing rule: even if the draft is marked OK, publication requires a separate human decision through the publishing flow.
 
 ## Draft Creation Notes
 

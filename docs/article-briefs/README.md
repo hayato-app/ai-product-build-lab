@@ -119,3 +119,18 @@ docs/operations/candidate-issue-to-brief-flow.md
 
 The Issue is not permission to create a draft article. It is only a request for
 Codex to plan brief creation and wait for user approval.
+
+## Brief to Draft Review Handoff
+
+When a brief already has a corresponding draft, do not create a duplicate
+draft. Instead, record the relationship between:
+
+- the GitHub Issue
+- the article brief
+- the review-only draft
+
+The draft should keep its `review_status`, `review_result`, `review_notes`,
+and fact-check fields clear enough for the admin draft review page.
+
+After the handoff is recorded, the next step is human review in the draft
+review page. Publication still requires a separate publishing decision.

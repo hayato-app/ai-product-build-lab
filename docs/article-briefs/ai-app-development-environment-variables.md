@@ -5,6 +5,8 @@ It is not an article draft and should not be published directly.
 
 ## Source
 
+- GitHub Issue: https://github.com/hayato-app/ai-product-build-lab/issues/11
+- Issue source command: `/article-candidate-select`
 - Source candidate file: docs/article-candidates/2026-06-02.md
 - Candidate number: 1
 
@@ -25,6 +27,23 @@ It is not an article draft and should not be published directly.
 - Fact check: not_required
 - Priority: high
 - Draft recommendation: Recommended for the next draft batch after user approval.
+
+## Duplication Check
+
+- Published articles checked: `apps/web/src/content/articles`
+- Existing drafts checked: `docs/article-drafts`
+- Existing briefs checked: `docs/article-briefs`
+- Published article status: not published as of this brief update.
+- Existing draft status: `docs/article-drafts/ai-app-development-environment-variables.md` already exists.
+- Overlap decision: keep this as a focused beginner terminology article about environment variables and AI API key handling. It supports, but does not replace, the broader Next.js architecture and beginner terminology articles.
+
+## Current Workflow Status
+
+- Candidate selection Issue has been read.
+- Article brief exists and is aligned with the Issue content.
+- Draft article already exists as review-only content.
+- Thumbnail already exists for the draft.
+- Publication has not been approved by this brief.
 
 ## Draft Creation Notes
 

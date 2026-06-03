@@ -99,6 +99,16 @@ checks, and final review before publication.
 The generator refuses to overwrite existing drafts by default and never
 overwrites published articles.
 
+Use `--dry-run` when checking the generated Markdown before writing a draft:
+
+```bash
+node scripts/create-draft-from-brief.mjs --brief docs/article-briefs/ai-app-development-environment-variables.md --dry-run
+```
+
+Generated draft scaffolds include review-oriented frontmatter, source Issue
+context when available, source brief context, thumbnail TODOs, internal link
+TODOs, and fact-check TODOs.
+
 ## Creating Briefs From Candidate Selection Issues
 
 Phase 33 defines the standard GitHub Issue based flow:

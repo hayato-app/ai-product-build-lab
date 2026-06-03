@@ -28,6 +28,12 @@ try {
 
   const publicArticlePath = path.join(publicArticlesDir, `${slug}.md`);
   const draftPath = path.join(draftArticlesDir, `${slug}.md`);
+  const markdown = buildDraftScaffold({ fields, slug, briefPath });
+
+  if (args.dryRun) {
+    console.log(markdown);
+    process.exit(0);
+  }
 
   if (fs.existsSync(publicArticlePath)) {
     throw new Error(`Published article already exists: ${relative(publicArticlePath)}.`);
@@ -38,7 +44,7 @@ try {
   }
 
   fs.mkdirSync(draftArticlesDir, { recursive: true });
-  fs.writeFileSync(draftPath, buildDraftScaffold({ fields, slug, briefPath }), "utf8");
+  fs.writeFileSync(draftPath, markdown, "utf8");
   console.log(`Wrote draft scaffold: ${relative(draftPath)}`);
 } catch (error) {
   const message = error instanceof Error ? error.message : String(error);
@@ -59,6 +65,11 @@ function parseArgs(argv) {
 
     if (arg === "--force") {
       parsed.force = true;
+      continue;
+    }
+
+    if (arg === "--dry-run") {
+      parsed.dryRun = true;
       continue;
     }
 
@@ -129,6 +140,8 @@ function buildDraftScaffold({ fields, slug, briefPath }) {
   const proposedAngle = fields.proposed_angle || "TODO: 記事の切り口を具体化する";
   const internalLinks = splitList(fields.internal_link_candidates);
   const thumbnailIdea = fields.thumbnail_idea || "TODO: サムネイル案を具体化する";
+  const sourceIssue = fields.github_issue || "";
+  const sourceCommand = fields.issue_source_command || "";
   const factCheckStatus = resolveFactCheckStatus(fields.fact_check);
   const priority = fields.priority || "normal";
   const tags = inferTags({ title, category, pillar });
@@ -146,7 +159,7 @@ function buildDraftScaffold({ fields, slug, briefPath }) {
     'review_status: "needs_review"',
     'review_result: "pending"',
     'reviewed_at: ""',
-    `review_notes: ${quoteYaml(`Brief ${relative(briefPath)} から生成したdraft骨子です。本文、サムネイル、内部リンク、ファクトチェックを確認してください。`)}`,
+    `review_notes: ${quoteYaml(buildReviewNotes({ briefPath, sourceIssue }))}`,
     `priority: ${quoteYaml(priority)}`,
     "estimated_publish_ready: false",
     `needs_fact_check: ${factCheckStatus === "not_started" ? "true" : "false"}`,
@@ -167,7 +180,9 @@ function buildDraftScaffold({ fields, slug, briefPath }) {
     "## このdraftの状態",
     "",
     "このファイルは記事ブリーフから生成した下書き骨子です。完成記事ではありません。",
-    "公開前に本文の肉付け、サムネイル作成、内部リンク確認、必要なファクトチェックを行ってください。",
+    "管理画面でレビューする前に、本文の肉付け、サムネイル作成、内部リンク確認、必要なファクトチェックを行ってください。",
+    "",
+    ...sourceLines({ sourceIssue, sourceCommand, briefPath }),
     "",
     "## 想定読者",
     "",
@@ -198,6 +213,9 @@ function buildDraftScaffold({ fields, slug, briefPath }) {
     "## 図・表・チェックリスト案",
     "",
     `- [ ] サムネイル案: ${thumbnailIdea}`,
+    "- [ ] サムネイル画像を `apps/web/public/images/drafts` に保存する",
+    "- [ ] frontmatter に `thumbnail: \"/images/drafts/<file-name>.png\"` を追加する",
+    "- [ ] 本文冒頭付近に同じサムネイル画像をalt付きで挿入する",
     "- [ ] 用語、設定項目、確認ポイントを表で整理する",
     "- [ ] 初心者が迷いやすい判断をチェックリストにする",
     "- [ ] 必要に応じて mermaid 図で全体像を示す",
@@ -220,6 +238,34 @@ function buildDraftScaffold({ fields, slug, briefPath }) {
   ].join("\n");
 
   return `${frontmatter}\n${body}`;
+}
+
+function buildReviewNotes({ briefPath, sourceIssue }) {
+  const issueText = sourceIssue ? `GitHub Issue ${sourceIssue} / ` : "";
+  return `${issueText}Brief ${relative(briefPath)} から生成したreview用draft骨子です。本文、サムネイル、内部リンク、ファクトチェックを管理画面で確認してください。`;
+}
+
+function sourceLines({ sourceIssue, sourceCommand, briefPath }) {
+  const cleanedSourceCommand = stripInlineCode(sourceCommand);
+  const lines = [
+    `元brief: \`${relative(briefPath)}\``,
+  ];
+
+  if (sourceIssue) {
+    lines.unshift(`元Issue: ${sourceIssue}`);
+  }
+
+  if (cleanedSourceCommand) {
+    lines.push(`Issue作成コマンド: \`${cleanedSourceCommand}\``);
+  }
+
+  return lines;
+}
+
+function stripInlineCode(value) {
+  return String(value ?? "")
+    .trim()
+    .replace(/^`+|`+$/g, "");
 }
 
 function requiredField(fields, name) {
@@ -295,6 +341,7 @@ Options:
   --brief <file>   Article brief Markdown file.
   --slug <slug>    Override the proposed slug from the brief.
   --force          Overwrite an existing draft scaffold.
+  --dry-run        Print the generated draft without writing a file.
   --help           Show this help.
 `);
 }

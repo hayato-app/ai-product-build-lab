@@ -70,6 +70,16 @@ Use this as the default article expansion sequence:
 14. Drafts are reviewed in the draft review page.
 15. Approved drafts may later be published through the publishing flow.
 
+After Phase 36, the brief-to-draft scaffold step should use:
+
+```bash
+node scripts/create-draft-from-brief.mjs --brief docs/article-briefs/<slug>.md
+```
+
+Use `--dry-run` first when confirming the generated Markdown from a smartphone
+or Issue-driven task. The generated scaffold should remain unpublished and
+review-only until the draft is expanded and reviewed.
+
 ## Candidate Discovery Sources
 
 Candidate ideas may come from:
@@ -159,6 +169,9 @@ docs/article-drafts
 The scaffold should preserve the brief context and include review-oriented
 frontmatter, heading ideas, internal link candidates, thumbnail TODOs, and
 fact-check TODOs.
+
+The scaffold generator should also preserve source Issue context when the brief
+was created from `/article-candidate-select`.
 
 A scaffold is not a finished article. It must be expanded, reviewed, and
 approved before publication.

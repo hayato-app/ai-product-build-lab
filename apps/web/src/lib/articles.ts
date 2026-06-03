@@ -12,6 +12,7 @@ export type ArticleMeta = {
   slug: string;
   title: string;
   description: string;
+  thumbnail: string;
   publishedAt: string;
   updatedAt?: string;
   tags: string[];
@@ -46,6 +47,7 @@ export function getAllArticles(): ArticleMeta[] {
       slug,
       title: data.title ?? "",
       description: data.description ?? "",
+      thumbnail: data.thumbnail ?? "",
       publishedAt: data.publishedAt ?? "",
       updatedAt: data.updatedAt ?? "",
       tags: data.tags ?? [],
@@ -76,6 +78,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     slug,
     title: data.title ?? "",
     description: data.description ?? "",
+    thumbnail: data.thumbnail ?? "",
     publishedAt: data.publishedAt ?? "",
     updatedAt: data.updatedAt ?? "",
     tags: data.tags ?? [],

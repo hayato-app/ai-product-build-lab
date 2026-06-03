@@ -73,6 +73,20 @@ export default async function ArticlePage({ params }: Props) {
               {article.description}
             </p>
 
+            {article.thumbnail ? (
+              <img
+                src={article.thumbnail}
+                alt={`${article.title}のサムネイル`}
+                className="mt-8 aspect-[16/9] w-full rounded-3xl border border-slate-200 object-cover shadow-lg shadow-blue-100"
+              />
+            ) : (
+              <div className="mt-8 grid aspect-[16/9] w-full place-items-center rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-slate-100 shadow-sm">
+                <div className="rounded-2xl bg-white px-5 py-3 text-sm font-black text-blue-700 shadow-sm">
+                  {article.category}
+                </div>
+              </div>
+            )}
+
             <div className="mt-8 flex flex-wrap gap-2">
               {article.tags.map((tag) => (
                 <Link

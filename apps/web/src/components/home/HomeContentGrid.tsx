@@ -50,21 +50,49 @@ function LatestArticles({ articles }: { articles: ArticleMeta[] }) {
       <h2 className="mt-2 text-2xl font-black text-slate-950">最新記事</h2>
       <div className="mt-6 divide-y divide-slate-100">
         {articles.slice(0, 5).map((article) => (
-          <article key={article.slug} className="py-4 first:pt-0 last:pb-0">
-            <div className="mb-2 flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500">
-              <span className="text-blue-700">{article.category}</span>
-              <span>・</span>
-              <time dateTime={article.publishedAt}>{article.publishedAt}</time>
+          <article key={article.slug} className="grid gap-3 py-4 first:pt-0 last:pb-0 sm:grid-cols-[72px_1fr]">
+            <ArticleThumb article={article} />
+            <div>
+              <div className="mb-2 flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500">
+                <span className="text-blue-700">{article.category}</span>
+                <span>・</span>
+                <time dateTime={article.publishedAt}>{article.publishedAt}</time>
+              </div>
+              <h3 className="text-sm font-black leading-6 text-slate-950">
+                <Link href={`/articles/${article.slug}`} className="hover:text-blue-700">
+                  {article.title}
+                </Link>
+              </h3>
             </div>
-            <h3 className="text-sm font-black leading-6 text-slate-950">
-              <Link href={`/articles/${article.slug}`} className="hover:text-blue-700">
-                {article.title}
-              </Link>
-            </h3>
           </article>
         ))}
       </div>
     </div>
+  );
+}
+
+function ArticleThumb({ article }: { article: ArticleMeta }) {
+  if (article.thumbnail) {
+    return (
+      <Link href={`/articles/${article.slug}`} className="block">
+        <img
+          src={article.thumbnail}
+          alt={`${article.title}のサムネイル`}
+          className="aspect-square w-full rounded-2xl object-cover"
+          loading="lazy"
+        />
+      </Link>
+    );
+  }
+
+  return (
+    <Link
+      href={`/articles/${article.slug}`}
+      className="grid aspect-square w-full place-items-center rounded-2xl bg-gradient-to-br from-blue-50 to-slate-100 text-xs font-black text-blue-700"
+      aria-label={`${article.title}を読む`}
+    >
+      AI
+    </Link>
   );
 }
 

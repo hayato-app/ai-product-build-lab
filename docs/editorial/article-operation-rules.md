@@ -115,6 +115,35 @@ Default thumbnail handling:
 
 If a draft is created without a thumbnail, explain why in the final summary or PR body.
 
+## News Article Image Rule
+
+AI news commentary articles should make it visually clear that the article is a
+practical explanation, not a generic news summary.
+
+For news commentary thumbnails:
+
+- Use a diagram plus short text labels when possible.
+- Show the subject of the news, such as a model, API, tool, or platform.
+- Show the practical interpretation axis, such as workflow, API, cost, review,
+  safety, or operation.
+- Keep in-image text short. Do not put the full article title inside the image.
+- Avoid relying on external logos, screenshots, or remote image URLs.
+- Prefer bright editorial diagrams that match the site's AI development media
+  design direction.
+
+News commentary, beginner explanations, workflow articles, and AI agent articles
+may include more than one image when the extra image improves understanding.
+
+Recommended image structure:
+
+1. Thumbnail image for article lists, admin review, and the article opening.
+2. One body diagram that explains the main concept, release impact, workflow, or
+   decision points.
+3. Optional second body diagram only when it adds practical clarity.
+
+Do not add images only for decoration. Each image should clarify a concept,
+comparison, workflow, checklist, or implementation decision.
+
 ## Standard Codex Draft Workflow
 
 The standard article creation workflow is Codex-assisted draft creation inside this repository.

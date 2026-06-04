@@ -79,6 +79,8 @@ Anthropicは2026年5月28日にClaude Opus 4.8を発表しました。
 | Messages API system entries | エージェント実行中の指示更新 | 権限、予算、環境情報の更新方法 |
 | fast mode価格 | 高速応答が必要な処理 | 通常利用との使い分けと月間コスト |
 
+![Claude Opus 4.8の発表内容をdynamic workflows、Messages API、コスト確認、レビューゲートに分けて整理した図解](/images/drafts/claude-opus-4-8-release-impact-diagram.png)
+
 ニュース記事として読むだけなら「性能が上がった」で終わります。
 
 しかしAIエージェント開発では、モデル性能よりも、どの範囲を自動化し、どこで止め、どのログで検証するかが重要です。

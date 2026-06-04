@@ -9,6 +9,7 @@ import {
   findArticleCandidate,
   formatCandidateDetail,
   formatCandidateList,
+  isSelectableCandidate,
   loadLatestCandidateFile,
 } from "./articleCandidates.js";
 import { commandNames } from "./commands.js";
@@ -74,6 +75,12 @@ function payloadFromInteraction(interaction: ChatInputCommandInteraction): Issue
         throw new Error(`Article candidate ${candidateNumber} was not found.`);
       }
 
+      if (!isSelectableCandidate(candidate)) {
+        throw new Error(
+          `Article candidate ${candidateNumber} is not selectable because its status is ${candidate.status || "available"}.`,
+        );
+      }
+
       return buildArticleCandidateSelectPayload({
         candidateFile,
         candidate,
@@ -103,6 +110,10 @@ function publicErrorMessage(error: unknown): string {
 
     if (error.message.includes("Article candidate") && error.message.includes("was not found")) {
       return "指定された記事候補が見つかりませんでした。/article-candidates で候補番号を確認してください。";
+    }
+
+    if (error.message.includes("is not selectable")) {
+      return "指定された記事候補は現在選択できません。/article-candidates でStatusが available の候補を選んでください。";
     }
   }
 

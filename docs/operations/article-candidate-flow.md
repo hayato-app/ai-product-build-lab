@@ -158,6 +158,40 @@ issue-<number>-candidates.md
 Candidate lists are not article drafts. They should not appear in the public
 site.
 
+## Candidate Status Management
+
+Each candidate should include a `Status` field so the editorial queue can be
+reviewed from Discord, GitHub Issues, and repository files without guessing
+which topics are still available.
+
+Use these status values:
+
+- `available`: Candidate can be selected.
+- `selected`: User selected the candidate and an Issue exists.
+- `briefed`: An article brief exists.
+- `drafted`: A draft article exists.
+- `published`: The article was published.
+- `rejected`: Candidate should not be used.
+- `watch`: Keep as a future idea, but do not draft yet.
+
+The Discord bot may read and display candidate status, but it must not update
+candidate files directly. This preserves the rule that Discord only creates
+Issues and reads project state.
+
+When `/article-candidate-select` creates an Issue, Codex should update the
+candidate status as part of the approved repository work. Use this default
+mapping:
+
+- After the selection Issue is accepted for work: `selected`
+- After a brief is created: `briefed`
+- After a draft and thumbnail are created: `drafted`
+- After the article is published: `published`
+- When the candidate is intentionally skipped: `rejected`
+
+Candidates with `available` status are the only default selectable candidates.
+If a non-available candidate should be reused, the user must explicitly approve
+changing its status or creating a new candidate entry with a distinct angle.
+
 ## Article Brief Storage
 
 When a selected candidate needs more structure before draft creation, store an

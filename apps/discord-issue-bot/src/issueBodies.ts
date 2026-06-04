@@ -159,6 +159,7 @@ export function buildArticleCandidateSelectPayload(
       "",
       `- Source candidate file: ${field(input.candidateFile.relativePath)}`,
       `- Candidate number: ${input.candidate.number}`,
+      `- Candidate status: ${field(input.candidate.status)}`,
       `- Title: ${field(input.candidate.title)}`,
       `- Pillar: ${field(input.candidate.pillar)}`,
       `- Category: ${field(input.candidate.category)}`,

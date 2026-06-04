@@ -3,6 +3,7 @@ import path from "node:path";
 
 export type ArticleCandidate = {
   number: number;
+  status: string;
   title: string;
   pillar: string;
   category: string;
@@ -69,13 +70,14 @@ export function formatCandidateList(file: CandidateFile, limit: number): string 
       [
         `Candidate ${candidate.number}`,
         candidate.title,
+        `ステータス: ${formatCandidateStatus(candidate.status)}`,
         `カテゴリ: ${candidate.category || "未設定"}`,
         `優先度: ${candidate.priority || "normal"}`,
         `概要: ${candidate.searchIntent || candidate.readerProblem || "未設定"}`,
       ].join("\n"),
     ),
     "詳細を見る: /article-candidates candidate:<番号>",
-    "候補をIssue化する操作はPhase 32で追加予定です。",
+    "Issue化する場合は、Statusが available の候補を /article-candidate-select candidate:<番号> で選択してください。",
   ].join("\n\n");
 }
 
@@ -96,6 +98,7 @@ export function formatCandidateDetail(file: CandidateFile, candidateNumber: numb
     `Candidate ${candidate.number}`,
     candidate.title,
     "",
+    `Status: ${formatCandidateStatus(candidate.status)}`,
     `Pillar: ${candidate.pillar || "未設定"}`,
     `Category: ${candidate.category || "未設定"}`,
     `Priority: ${candidate.priority || "normal"}`,
@@ -112,7 +115,7 @@ export function formatCandidateDetail(file: CandidateFile, candidateNumber: numb
     "",
     `Draft recommendation: ${candidate.draftRecommendation || "未設定"}`,
     "",
-    "このコマンドは確認専用です。候補をIssue化する操作はPhase 32で追加予定です。",
+    "Issue化する場合は、Statusが available の候補を /article-candidate-select candidate:<番号> で選択してください。",
   ].join("\n");
 }
 
@@ -133,6 +136,7 @@ export function parseArticleCandidates(markdown: string): ArticleCandidate[] {
 
     return {
       number: Number.parseInt(match[1], 10),
+      status: fields.status ?? "available",
       title: fields.title ?? "",
       pillar: fields.pillar ?? "",
       category: fields.category ?? "",
@@ -148,6 +152,18 @@ export function parseArticleCandidates(markdown: string): ArticleCandidate[] {
       draftRecommendation: fields.draft_recommendation ?? "",
     };
   });
+}
+
+export function isSelectableCandidate(candidate: ArticleCandidate): boolean {
+  return normalizeCandidateStatus(candidate.status) === "available";
+}
+
+export function formatCandidateStatus(status: string): string {
+  return normalizeCandidateStatus(status) || "available";
+}
+
+function normalizeCandidateStatus(status: string): string {
+  return status.trim().toLowerCase() || "available";
 }
 
 function parseCandidateFields(block: string): Record<string, string> {

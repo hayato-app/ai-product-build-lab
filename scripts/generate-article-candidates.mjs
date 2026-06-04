@@ -461,6 +461,7 @@ function buildMarkdown({ candidates, publishedArticles, draftArticles, today, re
     lines.push(
       `## Candidate ${index + 1}`,
       "",
+      "- Status: available",
       `- Title: ${candidate.title}`,
       `- Pillar: ${candidate.pillar}`,
       `- Category: ${candidate.category}`,

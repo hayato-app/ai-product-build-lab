@@ -25,6 +25,7 @@ export type CandidateFile = {
 };
 
 const candidateHeadingPattern = /^## Candidate (\d+)\s*$/gm;
+const datedCandidateFilePattern = /^(?:weekly-)?(\d{4}-\d{2}-\d{2})\.md$/i;
 
 export function loadLatestCandidateFile(): CandidateFile {
   const rootDir = findRepositoryRoot();
@@ -40,11 +41,7 @@ export function loadLatestCandidateFile(): CandidateFile {
     .filter((entry) => entry.name.endsWith(".md"))
     .filter((entry) => !entry.name.toLowerCase().startsWith("readme"))
     .map((entry) => path.join(candidatesDir, entry.name))
-    .sort((a, b) => {
-      const aStat = fs.statSync(a);
-      const bStat = fs.statSync(b);
-      return bStat.mtimeMs - aStat.mtimeMs || b.localeCompare(a);
-    })[0];
+    .sort(compareCandidateFiles)[0];
 
   if (!latestFile) {
     throw new Error("Article candidate files were not found.");
@@ -54,6 +51,27 @@ export function loadLatestCandidateFile(): CandidateFile {
     relativePath: path.relative(rootDir, latestFile).replaceAll(path.sep, "/"),
     candidates: parseArticleCandidates(fs.readFileSync(latestFile, "utf8")),
   };
+}
+
+function compareCandidateFiles(a: string, b: string): number {
+  const aDate = extractCandidateFileDate(path.basename(a));
+  const bDate = extractCandidateFileDate(path.basename(b));
+
+  if (aDate !== bDate) {
+    return bDate.localeCompare(aDate);
+  }
+
+  if (aDate) {
+    return path.basename(b).localeCompare(path.basename(a));
+  }
+
+  const aStat = fs.statSync(a);
+  const bStat = fs.statSync(b);
+  return bStat.mtimeMs - aStat.mtimeMs || path.basename(b).localeCompare(path.basename(a));
+}
+
+function extractCandidateFileDate(fileName: string): string {
+  return fileName.match(datedCandidateFilePattern)?.[1] ?? "";
 }
 
 export function formatCandidateList(file: CandidateFile, limit: number): string {

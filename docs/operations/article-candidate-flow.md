@@ -158,6 +158,11 @@ issue-<number>-candidates.md
 Candidate lists are not article drafts. They should not appear in the public
 site.
 
+Discord `/article-candidates` treats dated files as the primary candidate
+source. It selects the latest file by the date in `YYYY-MM-DD.md` or
+`weekly-YYYY-MM-DD.md`, not by filesystem modified time. Use dated file names
+for ordinary candidate pools that should appear in Discord.
+
 ## Candidate Status Management
 
 Each candidate should include a `Status` field so the editorial queue can be

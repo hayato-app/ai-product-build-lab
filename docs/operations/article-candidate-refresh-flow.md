@@ -3,16 +3,16 @@
 This document defines the weekly article candidate refresh operation for AI
 Product Build Lab.
 
-The purpose is to keep article topic stock healthy without allowing automated
-draft creation or automated publishing.
+The purpose is to keep evergreen article topic stock healthy without allowing
+automated draft creation or automated publishing.
 
 ## Operating Model
 
 Use an independent Codex automation as the weekly trigger.
 
-The automation should run separately from ordinary chat threads. It should not
-write files automatically. It should produce a reviewable recommendation and
-wait for user approval before any repository change.
+The automation should run separately from ordinary chat threads. It may prepare
+a weekly candidate Markdown file after user approval. It must not create article
+drafts, publish articles, merge changes, or run VPS commands.
 
 Recommended schedule:
 
@@ -29,7 +29,10 @@ Recommended target:
 
 - 10 to 20 candidate ideas when the stock is low.
 - 5 to 10 candidate ideas when enough unused candidates already exist.
-- Prioritize practical beginner, troubleshooting, and builder-facing topics.
+- Prioritize practical beginner, troubleshooting, tool introduction,
+  terminology explanation, and builder-facing evergreen topics.
+- Exclude daily AI news candidates. Time-sensitive news belongs in
+  `docs/operations/ai-news-collection-flow.md`.
 
 ## Required Inputs
 
@@ -75,6 +78,18 @@ Recommended file name:
 weekly-YYYY-MM-DD.md
 ```
 
+Use the `weekly-` prefix for non-news or evergreen candidate pools. This allows
+Discord users to review weekly candidates separately from daily AI news
+candidates:
+
+```txt
+/article-candidates type:weekly
+/article-candidate-select type:weekly candidate:<number>
+```
+
+Do not name weekly evergreen candidate files as `YYYY-MM-DD.md`; that file name
+is reserved for daily AI news candidates.
+
 ## Candidate Format
 
 Use this structure for each candidate:
@@ -107,7 +122,8 @@ The automation should produce:
 - Topics that appear overrepresented.
 - Topics that appear underrepresented.
 - Recommended candidate themes to add.
-- Whether a candidate file should be created.
+- A weekly candidate file under `docs/article-candidates/weekly-YYYY-MM-DD.md`
+  after user approval.
 - A Japanese implementation plan if repository changes are needed.
 
 ## Safety Boundary
@@ -130,4 +146,4 @@ A weekly refresh is complete when:
 - The current stock has been reviewed.
 - Candidate gaps are summarized.
 - Proposed new candidates are clear and non-duplicative.
-- Any file creation or update waits for explicit user approval.
+- A weekly candidate file is created only after explicit user approval.

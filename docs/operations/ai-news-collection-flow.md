@@ -3,16 +3,17 @@
 This document defines the daily AI news collection operation for AI Product
 Build Lab.
 
-The purpose is to notice builder-relevant AI news early and convert only useful
-items into article candidates after human review.
+The purpose is to notice builder-relevant AI news early and turn useful items
+directly into daily article candidates that can be reviewed from Discord.
 
 ## Operating Model
 
 Use an independent Codex automation as the daily trigger.
 
 The automation should run separately from ordinary chat threads. It may browse
-the web to gather current news, but it must not create articles, drafts,
-candidates, commits, or VPS changes without user approval.
+the web to gather current news and prepare a daily candidate Markdown file, but
+it must not create article drafts, publish articles, merge changes, or run VPS
+commands.
 
 Recommended schedule:
 
@@ -50,6 +51,31 @@ Classify each item as one of:
 - `watch_only`: Monitor, but do not act yet.
 - `out_of_scope`: Not relevant for this site.
 
+## Daily Candidate File
+
+The daily AI news collection should create a candidate file directly under:
+
+```txt
+docs/article-candidates/YYYY-MM-DD.md
+```
+
+Use the plain date file name for daily news candidates. Do not use the
+`weekly-` prefix for daily news.
+
+Daily news candidate files should contain only AI news commentary candidates.
+They should not include evergreen beginner, troubleshooting, or tool topics
+unless the topic came from a timely news item.
+
+Each candidate should use:
+
+- `Status: available`
+- `Pillar: AI関連ニュース解説`
+- `Category: AIニュース解説`
+- `Fact check: required` by default
+- Source links for every time-sensitive claim
+- Fact-check notes for model names, release dates, pricing, plan limits, API
+  availability, or preview status
+
 ## Daily Output
 
 The automation should produce a concise Japanese report with:
@@ -59,21 +85,16 @@ The automation should produce a concise Japanese report with:
 - Source links.
 - Why each item matters for builders.
 - Suggested classification.
-- Candidate title ideas only for `article_candidate_now` or
-  `weekly_candidate_pool`.
+- Candidate entries only for `article_candidate_now`.
+- `weekly_candidate_pool` items may be mentioned in notes, but should not be
+  mixed into the daily candidate file unless they are also timely news
+  candidates.
 - Fact-check notes for time-sensitive claims.
 
 ## Article Candidate Conversion
 
-News collection does not automatically create candidate files.
-
-When the user approves conversion, create or update a candidate file under:
-
-```txt
-docs/article-candidates
-```
-
-News-based candidates should explain:
+News collection output is already a candidate file. News-based candidates
+should explain:
 
 - What happened.
 - Why it matters for AI app builders.
@@ -81,23 +102,31 @@ News-based candidates should explain:
 - Whether the claim is time-sensitive.
 - Which sources should be checked before drafting.
 
+Review daily candidates from Discord with:
+
+```txt
+/article-candidates type:daily
+/article-candidate-select type:daily candidate:<number>
+```
+
 ## Safety Boundary
 
 The daily news collection does not allow:
 
 - Automatic draft creation.
 - Automatic publication.
-- Automatic commits or pushes.
 - Direct VPS deployment.
 - Use of unsourced claims as final article facts.
 
-News items are inputs for editorial judgment, not automatic content.
+News candidate files are planning material. They are not drafts, and selecting a
+candidate still requires the GitHub Issue and Codex approval flow.
 
 ## Completion Criteria
 
 A daily news collection run is complete when:
 
+- A dated daily candidate file exists under `docs/article-candidates`.
 - Relevant items are summarized with source links.
-- Items are classified.
 - Practical builder implications are described.
-- Next actions require user approval.
+- Time-sensitive claims are marked for fact-checking.
+- Next actions require candidate selection and user approval.

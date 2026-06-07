@@ -158,6 +158,19 @@ issue-<number>-candidates.md
 Candidate lists are not article drafts. They should not appear in the public
 site.
 
+Use these file names by source:
+
+- `YYYY-MM-DD.md`: daily AI news candidates created by the daily AI news
+  collection flow.
+- `weekly-YYYY-MM-DD.md`: weekly non-news or evergreen candidates created by
+  the weekly candidate refresh flow.
+- `issue-<number>-candidates.md`: ad hoc candidate files created for a specific
+  GitHub Issue when needed.
+
+Do not mix daily news candidates and weekly evergreen candidates in the same
+file. This keeps Discord review predictable and makes candidate selection
+traceable.
+
 Discord `/article-candidates` treats dated files as the primary candidate
 source. It selects the latest file by the date in `YYYY-MM-DD.md` or
 `weekly-YYYY-MM-DD.md`, not by filesystem modified time. Use dated file names

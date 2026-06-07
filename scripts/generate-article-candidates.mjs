@@ -168,7 +168,8 @@ const seedCandidates = [
 const args = parseArgs(process.argv.slice(2));
 const today = args.date ?? new Date().toISOString().slice(0, 10);
 const count = Number.parseInt(args.count ?? "10", 10);
-const outputPath = path.resolve(args.out ?? path.join(candidateDir, `${today}.md`));
+const candidateType = normalizeCandidateType(args.type ?? "daily");
+const outputPath = path.resolve(args.out ?? path.join(candidateDir, defaultCandidateFileName(today, candidateType)));
 const requestedPillar = args.pillar ? normalizePillar(args.pillar) : "";
 const force = Boolean(args.force);
 
@@ -196,6 +197,7 @@ fs.writeFileSync(
   outputPath,
   buildMarkdown({
     candidates: selectedCandidates,
+    candidateType,
     publishedArticles,
     draftArticles,
     today,
@@ -231,6 +233,22 @@ function parseArgs(argv) {
   }
 
   return parsed;
+}
+
+function normalizeCandidateType(value) {
+  if (value === "daily" || value === "weekly") {
+    return value;
+  }
+
+  fail(`Unknown candidate type: ${value}. Use daily or weekly.`);
+}
+
+function defaultCandidateFileName(date, candidateType) {
+  if (candidateType === "weekly") {
+    return `weekly-${date}.md`;
+  }
+
+  return `${date}.md`;
 }
 
 function normalizePillar(value) {
@@ -427,7 +445,7 @@ function normalizeText(value) {
     .replace(/\s+/g, "");
 }
 
-function buildMarkdown({ candidates, publishedArticles, draftArticles, today, requestedPillar }) {
+function buildMarkdown({ candidates, candidateType, publishedArticles, draftArticles, today, requestedPillar }) {
   const lines = [
     `# Article Candidates - ${today}`,
     "",
@@ -437,6 +455,7 @@ function buildMarkdown({ candidates, publishedArticles, draftArticles, today, re
     "",
     `- Published articles checked: ${publishedArticles.length}`,
     `- Draft articles checked: ${draftArticles.length}`,
+    `- Candidate type: ${candidateType}`,
     `- Pillar filter: ${requestedPillar || "all"}`,
     "- Drafts are not created by this report.",
     "- User approval is required before any candidate becomes a draft.",

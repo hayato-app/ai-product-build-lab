@@ -24,10 +24,12 @@ export type CandidateFile = {
   candidates: ArticleCandidate[];
 };
 
-const candidateHeadingPattern = /^## Candidate (\d+)\s*$/gm;
-const datedCandidateFilePattern = /^(?:weekly-)?(\d{4}-\d{2}-\d{2})\.md$/i;
+export type CandidateFileType = "daily" | "weekly";
 
-export function loadLatestCandidateFile(): CandidateFile {
+const candidateHeadingPattern = /^## Candidate (\d+)\s*$/gm;
+const datedCandidateFilePattern = /^(weekly-)?(\d{4}-\d{2}-\d{2})\.md$/i;
+
+export function loadLatestCandidateFile(type?: CandidateFileType): CandidateFile {
   const rootDir = findRepositoryRoot();
   const candidatesDir = path.join(rootDir, "docs/article-candidates");
 
@@ -40,17 +42,38 @@ export function loadLatestCandidateFile(): CandidateFile {
     .filter((entry) => entry.isFile())
     .filter((entry) => entry.name.endsWith(".md"))
     .filter((entry) => !entry.name.toLowerCase().startsWith("readme"))
+    .filter((entry) => matchesCandidateFileType(entry.name, type))
     .map((entry) => path.join(candidatesDir, entry.name))
     .sort(compareCandidateFiles)[0];
 
   if (!latestFile) {
-    throw new Error("Article candidate files were not found.");
+    throw new Error(`Article candidate files were not found${type ? ` for type ${type}` : ""}.`);
   }
 
   return {
     relativePath: path.relative(rootDir, latestFile).replaceAll(path.sep, "/"),
     candidates: parseArticleCandidates(fs.readFileSync(latestFile, "utf8")),
   };
+}
+
+function matchesCandidateFileType(fileName: string, type?: CandidateFileType): boolean {
+  const match = fileName.match(datedCandidateFilePattern);
+
+  if (!match) {
+    return !type;
+  }
+
+  const isWeekly = Boolean(match[1]);
+
+  if (type === "weekly") {
+    return isWeekly;
+  }
+
+  if (type === "daily") {
+    return !isWeekly;
+  }
+
+  return true;
 }
 
 function compareCandidateFiles(a: string, b: string): number {
@@ -71,7 +94,7 @@ function compareCandidateFiles(a: string, b: string): number {
 }
 
 function extractCandidateFileDate(fileName: string): string {
-  return fileName.match(datedCandidateFilePattern)?.[1] ?? "";
+  return fileName.match(datedCandidateFilePattern)?.[2] ?? "";
 }
 
 export function formatCandidateList(file: CandidateFile, limit: number): string {
@@ -95,7 +118,7 @@ export function formatCandidateList(file: CandidateFile, limit: number): string 
       ].join("\n"),
     ),
     "詳細を見る: /article-candidates candidate:<番号>",
-    "Issue化する場合は、Statusが available の候補を /article-candidate-select candidate:<番号> で選択してください。",
+    "Issue化する場合は、表示時と同じtypeを指定して /article-candidate-select type:<daily|weekly> candidate:<番号> を実行してください。",
   ].join("\n\n");
 }
 
@@ -133,7 +156,7 @@ export function formatCandidateDetail(file: CandidateFile, candidateNumber: numb
     "",
     `Draft recommendation: ${candidate.draftRecommendation || "未設定"}`,
     "",
-    "Issue化する場合は、Statusが available の候補を /article-candidate-select candidate:<番号> で選択してください。",
+    "Issue化する場合は、表示時と同じtypeを指定して /article-candidate-select type:<daily|weekly> candidate:<番号> を実行してください。",
   ].join("\n");
 }
 

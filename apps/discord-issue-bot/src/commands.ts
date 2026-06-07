@@ -19,6 +19,11 @@ export const commandNames = {
 
 export type SupportedCommandName = (typeof commandNames)[keyof typeof commandNames];
 
+const articleCandidateTypeChoices = [
+  { name: "daily", value: "daily" },
+  { name: "weekly", value: "weekly" },
+];
+
 export const commandDefinitions: RESTPostAPIApplicationCommandsJSONBody[] = [
   {
     name: commandNames.issue,
@@ -190,6 +195,13 @@ export const commandDefinitions: RESTPostAPIApplicationCommandsJSONBody[] = [
     description: "Show latest article candidates without creating an Issue.",
     options: [
       {
+        name: "type",
+        description: "Candidate file type.",
+        type: ApplicationCommandOptionType.String,
+        required: false,
+        choices: articleCandidateTypeChoices,
+      },
+      {
         name: "candidate",
         description: "Candidate number for detail view.",
         type: ApplicationCommandOptionType.Integer,
@@ -214,6 +226,13 @@ export const commandDefinitions: RESTPostAPIApplicationCommandsJSONBody[] = [
         description: "Candidate number to create an Issue from.",
         type: ApplicationCommandOptionType.Integer,
         required: true,
+      },
+      {
+        name: "type",
+        description: "Candidate file type.",
+        type: ApplicationCommandOptionType.String,
+        required: false,
+        choices: articleCandidateTypeChoices,
       },
       {
         name: "note",

@@ -6,6 +6,7 @@ import {
 } from "discord.js";
 import { checkInteractionAccess } from "./access-control.js";
 import {
+  type CandidateFileType,
   findArticleCandidate,
   formatCandidateDetail,
   formatCandidateList,
@@ -30,6 +31,18 @@ import {
 
 function option(interaction: ChatInputCommandInteraction, name: string): string | undefined {
   return interaction.options.getString(name) ?? undefined;
+}
+
+function candidateFileType(
+  interaction: ChatInputCommandInteraction,
+): CandidateFileType | undefined {
+  const type = interaction.options.getString("type");
+
+  if (type === "daily" || type === "weekly") {
+    return type;
+  }
+
+  return undefined;
 }
 
 function payloadFromInteraction(interaction: ChatInputCommandInteraction): IssuePayload {
@@ -67,7 +80,7 @@ function payloadFromInteraction(interaction: ChatInputCommandInteraction): Issue
       });
 
     case commandNames.articleCandidateSelect: {
-      const candidateFile = loadLatestCandidateFile();
+      const candidateFile = loadLatestCandidateFile(candidateFileType(interaction));
       const candidateNumber = interaction.options.getInteger("candidate", true);
       const candidate = findArticleCandidate(candidateFile, candidateNumber);
 
@@ -110,6 +123,10 @@ function publicErrorMessage(error: unknown): string {
 
     if (error.message.includes("Article candidate") && error.message.includes("was not found")) {
       return "指定された記事候補が見つかりませんでした。/article-candidates で候補番号を確認してください。";
+    }
+
+    if (error.message.includes("Article candidate files were not found")) {
+      return "指定されたtypeの記事候補ファイルが見つかりませんでした。dailyまたはweeklyの候補ファイルが作成済みか確認してください。";
     }
 
     if (error.message.includes("is not selectable")) {
@@ -231,7 +248,7 @@ async function handleReadOnlyCommand(
         return true;
       }
 
-      const candidateFile = loadLatestCandidateFile();
+      const candidateFile = loadLatestCandidateFile(candidateFileType(interaction));
       const candidateNumber = interaction.options.getInteger("candidate") ?? undefined;
       const limit = interaction.options.getInteger("limit") ?? 5;
 

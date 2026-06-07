@@ -163,6 +163,25 @@ source. It selects the latest file by the date in `YYYY-MM-DD.md` or
 `weekly-YYYY-MM-DD.md`, not by filesystem modified time. Use dated file names
 for ordinary candidate pools that should appear in Discord.
 
+Use Discord candidate type options when daily news candidates and weekly
+evergreen candidates exist at the same time:
+
+```txt
+/article-candidates type:daily
+/article-candidates type:weekly
+/article-candidate-select type:daily candidate:<number>
+/article-candidate-select type:weekly candidate:<number>
+```
+
+`type:daily` reads the latest `YYYY-MM-DD.md` file. Use it for daily AI news
+candidate files.
+
+`type:weekly` reads the latest `weekly-YYYY-MM-DD.md` file. Use it for weekly
+non-news or evergreen article candidate files.
+
+If `type` is omitted, the bot reads the latest dated candidate file across both
+daily and weekly files.
+
 ## Candidate Status Management
 
 Each candidate should include a `Status` field so the editorial queue can be

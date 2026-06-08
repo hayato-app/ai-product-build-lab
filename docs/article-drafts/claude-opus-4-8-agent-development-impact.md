@@ -1,6 +1,6 @@
 ---
 title: "Claude Opus 4.8で何が変わったか AIエージェント開発者向け実務整理"
-description: "Claude Opus 4.8の発表内容を、Claude APIやClaude Codeを使うAIエージェント開発者向けに、dynamic workflows、Messages API、価格、運用確認ポイントから整理する下書きです。"
+description: "Claude Opus 4.8の発表内容を、Claude APIやClaude Codeを使うAIエージェント開発者向けに、dynamic workflows、Messages API、価格、運用確認ポイントから整理します。"
 thumbnail: "/images/drafts/claude-opus-4-8-agent-development-impact-thumbnail.png"
 publishedAt: "2026-06-04"
 updatedAt: "2026-06-04"
@@ -9,7 +9,7 @@ status: "draft"
 review_status: "needs_review"
 review_result: "pending"
 reviewed_at: ""
-review_notes: "GitHub Issue #13 / Brief docs/article-briefs/claude-opus-4-8-agent-development-impact.md から作成したreview用draftです。Claude Opus 4.8の公式発表内容、対象プラン、価格、API仕様の事実確認を行ってください。"
+review_notes: "GitHub Issue #13 / Brief docs/article-briefs/claude-opus-4-8-agent-development-impact.md から作成したレビュー用メモです。Claude Opus 4.8の公式発表内容、対象プラン、価格、API仕様の事実確認を行ってください。"
 priority: "high"
 estimated_publish_ready: false
 needs_fact_check: true

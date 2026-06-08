@@ -231,7 +231,7 @@ function buildDraftScaffold({ fields, slug, briefPath }) {
 
 function buildReviewNotes({ briefPath, sourceIssue }) {
   const issueText = sourceIssue ? `GitHub Issue ${sourceIssue} / ` : "";
-  return `${issueText}Brief ${relative(briefPath)} から生成したreview用draft骨子です。本文、サムネイル、内部リンク、ファクトチェックを管理画面で確認してください。`;
+  return `${issueText}Brief ${relative(briefPath)} から生成したレビュー用メモです。本文、サムネイル、内部リンク、ファクトチェックを管理画面で確認してください。`;
 }
 
 function requiredField(fields, name) {
@@ -279,7 +279,7 @@ function inferTags({ title, category, pillar }) {
 
 function buildDescription({ title, targetReader, readerProblem }) {
   const normalizedTitle = title.replace(/とは$/, "");
-  const base = `${targetReader}向けに、${normalizedTitle}の基本と、${readerProblem}を整理する下書きです。`;
+  const base = `${targetReader}向けに、${normalizedTitle}の基本と、${readerProblem}という課題を整理します。`;
   return base.length > 120 ? `${base.slice(0, 117)}...` : base;
 }
 

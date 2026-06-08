@@ -1,6 +1,6 @@
 ---
 title: "AIアプリ開発で使う環境変数とは"
-description: "AIアプリ開発を始めたばかりで、APIキーの管理に不安がある人向けに、AIアプリ開発で使う環境変数の基本と、APIキー、.env、本番環境の設定の関係が分からず、秘密情報を安全に扱えるか不安を整理する下書きです。"
+description: "AIアプリ開発を始めたばかりで、APIキーの管理に不安がある人向けに、環境変数、.env、本番環境の設定、秘密情報の扱い方を整理します。"
 thumbnail: "/images/drafts/ai-app-development-environment-variables-thumbnail.png"
 publishedAt: "2026-06-02"
 updatedAt: "2026-06-02"
@@ -9,7 +9,7 @@ status: "draft"
 review_status: "needs_review"
 review_result: "pending"
 reviewed_at: ""
-review_notes: "GitHub Issue #11 / Brief docs/article-briefs/ai-app-development-environment-variables.md から作成したreview用draftです。本文、サムネイル、内部リンク、ファクトチェックを管理画面で確認してください。"
+review_notes: "GitHub Issue #11 / Brief docs/article-briefs/ai-app-development-environment-variables.md から作成したレビュー用メモです。本文、サムネイル、内部リンク、ファクトチェックを管理画面で確認してください。"
 priority: "high"
 estimated_publish_ready: false
 needs_fact_check: false

@@ -1,6 +1,6 @@
 ﻿---
 title: "AIアプリ開発でよく出るAPI Routeとは"
-description: "Next.jsでAIアプリを作り始めた初心者向けに、API RouteやRoute Handlerが何を担当するのか、画面・サーバー側API・AI APIの役割分担から整理する下書きです。"
+description: "Next.jsでAIアプリを作り始めた初心者向けに、API RouteやRoute Handlerが何を担当するのか、画面・サーバー側API・AI APIの役割分担から整理します。"
 thumbnail: "/images/drafts/ai-app-api-route-basics-thumbnail.png"
 publishedAt: "2026-06-03"
 updatedAt: "2026-06-03"
@@ -9,7 +9,7 @@ status: "draft"
 review_status: "approved"
 review_result: "ok"
 reviewed_at: "2026-06-03T12:42:09.409Z"
-review_notes: "GitHub Issue #12 / Brief docs/article-briefs/ai-app-api-route-basics.md から作成したreview用draftです。本文、サムネイル、内部リンク、ファクトチェックを管理画面で確認してください。"
+review_notes: "GitHub Issue #12 / Brief docs/article-briefs/ai-app-api-route-basics.md から作成したレビュー用メモです。本文、サムネイル、内部リンク、ファクトチェックを管理画面で確認してください。"
 priority: "high"
 estimated_publish_ready: false
 needs_fact_check: false

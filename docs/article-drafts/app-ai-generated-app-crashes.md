@@ -1,6 +1,6 @@
 ---
 title: "AI生成アプリが本番で落ちる理由"
-description: "AIコーディングツールで作ったアプリが本番環境で落ちる原因を、環境変数、型、API失敗、非同期処理、ログ、ビルド確認の観点から整理する下書きです。"
+description: "AIコーディングツールで作ったアプリが本番環境で落ちる原因を、環境変数、型、API失敗、非同期処理、ログ、ビルド確認の観点から整理します。"
 thumbnail: "/images/drafts/app-ai-generated-app-crashes-thumbnail.png"
 publishedAt: "2026-06-04"
 updatedAt: "2026-06-04"

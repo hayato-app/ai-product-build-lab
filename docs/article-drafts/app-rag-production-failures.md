@@ -1,6 +1,6 @@
 ---
 title: "RAGアプリが本番で失敗する典型例"
-description: "RAGアプリが本番で期待通りに回答できない原因を、文書更新、chunk設計、検索品質、参照元表示、評価質問セットの観点から整理する下書きです。"
+description: "RAGアプリが本番で期待通りに回答できない原因を、文書更新、chunk設計、検索品質、参照元表示、評価質問セットの観点から整理します。"
 thumbnail: "/images/drafts/app-rag-production-failures-thumbnail.png"
 publishedAt: "2026-06-04"
 updatedAt: "2026-06-04"

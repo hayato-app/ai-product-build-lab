@@ -1,6 +1,6 @@
 ﻿---
 title: "AIエージェント開発で暴走・無限ループを防ぐ設計"
-description: "AIエージェントが同じツール実行を繰り返したり、終了条件を見失ったりする原因を、ステップ制限、権限管理、ログ、承認フローの観点から整理する下書きです。"
+description: "AIエージェントが同じツール実行を繰り返したり、終了条件を見失ったりする原因を、ステップ制限、権限管理、ログ、承認フローの観点から整理します。"
 thumbnail: "/images/drafts/app-agent-loop-prevention-thumbnail.png"
 publishedAt: "2026-06-04"
 updatedAt: "2026-06-04"

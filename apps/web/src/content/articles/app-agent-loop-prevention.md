@@ -1,17 +1,17 @@
----
+﻿---
 title: "AIエージェント開発で暴走・無限ループを防ぐ設計"
 description: "AIエージェントが同じツール実行を繰り返したり、終了条件を見失ったりする原因を、ステップ制限、権限管理、ログ、承認フローの観点から整理する下書きです。"
 thumbnail: "/images/drafts/app-agent-loop-prevention-thumbnail.png"
 publishedAt: "2026-06-04"
 updatedAt: "2026-06-04"
 pillar: "AIアプリ開発 開発手法/エラー事例・解決法紹介"
-status: "draft"
-review_status: "needs_review"
-review_result: "pending"
-reviewed_at: ""
+status: "published"
+review_status: "approved"
+review_result: "ok"
+reviewed_at: "2026-06-04T13:25:39.477Z"
 review_notes: "既存draftを現在のレビュー基準で再生成した第1バッチ記事です。公開前に安全設計の表現、内部リンク、サムネイルを確認してください。"
 priority: "medium"
-estimated_publish_ready: false
+estimated_publish_ready: true
 needs_fact_check: false
 fact_check_status: "completed"
 category: "AIエージェント開発"

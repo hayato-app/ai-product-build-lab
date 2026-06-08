@@ -1,16 +1,16 @@
----
+﻿---
 title: "AIアプリ開発を始めるための最小構成"
 description: "AIアプリを初めて作る人向けに、画面、サーバー処理、AI API、ログ、保存の最小構成を整理します。"
 publishedAt: "2026-05-28"
 updatedAt: "2026-05-28"
 pillar: "開発初心者向けツール紹介/用語解説"
-status: "draft"
-review_status: "needs_review"
-review_result: "pending"
-reviewed_at: ""
+status: "published"
+review_status: "approved"
+review_result: "ok"
+reviewed_at: "2026-05-28T14:02:04.162Z"
 review_notes: ""
 priority: "high"
-estimated_publish_ready: false
+estimated_publish_ready: true
 needs_fact_check: false
 fact_check_status: "completed"
 category: "AI開発初心者"

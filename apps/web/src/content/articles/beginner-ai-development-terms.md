@@ -1,17 +1,17 @@
----
+﻿---
 title: "AI開発初心者が最初に覚えたい基本用語"
 description: "AIアプリ開発を始めたばかりの人向けに、API、フロントエンド、バックエンド、プロンプト、トークン、環境変数などの基本用語をやさしく整理します。"
 thumbnail: "/images/drafts/ai-development-terms-thumbnail.png"
 publishedAt: "2026-06-01"
-updatedAt: "2026-06-01"
+updatedAt: "2026-06-03"
 pillar: "開発初心者向けツール紹介/用語解説"
-status: "draft"
-review_status: "needs_review"
-review_result: "pending"
-reviewed_at: ""
+status: "published"
+review_status: "approved"
+review_result: "ok"
+reviewed_at: "2026-06-03T12:42:41.172Z"
 review_notes: "Issue #10から作成したテスト用draftです。公開前に内容、カテゴリ、内部リンクを確認してください。"
 priority: "normal"
-estimated_publish_ready: false
+estimated_publish_ready: true
 needs_fact_check: false
 fact_check_status: "completed"
 category: "システム開発用語解説"

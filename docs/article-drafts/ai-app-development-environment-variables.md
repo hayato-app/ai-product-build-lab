@@ -22,16 +22,6 @@ tags:
   - "AIアプリ開発"
 ---
 
-## このdraftの状態
-
-このファイルは記事ブリーフから作成したレビュー用draftです。
-
-元Issue: https://github.com/hayato-app/ai-product-build-lab/issues/11
-
-元brief: `docs/article-briefs/ai-app-development-environment-variables.md`
-
-公開前に、表現、内部リンク、サムネイル、ファクトチェックの最終確認を行ってください。
-
 ## 結論
 
 環境変数は、APIキーや接続先URLのような「コードに直接書きたくない設定値」を、アプリの外側から渡すための仕組みです。

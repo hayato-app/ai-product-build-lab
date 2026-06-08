@@ -177,13 +177,6 @@ function buildDraftScaffold({ fields, slug, briefPath }) {
 
   const body = [
     "",
-    "## このdraftの状態",
-    "",
-    "このファイルは記事ブリーフから生成した下書き骨子です。完成記事ではありません。",
-    "管理画面でレビューする前に、本文の肉付け、サムネイル作成、内部リンク確認、必要なファクトチェックを行ってください。",
-    "",
-    ...sourceLines({ sourceIssue, sourceCommand, briefPath }),
-    "",
     "## 想定読者",
     "",
     targetReader,
@@ -231,10 +224,6 @@ function buildDraftScaffold({ fields, slug, briefPath }) {
     "- [ ] APIキー、環境変数、セキュリティに関する表現を確認する",
     "- [ ] 古くなりやすい情報がある場合は日付または確認元を残す",
     "",
-    "## 元ブリーフ",
-    "",
-    `- ${relative(briefPath)}`,
-    "",
   ].join("\n");
 
   return `${frontmatter}\n${body}`;
@@ -243,29 +232,6 @@ function buildDraftScaffold({ fields, slug, briefPath }) {
 function buildReviewNotes({ briefPath, sourceIssue }) {
   const issueText = sourceIssue ? `GitHub Issue ${sourceIssue} / ` : "";
   return `${issueText}Brief ${relative(briefPath)} から生成したreview用draft骨子です。本文、サムネイル、内部リンク、ファクトチェックを管理画面で確認してください。`;
-}
-
-function sourceLines({ sourceIssue, sourceCommand, briefPath }) {
-  const cleanedSourceCommand = stripInlineCode(sourceCommand);
-  const lines = [
-    `元brief: \`${relative(briefPath)}\``,
-  ];
-
-  if (sourceIssue) {
-    lines.unshift(`元Issue: ${sourceIssue}`);
-  }
-
-  if (cleanedSourceCommand) {
-    lines.push(`Issue作成コマンド: \`${cleanedSourceCommand}\``);
-  }
-
-  return lines;
-}
-
-function stripInlineCode(value) {
-  return String(value ?? "")
-    .trim()
-    .replace(/^`+|`+$/g, "");
 }
 
 function requiredField(fields, name) {

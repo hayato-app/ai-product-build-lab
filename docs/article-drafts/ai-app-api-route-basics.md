@@ -23,16 +23,6 @@ tags:
   - "AIアプリ開発"
 ---
 
-## このdraftの状態
-
-このファイルはGitHub Issue #12から作成したレビュー用draftです。
-
-元Issue: https://github.com/hayato-app/ai-product-build-lab/issues/12
-
-元brief: `docs/article-briefs/ai-app-api-route-basics.md`
-
-公開前に、表現、内部リンク、サムネイル、ファクトチェックの最終確認を行ってください。
-
 ## 結論
 
 API Routeは、画面とサーバー側処理をつなぐ入り口です。

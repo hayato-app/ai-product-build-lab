@@ -31,6 +31,7 @@ Codex must:
 - Add internal links when possible.
 - Add a thumbnail image by default.
 - Treat AI-generated articles as drafts.
+- Keep draft management notes out of the article body.
 - Avoid low-quality filler content.
 
 ## Standard Draft Creation Workflow
@@ -53,6 +54,17 @@ The standard workflow is not to generate the article through manual copy and pas
 The `workers/article-worker` AI API mode may exist for future use, but it should only be used when explicitly requested and when API billing is available.
 
 Codex must not publish the draft automatically. Moving a draft into `apps/web/src/content/articles` requires human approval after review.
+
+## Draft Management Notes
+
+Do not add management-only sections such as `## このdraftの状態`, source Issue
+notes, source brief notes, review instructions, or publication reminders to the
+article body.
+
+Keep review metadata in frontmatter fields such as `review_notes`, and keep
+planning context in `docs/article-briefs`. The Markdown body should be safe to
+move into published articles after review without exposing internal workflow
+notes to readers.
 
 ## Thumbnail Handling
 

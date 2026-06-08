@@ -23,18 +23,6 @@ tags:
   - "AI開発トレンド"
 ---
 
-## このdraftの状態
-
-このファイルはGitHub Issue #13から作成したレビュー用draftです。
-
-元Issue: https://github.com/hayato-app/ai-product-build-lab/issues/13
-
-元brief: `docs/article-briefs/claude-opus-4-8-agent-development-impact.md`
-
-公式発表: [Anthropic: Introducing Claude Opus 4.8](https://www.anthropic.com/news/claude-opus-4-8)
-
-この記事はAI関連ニュース解説です。公開前に、価格、対象プラン、API仕様、機能提供範囲が最新情報と一致しているか確認してください。
-
 ## 結論
 
 Claude Opus 4.8は、単に「新しい高性能モデルが出た」というニュースだけで見るより、AIエージェント開発の運用を見直すきっかけとして見るべき更新です。

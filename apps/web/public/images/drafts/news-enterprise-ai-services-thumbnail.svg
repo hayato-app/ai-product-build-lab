@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Enterprise AI service shift</title>
+  <desc id="desc">A bright explanatory diagram showing enterprise AI services moving from model API to security, admin, workflow, and cost control.</desc>
+  <rect width="1200" height="630" fill="#f8fafc"/>
+  <rect x="76" y="72" width="1048" height="486" rx="34" fill="#ffffff" stroke="#e2e8f0" stroke-width="4"/>
+  <text x="122" y="145" font-family="Arial, sans-serif" font-size="40" font-weight="700" fill="#0f172a">Enterprise AI Services</text>
+  <text x="122" y="190" font-family="Arial, sans-serif" font-size="24" fill="#475569">From model API to operational controls</text>
+  <rect x="120" y="268" width="220" height="130" rx="24" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="230" y="322" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#1d4ed8">Model API</text>
+  <text x="230" y="358" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#64748b">generation</text>
+  <rect x="420" y="220" width="220" height="100" rx="22" fill="#f0fdf4" stroke="#bbf7d0"/>
+  <text x="530" y="282" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#15803d">Security</text>
+  <rect x="420" y="370" width="220" height="100" rx="22" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="530" y="432" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#c2410c">Admin</text>
+  <rect x="725" y="220" width="250" height="100" rx="22" fill="#f5f3ff" stroke="#ddd6fe"/>
+  <text x="850" y="282" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#6d28d9">Workflow</text>
+  <rect x="725" y="370" width="250" height="100" rx="22" fill="#ecfeff" stroke="#a5f3fc"/>
+  <text x="850" y="432" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#0e7490">Cost Control</text>
+  <g stroke="#94a3b8" stroke-width="5" stroke-linecap="round">
+    <path d="M340 333 H420"/>
+    <path d="M640 270 H725"/>
+    <path d="M640 420 H725"/>
+  </g>
+  <text x="122" y="512" font-family="Arial, sans-serif" font-size="24" fill="#0f172a">Developer lens: plan logs, permissions, data handling, and usage limits early.</text>
+</svg>

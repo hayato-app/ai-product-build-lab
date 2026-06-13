@@ -173,7 +173,7 @@ RAGアプリを公開する前に、次を確認します。
 
 ## 関連記事
 
-- [RAGの基本構成：検索・ベクトルDB・回答生成の役割](/articles/rag-basic-architecture)
+- [AI APIの料金を見積もる方法：トークン・実行回数・月間コストの考え方](/articles/ai-api-cost-estimation-guide)
 - [AI APIの料金を見積もる方法：トークン・実行回数・月間コストの考え方](/articles/ai-api-cost-estimation-guide)
 - [AIプロダクト開発とは？生成AIアプリを作る前に知るべき基本](/articles/what-is-ai-product-development)
 

@@ -149,7 +149,7 @@ console.log("ai.generate", {
 
 - [Next.jsでAIアプリを作る基本構成](/articles/nextjs-ai-app-basic-architecture)
 - [AI APIコスト見積もりガイド](/articles/ai-api-cost-estimation-guide)
-- [OpenAI APIを使ったAIアプリ開発の始め方](/articles/openai-api-first-setup)
+- [Next.jsでAIアプリを作る基本構成：画面・API・AI API・ログの役割](/articles/nextjs-ai-app-basic-architecture)
 
 ## まとめ
 

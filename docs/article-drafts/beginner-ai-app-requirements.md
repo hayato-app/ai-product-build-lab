@@ -95,7 +95,7 @@ AIアプリを作りたいが、最初に何を決めればよいか迷ってい
 ## 関連記事
 
 - [Next.jsでAIアプリを作る基本構成：フロントエンド・API・DBの設計](/articles/nextjs-ai-app-basic-architecture) - Next.js AI開発
-- [RAGとは？AIアプリに検索拡張生成を組み込む基本設計](/articles/rag-basic-architecture) - RAG開発
+- [Next.jsでAIアプリを作る基本構成：画面・API・AI API・ログの役割](/articles/nextjs-ai-app-basic-architecture) - AIアプリ構成
 
 ## まとめ
 

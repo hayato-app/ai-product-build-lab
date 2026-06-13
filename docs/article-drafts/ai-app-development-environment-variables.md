@@ -235,7 +235,7 @@ AI APIキーを扱う前に、次を確認します。
 
 ## 関連記事
 
-- [OpenAI APIを使ったAIアプリ開発の始め方](/articles/openai-api-first-setup)
+- [Next.jsでAIアプリを作る基本構成：画面・API・AI API・ログの役割](/articles/nextjs-ai-app-basic-architecture)
 - [Next.jsでAIアプリを作る基本構成](/articles/nextjs-ai-app-basic-architecture)
 
 ## まとめ

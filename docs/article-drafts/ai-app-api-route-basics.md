@@ -213,7 +213,7 @@ AIアプリのAPI Routeを作ったら、公開前に次を確認します。
 ## 関連記事
 
 - [Next.jsでAIアプリを作る基本構成：画面・API・AI API・ログの役割](/articles/nextjs-ai-app-basic-architecture)
-- [OpenAI APIを使ったAIアプリ開発の始め方](/articles/openai-api-first-setup)
+- [Next.jsでAIアプリを作る基本構成：画面・API・AI API・ログの役割](/articles/nextjs-ai-app-basic-architecture)
 - [AI APIの料金を見積もる方法：トークン・実行回数・月間コストの考え方](/articles/ai-api-cost-estimation-guide)
 
 ## まとめ

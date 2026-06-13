@@ -215,7 +215,7 @@ AIエージェントを動かす前に、次を確認します。
 
 ## 関連記事
 
-- [AIエージェント開発の基本設計：ツール実行・記憶・ワークフロー](/articles/ai-agent-basic-design)
+- [Next.jsでAIアプリを作る基本構成：画面・API・AI API・ログの役割](/articles/nextjs-ai-app-basic-architecture)
 - [Next.jsでAIアプリを作る基本構成：画面・API・AI API・ログの役割](/articles/nextjs-ai-app-basic-architecture)
 - [AI APIの料金を見積もる方法：トークン・実行回数・月間コストの考え方](/articles/ai-api-cost-estimation-guide)
 

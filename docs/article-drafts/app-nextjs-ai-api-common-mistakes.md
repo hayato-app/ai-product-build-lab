@@ -1,39 +1,45 @@
 ---
 title: "Next.jsでAI APIを呼ぶ時のよくあるミス"
+description: "Next.jsでAI APIを安全に呼ぶために、APIキー管理、Route Handler、Client Component、ログ、エラー処理のよくあるミスと対策を整理します。"
+thumbnail: "/images/drafts/app-nextjs-ai-api-common-mistakes-thumbnail.svg"
+publishedAt: "2026-05-25"
+updatedAt: "2026-06-13"
 pillar: "AIアプリ開発 開発手法/エラー事例・解決法紹介"
 status: "draft"
 review_status: "needs_review"
+review_result: "pending"
+reviewed_at: ""
+review_notes: "現在の掲載基準に合わせて再構成したdraftです。公開前にNext.jsのRoute Handler例、内部リンク、画像表示を確認してください。"
 priority: "high"
 estimated_publish_ready: false
 needs_fact_check: false
-category: "AIアプリ開発"
+fact_check_status: "completed"
+category: "生成AIアプリ開発"
 tags:
   - "Next.js"
   - "AI API"
-  - "API Routes"
+  - "Route Handler"
   - "エラー解決"
 ---
 
-## この記事で分かること
-
-- Next.jsでAI APIを呼ぶときの安全な構成
-- APIキー漏洩を防ぐ考え方
-- Server ComponentとClient Componentの役割
-- よくあるエラーと解決方法
-
-## 想定読者
-
-- Next.jsでAIアプリを作っている人
-- AI APIキーをどこで扱うべきか迷っている人
-- ローカルでは動くが本番でエラーになる人
-
 ## 結論
 
-Next.jsでAI APIを使う場合、APIキーは必ずサーバー側で扱います。ブラウザから直接AI APIを呼ぶと、APIキーが漏洩する危険があります。
+Next.jsでAI APIを呼ぶときの最大のミスは、ブラウザ側から直接AI APIを呼ぶことです。
 
-基本構成は、Client Componentで入力を受け取り、Route Handlerに送信し、Route HandlerからAI APIを呼ぶ形です。
+APIキーは必ずサーバー側で扱い、Client Componentは入力と表示に集中させます。基本形は、画面から自分のRoute Handlerへリクエストを送り、Route HandlerがAI APIを呼ぶ構成です。
 
-## 安全な呼び出し構成
+![Next.jsでClient Component、Route Handler、AI APIを分けて安全に呼び出す構成図](/images/drafts/app-nextjs-ai-api-common-mistakes-thumbnail.svg)
+
+## 対象読者
+
+- Next.jsでAIアプリを作り始めた人
+- APIキーをどこで扱うべきか迷っている人
+- ローカルでは動くのに本番でAI API呼び出しが失敗する人
+- Client ComponentとServer Componentの役割分担を整理したい人
+
+## 安全な基本構成
+
+AI APIを呼ぶ基本構成は、次のように分けます。
 
 ```mermaid
 sequenceDiagram
@@ -44,25 +50,29 @@ sequenceDiagram
 
   User->>Client: 入力
   Client->>Route: POST /api/generate
+  Route->>Route: 入力チェック
   Route->>AI: APIキー付きで呼び出し
   AI-->>Route: 結果
   Route-->>Client: 必要な結果だけ返す
   Client-->>User: 表示
 ```
 
+この構成なら、APIキーをブラウザに渡さずに済みます。
+
 ## よくあるミスと対策
 
-| ミス | 症状 | 原因 | 対策 |
-| --- | --- | --- | --- |
-| クライアントから直接AI APIを呼ぶ | APIキーが見える | ブラウザ側に秘密情報を置いている | Route Handlerで呼ぶ |
-| 環境変数が本番で読めない | 本番だけ失敗する | デプロイ先に未設定 | 本番環境にも設定する |
-| Server/Clientを混同する | ビルドエラーになる | hooksやイベントをServer Componentで使う | UI操作部分をClientに分ける |
-| タイムアウト処理がない | 画面が固まる | API失敗時の分岐がない | try/catchとエラー表示を入れる |
-| 入力検証がない | 想定外のリクエストが来る | 空文字や長文を許可している | バリデーションする |
+| ミス | 起きる問題 | 対策 |
+| --- | --- | --- |
+| Client Componentから直接AI APIを呼ぶ | APIキーが漏れる | Route Handler経由にする |
+| `.env` をブラウザ用変数にする | 秘密情報が公開される | `NEXT_PUBLIC_` を付けない |
+| 入力チェックをしない | 長文や空文字で無駄なAPI呼び出しが増える | サーバー側で長さと必須項目を確認する |
+| エラーを全部500で返す | 原因調査が難しくなる | 入力エラー、API失敗、タイムアウトを分ける |
+| ログを残さない | 本番で原因を追えない | requestId、処理時間、エラー種別を残す |
+| AIの生レスポンスをそのまま返す | 不要な情報をUIへ渡す | UIに必要な形に整形して返す |
 
 ## 最小実装の考え方
 
-フロントエンドは、入力と表示だけを担当します。AI APIの呼び出し、APIキーの読み込み、モデル選択、エラー処理はサーバー側APIに置きます。
+ファイル構成は、最初は小さく分ければ十分です。
 
 ```text
 app/
@@ -72,35 +82,69 @@ app/
       route.ts
 ```
 
-このように分けると、UIとAI API呼び出しの責務が明確になります。
+`page.tsx` は入力フォームと結果表示を担当します。`route.ts` は入力チェック、AI API呼び出し、エラー処理を担当します。
 
 ## Route Handlerで確認すること
 
+Route Handlerでは、最低限次を確認します。
+
 - `process.env` からAPIキーを読む
-- 入力値が空でないか確認する
-- 長すぎる入力を制限する
-- AI API失敗時に適切なステータスを返す
-- クライアントに不要なエラー詳細を返しすぎない
+- APIキーがない場合は明確なエラーを返す
+- 入力が空ではないか確認する
+- 長すぎる入力を弾く
+- AI API失敗時にログを残す
+- クライアントへ秘密情報を返さない
+
+例として、考え方は次のようになります。
+
+```ts
+export async function POST(request: Request) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    return Response.json({ error: "server_not_configured" }, { status: 500 });
+  }
+
+  const { prompt } = await request.json();
+  if (typeof prompt !== "string" || prompt.trim().length === 0) {
+    return Response.json({ error: "invalid_prompt" }, { status: 400 });
+  }
+
+  if (prompt.length > 4000) {
+    return Response.json({ error: "prompt_too_long" }, { status: 400 });
+  }
+
+  // AI API呼び出しはここで行う
+}
+```
 
 ## 本番で起きやすいエラー
 
-| エラー | 見る場所 | 解決の方向 |
+| エラー | 見る場所 | 確認すること |
 | --- | --- | --- |
-| API key missing | サーバーログ | 環境変数を設定 |
-| fetch failed | サーバーログ | ネットワーク、URL、権限確認 |
-| timeout | サーバーログ、ブラウザ | タイムアウト設定、モデル変更 |
-| 500 error | Route Handler | catch内のログ確認 |
-| hydration error | ブラウザコンソール | Client/Server分離を見直す |
+| API key missing | サーバーログ | 本番環境に環境変数が設定されているか |
+| 401 / 403 | AI APIレスポンス | APIキー、権限、利用可能なモデル |
+| timeout | サーバーログ、ブラウザ | 入力長、出力長、タイムアウト設定 |
+| fetch failed | サーバーログ | ネットワーク、URL、外部API障害 |
+| hydration error | ブラウザコンソール | Client/Server Componentの分離 |
 
 ## 実装前チェックリスト
 
 - [ ] APIキーをClient Componentで使っていない
 - [ ] AI API呼び出しはRoute Handlerにある
-- [ ] 本番環境に環境変数を設定した
-- [ ] 空入力や長すぎる入力を弾いている
-- [ ] API失敗時のUI表示がある
-- [ ] サーバーログで原因を追える
+- [ ] 本番環境に必要な環境変数を設定している
+- [ ] 入力チェックをサーバー側で行っている
+- [ ] API失敗時のログを残している
+- [ ] UIに秘密情報や不要なエラー詳細を返していない
+- [ ] `npm run build` で確認している
+
+## 関連記事
+
+- [Next.jsでAIアプリを作る基本構成：画面・API・AI API・ログの役割](/articles/nextjs-ai-app-basic-architecture)
+- [AI APIの料金を見積もる方法：トークン・実行回数・月間コストの考え方](/articles/ai-api-cost-estimation-guide)
+- [AI開発初心者が最初に覚えたい基本用語](/articles/beginner-ai-development-terms)
 
 ## まとめ
 
-Next.jsでAI APIを呼ぶときは、セキュリティ境界を意識することが重要です。APIキーはサーバー側に置き、Client Componentは入力と表示に集中させます。最初に構成を分けておくことで、本番公開後のトラブルを減らせます。
+Next.jsでAI APIを使うときは、まず責務を分けます。
+
+Client Componentは入力と表示、Route HandlerはAPIキー管理とAI API呼び出しを担当します。さらに、入力チェック、エラー分類、ログを入れておくと、本番公開後のトラブルを減らせます。
